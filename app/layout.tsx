@@ -1,16 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Playfair_Display, Manrope } from "next/font/google";
+// Fonts are bundled from npm (Fontsource) rather than fetched from Google at build time,
+// so deployments never depend on fonts.googleapis.com. Each file carries its own
+// unicode-range, so browsers only download the latin / latin-ext subsets they need.
+import "@fontsource-variable/cinzel";
+import "@fontsource-variable/playfair-display";
+import "@fontsource-variable/playfair-display/wght-italic.css";
+import "@fontsource-variable/manrope";
 import "./globals.css";
-
-const cinzel = Cinzel({ subsets: ["latin", "latin-ext"], weight: ["400", "500", "600"], variable: "--font-cinzel", display: "swap" });
-const playfair = Playfair_Display({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-const manrope = Manrope({ subsets: ["latin", "latin-ext"], weight: ["300", "400", "500", "600"], variable: "--font-manrope", display: "swap" });
 
 export const metadata: Metadata = {
   title: "THE GRACE HAIR | BEAUTY — Cansu Üçdağ · Denizli",
@@ -33,7 +29,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${cinzel.variable} ${playfair.variable} ${manrope.variable}`}>
+    <html lang="tr">
       <body>{children}</body>
     </html>
   );

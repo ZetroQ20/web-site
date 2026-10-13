@@ -139,9 +139,9 @@ export default function Services() {
       {/* Deck stage */}
       <div className="vip-stage relative">
         {SERVICES.map((s, i) => (
-          <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden will-change-transform" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
+          <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
             <div
-              className="vip-inner relative flex h-full w-full origin-top items-center overflow-hidden border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)] will-change-transform"
+              className="vip-inner relative flex h-full w-full origin-top items-center overflow-hidden border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)]"
               style={{ background: TONES[i] }}
             >
               {/* Darkens the card as the next one covers it (cheaper than a filter) */}
