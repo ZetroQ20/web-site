@@ -15,19 +15,22 @@ const TONES = [
   "radial-gradient(80% 80% at 15% 30%, rgba(228,207,166,0.12), transparent 60%), #090909",
   "radial-gradient(90% 70% at 80% 80%, rgba(197,168,128,0.14), transparent 60%), #0c0b0a",
   "radial-gradient(70% 70% at 25% 75%, rgba(243,227,195,0.12), transparent 60%), #0a0a0a",
+  "radial-gradient(80% 70% at 75% 25%, rgba(228,207,166,0.13), transparent 60%), #0b0a09",
 ];
 
 /**
  * Deck pacing, in screens of scroll (1 = one viewport height).
- * Every card holds the stage for HOLD screens while its scene plays, then the
- * next card takes COVER screens to glide over it — ~3 screens per service.
+ * Every card holds the stage for HOLD screens, then the next card takes COVER
+ * screens to glide over it — 1.5 screens per service. Each scene starts while
+ * its card is still sliding in, so motion flows from one into the next.
  */
-const HOLD = 1.8;
-const COVER = 1.3;
-/** Seconds the scrub lags behind the scroll: the heavy, cinematic inertia. */
-const SCRUB = 1.6;
-/** Where each scene starts inside its card's hold. */
-const SCENE_AT = 0.15;
+const HOLD = 0.8;
+const COVER = 0.7;
+/** Seconds the scrub trails the scroll — smooth, yet still precise. */
+const SCRUB = 1;
+/** Scene window: from half-way through the incoming cover to most of the hold. */
+const SCENE_LEAD = COVER * 0.5;
+const SCENE_SPAN = SCENE_LEAD + HOLD * 0.8;
 
 /**
  * VIP services — a vertical card deck. The stage pins once and a single
@@ -78,20 +81,21 @@ export default function Services() {
         const holdStart = i * (HOLD + COVER);
         const frame = card.querySelector(".vip-frame");
 
-        // Hold: the scene plays, the frame breathes ever so slightly.
-        master.fromTo(frame, { scale: 1 }, { scale: 1.035, duration: HOLD, ease: "sine.inOut" }, holdStart);
-        if (i > 0) master.add(scenes[i].tl.paused(false), holdStart + SCENE_AT);
+        // Hold: the frame breathes ever so slightly.
+        master.fromTo(frame, { scale: 1 }, { scale: 1.03, duration: HOLD, ease: "sine.inOut" }, holdStart);
+        if (i > 0) master.add(scenes[i].tl.paused(false).duration(SCENE_SPAN), holdStart - SCENE_LEAD);
 
-        // Cover: the next card glides over, this one sinks back into the deck.
+        // Cover: the next card glides over while this one sinks back into the
+        // deck. Only transform + opacity are animated so it stays on the GPU.
         const next = cards[i + 1];
         if (!next) return;
         const at = holdStart + HOLD;
-        const inner = card.querySelector(".vip-inner");
         master
-          .to(inner, { scale: 0.86, yPercent: -6, borderRadius: 28, filter: "brightness(0.25)", duration: COVER, ease: "power2.inOut" }, at)
-          .to(next, { yPercent: 0, duration: COVER, ease: "power3.inOut" }, at)
-          .fromTo(next.querySelector(".vip-content"), { yPercent: 18 }, { yPercent: 0, duration: COVER, ease: "power3.out" }, at)
-          .to(reveals[i + 1], { yPercent: 0, autoAlpha: 1, duration: COVER * 0.45, ease: "power3.out", stagger: COVER * 0.04 }, at + COVER * 0.55);
+          .to(card.querySelector(".vip-inner"), { scale: 0.9, yPercent: -4, duration: COVER, ease: "power2.inOut" }, at)
+          .to(card.querySelector(".vip-shade"), { opacity: 0.78, duration: COVER, ease: "power1.in" }, at)
+          .to(next, { yPercent: 0, duration: COVER, ease: "power2.inOut" }, at)
+          .fromTo(next.querySelector(".vip-content"), { yPercent: 12 }, { yPercent: 0, duration: COVER, ease: "power2.out" }, at)
+          .to(reveals[i + 1], { yPercent: 0, autoAlpha: 1, duration: COVER * 0.5, ease: "power3.out", stagger: COVER * 0.04 }, at + COVER * 0.45);
       });
 
       ScrollTrigger.create({
@@ -128,18 +132,20 @@ export default function Services() {
           </h2>
         </div>
         <p className="relative max-w-sm text-[15px] leading-relaxed text-bone/60 md:text-right">
-          Dört imza alanı, dört ayrı sahne. Her uygulama, size özel kurgulanan bir dönüşüm ritüeli.
+          Beş imza alanı, beş ayrı sahne. Her uygulama, size özel kurgulanan bir dönüşüm ritüeli.
         </p>
       </div>
 
       {/* Deck stage */}
       <div className="vip-stage relative">
         {SERVICES.map((s, i) => (
-          <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
+          <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden will-change-transform" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
             <div
               className="vip-inner relative flex h-full w-full origin-top items-center overflow-hidden border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)] will-change-transform"
               style={{ background: TONES[i] }}
             >
+              {/* Darkens the card as the next one covers it (cheaper than a filter) */}
+              <div aria-hidden className="vip-shade pointer-events-none absolute inset-0 z-20 bg-noir opacity-0" />
               {/* Giant outline number */}
               <span
                 aria-hidden
