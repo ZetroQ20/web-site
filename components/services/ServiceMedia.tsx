@@ -1,14 +1,16 @@
 import type { Service } from "@/lib/content";
 import Photo from "../Photo";
 
-// Golden rectangle (1 : 1.618). Width is set explicitly from the height rather than via
-// aspect-ratio: Safari/iOS gives a height-only aspect-ratio box whose children are all
-// absolutely positioned an intrinsic width of 0, which hid every service photo on iPhone.
+// Phones & tablets: a near full-width frame that takes all the height the text leaves
+// (clamped), so the photo leads the card on every screen size without overflowing.
+// Desktop (lg+): the golden rectangle (1 : 1.618). Widths are always set explicitly —
+// Safari/iOS gives a height-only aspect-ratio box whose children are all absolutely
+// positioned an intrinsic width of 0, which once hid every service photo on iPhone.
 const FRAME =
-  "relative h-[44svh] w-[calc(44svh*0.618)] max-w-full overflow-hidden bg-graphite md:h-[74svh] md:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
+  "relative h-[clamp(12rem,calc(100svh-23rem),62svh)] w-[calc(100vw-2.5rem)] max-w-[30rem] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-35rem),58svh)] md:w-[calc(100vw-6rem)] lg:h-[74svh] lg:w-[calc(74svh*0.618)] lg:max-w-none shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
-/** Frame is ~27% of the viewport height wide on phones, ~46% on desktop. */
-const SIZES = "(min-width: 768px) 30vw, 60vw";
+/** Rendered width: almost the full screen on phones/tablets, ~46% of the height on desktop. */
+const SIZES = "(min-width: 1024px) 30vw, (min-width: 768px) 30rem, 92vw";
 
 /** Golden-rectangle frame whose inner layers depend on the service's scene. */
 export default function ServiceMedia({ service }: { service: Service }) {
@@ -18,7 +20,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
   return (
     <div className="vip-frame relative" data-cursor="KEŞFET">
       {/* Offset hairline frame for the asymmetric luxury feel */}
-      <div className="pointer-events-none absolute -right-4 -top-4 bottom-6 left-6 border border-gold/25 md:-right-6 md:-top-6" />
+      <div className="pointer-events-none absolute -right-2 -top-2 bottom-4 left-4 border border-gold/25 lg:-right-6 lg:-top-6 lg:bottom-6 lg:left-6" />
 
       {service.effect === "wave" && (
         <div className={FRAME}>
@@ -74,7 +76,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
         <div className={FRAME}>
           <Photo sizes={SIZES} src={service.image} alt={alt} className={`fx-golden-img ${img}`} />
           <Glaze />
-          <svg viewBox="0 0 1000 1618" preserveAspectRatio="none" className="fx-golden-guides pointer-events-none absolute inset-0 z-10 h-full w-full" aria-hidden>
+          <svg viewBox="0 0 1000 1618" preserveAspectRatio="xMidYMid slice" className="fx-golden-guides pointer-events-none absolute inset-0 z-10 h-full w-full" aria-hidden>
             <g fill="none" stroke="#E4CFA6" strokeWidth="1" vectorEffect="non-scaling-stroke">
               {/* Golden spiral */}
               <path className="fx-golden-stroke" pathLength={1} strokeDasharray="1" strokeWidth="1.4" d="M0,0 A1000,1000 0 0 1 1000,1000 A618,618 0 0 1 382,1618 A382,382 0 0 1 0,1236 A236,236 0 0 1 236,1000 A146,146 0 0 1 382,1146 A90,90 0 0 1 292,1236" />
