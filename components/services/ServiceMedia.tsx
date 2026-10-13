@@ -1,13 +1,14 @@
 import type { Service } from "@/lib/content";
 import Photo from "../Photo";
 
-// Phones & tablets: a near full-width frame that takes all the height the text leaves
-// (clamped), so the photo leads the card on every screen size without overflowing.
+// Phones & tablets: the frame takes all the height the text leaves (clamped) and is as
+// wide as the screen allows — but never wider than it is tall (portrait on most phones, at
+// most square on short ones), so portrait salon photos never get a letterbox crop.
 // Desktop (lg+): the golden rectangle (1 : 1.618). Widths are always set explicitly —
 // Safari/iOS gives a height-only aspect-ratio box whose children are all absolutely
 // positioned an intrinsic width of 0, which once hid every service photo on iPhone.
 const FRAME =
-  "relative h-[clamp(12rem,calc(100svh-23rem),62svh)] w-[calc(100vw-2.5rem)] max-w-[30rem] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-35rem),58svh)] md:w-[calc(100vw-6rem)] lg:h-[74svh] lg:w-[calc(74svh*0.618)] lg:max-w-none shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
+  "relative h-[clamp(12rem,calc(100svh-23rem),62svh)] w-[min(calc(100vw-2.5rem),30rem,clamp(12rem,calc(100svh-23rem),62svh))] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-35rem),58svh)] md:w-[min(calc(100vw-6rem),30rem,clamp(16rem,calc(100svh-35rem),58svh))] lg:h-[74svh] lg:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
 /** Rendered width: almost the full screen on phones/tablets, ~46% of the height on desktop. */
 const SIZES = "(min-width: 1024px) 30vw, (min-width: 768px) 30rem, 92vw";
@@ -15,7 +16,8 @@ const SIZES = "(min-width: 1024px) 30vw, (min-width: 768px) 30rem, 92vw";
 /** Golden-rectangle frame whose inner layers depend on the service's scene. */
 export default function ServiceMedia({ service }: { service: Service }) {
   const alt = `${service.title} — ${service.subtitle}`;
-  const img = "absolute inset-0 h-full w-full object-cover";
+  // Crop slightly above centre so faces and hair stay in frame.
+  const img = "absolute inset-0 h-full w-full object-cover object-[50%_35%]";
 
   return (
     <div className="vip-frame relative" data-cursor="KEŞFET">
