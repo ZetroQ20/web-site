@@ -10,7 +10,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
   const img = "absolute inset-0 h-full w-full object-cover";
 
   return (
-    <div className="relative" data-cursor="KEŞFET">
+    <div className="vip-frame relative" data-cursor="KEŞFET">
       {/* Offset hairline frame for the asymmetric luxury feel */}
       <div className="pointer-events-none absolute -right-4 -top-4 bottom-6 left-6 border border-gold/25 md:-right-6 md:-top-6" />
 

@@ -1,16 +1,18 @@
 "use client";
 
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import type { ServiceEffect } from "@/lib/content";
 
 /**
- * Bespoke entrance scenes for the VIP service cards. Every function receives the
- * card element, builds its own ScrollTriggers and must be called inside a
- * gsap.context / useGSAP scope so everything is reverted on unmount.
+ * Bespoke scenes for the VIP service cards. Each builder sets the scene's
+ * initial state and returns a paused timeline whose duration is measured in
+ * "screens" of scroll — the deck nests it into its scrubbed master timeline,
+ * so every scene moves exactly with the visitor's scroll (and reverses).
+ * Builders must run inside a gsap.context / useGSAP scope.
  */
 
-/** Builds a scene; may return a cleanup for listeners GSAP can't revert. */
-type Scene = (card: HTMLElement) => void | (() => void);
+export type BuiltScene = { tl: gsap.core.Timeline; cleanup?: () => void };
+type Scene = (card: HTMLElement) => BuiltScene;
 
 const $ = <T extends Element = HTMLElement>(root: Element, sel: string) => root.querySelector<T>(sel)!;
 
@@ -24,31 +26,33 @@ const wave: Scene = (card) => {
   const turbulence = $<SVGFETurbulenceElement>(card, "feTurbulence");
   const POINTS = 24;
 
-  const state = { p: 0, phase: 0 };
+  const state = { p: 0 };
   const draw = () => {
     const amp = 9 * (1 - state.p) + 1.5; // waves calm down as the reveal completes
     const edge = -12 + state.p * 126; // % from top
+    const phase = state.p * Math.PI * 3;
     const pts = ["0% 0%", "100% 0%"];
     for (let i = POINTS; i >= 0; i--) {
       const x = (i / POINTS) * 100;
-      const y = edge + Math.sin((x / 100) * Math.PI * 2.4 + state.phase) * amp;
+      const y = edge + Math.sin((x / 100) * Math.PI * 2.4 + phase) * amp;
       pts.push(`${x}% ${Math.max(0, y)}%`);
     }
     media.style.clipPath = `polygon(${pts.join(",")})`;
   };
   draw();
   gsap.set(img, { scale: 1.18, skewY: 4, yPercent: -6, filter: "url(#fx-liquid) saturate(0.6)" });
+  gsap.set(displace, { attr: { scale: 120 } });
+  gsap.set(turbulence, { attr: { baseFrequency: "0.004 0.03" } });
 
-  gsap
-    .timeline({
-      scrollTrigger: { trigger: card, start: "top 55%", toggleActions: "play none none reverse" },
-      onComplete: () => gsap.set(img, { filter: "none" }), // drop the costly filter once still
-      onReverseComplete: () => gsap.set(img, { filter: "url(#fx-liquid) saturate(0.6)" }),
-    })
-    .to(state, { p: 1, phase: Math.PI * 3, duration: 2.4, ease: "power2.inOut", onUpdate: draw }, 0)
-    .fromTo(displace, { attr: { scale: 120 } }, { attr: { scale: 0 }, duration: 2.8, ease: "power3.out" }, 0)
-    .fromTo(turbulence, { attr: { baseFrequency: "0.004 0.03" } }, { attr: { baseFrequency: "0.012 0.06" }, duration: 2.8, ease: "sine.inOut" }, 0)
-    .to(img, { scale: 1, skewY: 0, yPercent: 0, filter: "url(#fx-liquid) saturate(1)", duration: 2.8, ease: "expo.out" }, 0.1);
+  const tl = gsap
+    .timeline({ paused: true })
+    .to(state, { p: 1, duration: 1, ease: "power2.inOut", onUpdate: draw }, 0)
+    .to(displace, { attr: { scale: 0 }, duration: 1.1, ease: "power2.out" }, 0)
+    .to(turbulence, { attr: { baseFrequency: "0.012 0.06" }, duration: 1.1, ease: "sine.inOut" }, 0)
+    .to(img, { scale: 1, skewY: 0, yPercent: 0, filter: "url(#fx-liquid) saturate(1)", duration: 1.1, ease: "power3.out" }, 0)
+    // Still water: drop the costly filter (restored automatically when scrubbing back).
+    .set(img, { filter: "none" }, 1.1);
+  return { tl };
 };
 
 /* --------------------------------------------------------------- 02 · LASER */
@@ -65,14 +69,14 @@ const laser: Scene = (card) => {
     readout.textContent = `${String(Math.round(state.y)).padStart(3, "0")}%`;
   };
   render();
+  gsap.set(line, { autoAlpha: 0 });
 
-  gsap
-    .timeline({
-      scrollTrigger: { trigger: card, start: "top 35%", end: "top -55%", scrub: 0.6 },
-    })
-    .fromTo(line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06, ease: "none" }, 0)
-    .to(state, { y: 100, duration: 1, ease: "none", onUpdate: render }, 0)
-    .to(line, { autoAlpha: 0, duration: 0.08, ease: "none" }, 0.94);
+  const tl = gsap
+    .timeline({ paused: true })
+    .to(line, { autoAlpha: 1, duration: 0.08, ease: "none" }, 0)
+    .to(state, { y: 100, duration: 1.2, ease: "sine.inOut", onUpdate: render }, 0)
+    .to(line, { autoAlpha: 0, duration: 0.1, ease: "none" }, 1.12);
+  return { tl };
 };
 
 /* -------------------------------------------------------------- 03 · GOLDEN */
@@ -88,12 +92,13 @@ const golden: Scene = (card) => {
   gsap.set(labels, { autoAlpha: 0, y: 6 });
   gsap.set(img, { filter: "grayscale(1) brightness(0.62) contrast(1.05) saturate(1)" });
 
-  gsap
-    .timeline({ scrollTrigger: { trigger: card, start: "top 45%", toggleActions: "play none none reverse" } })
-    .to(strokes, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut", stagger: 0.12 }, 0)
-    .to(labels, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.1 }, 0.9)
-    .to(img, { filter: "grayscale(0) brightness(1) contrast(1.05) saturate(1.15)", duration: 2, ease: "power2.inOut" }, 1.9)
-    .to(guides, { autoAlpha: 0.12, duration: 1.8, ease: "power2.inOut" }, 2.1);
+  const tl = gsap
+    .timeline({ paused: true })
+    .to(strokes, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut", stagger: 0.08 }, 0)
+    .to(labels, { autoAlpha: 1, y: 0, duration: 0.2, stagger: 0.05 }, 0.45)
+    .to(img, { filter: "grayscale(0) brightness(1) contrast(1.05) saturate(1.15)", duration: 0.6, ease: "power2.inOut" }, 0.8)
+    .to(guides, { autoAlpha: 0.12, duration: 0.6, ease: "power2.inOut" }, 0.85);
+  return { tl };
 };
 
 /* --------------------------------------------------------------- 04 · GLOSS */
@@ -105,31 +110,37 @@ const gloss: Scene = (card) => {
   const spark = $(card, ".fx-gloss-spark");
   const img = $(card, ".fx-gloss-img");
 
-  const sweep = () =>
-    gsap
-      .timeline()
-      .fromTo(wide, { backgroundPosition: "100% 100%", autoAlpha: 1 }, { backgroundPosition: "0% 0%", duration: 1.6, ease: "power2.inOut" }, 0)
-      .fromTo(sharp, { backgroundPosition: "100% 100%", autoAlpha: 1 }, { backgroundPosition: "0% 0%", duration: 1.2, ease: "power3.inOut" }, 0.15)
-      .fromTo(img, { filter: "contrast(1) saturate(1) brightness(0.92)" }, { filter: "contrast(1.12) saturate(1.18) brightness(1.04)", duration: 1, ease: "power2.out" }, 0.4)
-      .fromTo(spark, { scale: 0, rotate: -45, autoAlpha: 0 }, { scale: 1, rotate: 45, autoAlpha: 1, duration: 0.45, ease: "back.out(3)" }, 0.95)
-      .to(spark, { scale: 0, autoAlpha: 0, duration: 0.5, ease: "power2.in" }, 1.45)
+  const sweep = (tl: gsap.core.Timeline) =>
+    tl
+      .fromTo(wide, { backgroundPosition: "100% 100%", autoAlpha: 1 }, { backgroundPosition: "0% 0%", duration: 1, ease: "power2.inOut", immediateRender: false }, 0)
+      .fromTo(sharp, { backgroundPosition: "100% 100%", autoAlpha: 1 }, { backgroundPosition: "0% 0%", duration: 0.75, ease: "power2.inOut", immediateRender: false }, 0.1)
+      .fromTo(spark, { scale: 0, rotate: -45, autoAlpha: 0 }, { scale: 1, rotate: 45, autoAlpha: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, 0.65)
+      .to(spark, { scale: 0, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 0.95)
       // the bands rest at a frame corner — hide them so no glow lingers there
-      .set([wide, sharp], { autoAlpha: 0 });
+      .set([wide, sharp], { autoAlpha: 0 }, 1.2);
 
-  let tl: gsap.core.Timeline | null = null;
-  const play = () => {
-    tl?.kill();
-    tl = sweep();
-  };
+  gsap.set(img, { filter: "contrast(1) saturate(1) brightness(0.92)" });
+  const tl = sweep(gsap.timeline({ paused: true })).to(
+    img,
+    { filter: "contrast(1.12) saturate(1.18) brightness(1.04)", duration: 0.6, ease: "power2.out" },
+    0.3
+  );
 
-  ScrollTrigger.create({ trigger: card, start: "top 8%", onEnter: play, onEnterBack: play });
-
-  // The highlight also catches the light again on hover.
+  // The highlight also catches the light again on hover (real-time, not scrubbed).
   const frame = $(card, ".fx-gloss-frame");
-  frame.addEventListener("pointerenter", play);
-  return () => {
-    frame.removeEventListener("pointerenter", play);
-    tl?.kill();
+  let hover: gsap.core.Timeline | null = null;
+  const replay = () => {
+    if (tl.progress() < 1) return; // let the scroll-driven sweep finish first
+    hover?.kill();
+    hover = sweep(gsap.timeline()).timeScale(0.9);
+  };
+  frame.addEventListener("pointerenter", replay);
+  return {
+    tl,
+    cleanup: () => {
+      frame.removeEventListener("pointerenter", replay);
+      hover?.kill();
+    },
   };
 };
 

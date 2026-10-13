@@ -44,7 +44,7 @@ export default function Experience() {
       <Cursor />
       <div className="grain" aria-hidden />
       <Navbar ready={ready} />
-      <main>
+      <main className="overflow-x-clip">
         <Hero ready={ready} />
         <Services />
         <Gallery />

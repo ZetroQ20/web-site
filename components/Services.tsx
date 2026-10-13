@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import { SERVICES } from "@/lib/content";
 import { scrollToTarget, useLenis } from "./providers/SmoothScroll";
@@ -18,9 +18,22 @@ const TONES = [
 ];
 
 /**
- * VIP services — a vertical, sticky card deck. Scroll stays native: each
- * full-screen card pins in place while the next one glides over it like a
- * playing card, and every card plays a bespoke scene for its service.
+ * Deck pacing, in screens of scroll (1 = one viewport height).
+ * Every card holds the stage for HOLD screens while its scene plays, then the
+ * next card takes COVER screens to glide over it — ~3 screens per service.
+ */
+const HOLD = 1.8;
+const COVER = 1.3;
+/** Seconds the scrub lags behind the scroll: the heavy, cinematic inertia. */
+const SCRUB = 1.6;
+/** Where each scene starts inside its card's hold. */
+const SCENE_AT = 0.15;
+
+/**
+ * VIP services — a vertical card deck. The stage pins once and a single
+ * scrubbed timeline drives everything: each full-screen card holds while its
+ * bespoke scene plays, then the next card slides over it like a playing card
+ * while the covered one recedes into the deck. Scroll stays native throughout.
  */
 export default function Services() {
   const root = useRef<HTMLElement>(null);
@@ -29,8 +42,8 @@ export default function Services() {
   useGSAP(
     () => {
       const q = gsap.utils.selector(root);
+      const stage = q(".vip-stage")[0] as HTMLElement;
       const cards = q(".vip-card") as HTMLElement[];
-      const last = cards[cards.length - 1];
 
       if (prefersReducedMotion()) {
         cards.forEach(settle);
@@ -45,46 +58,57 @@ export default function Services() {
         scrollTrigger: { trigger: q(".vip-head")[0], start: "top 75%" },
       });
 
-      const cleanups: (() => void)[] = [];
+      // Stack the cards on one stage (the static fallback is a plain column).
+      stage.setAttribute("data-deck", "");
+      gsap.set(cards.slice(1), { yPercent: 100 });
 
+      const scenes = cards.map((card, i) => SCENES[SERVICES[i].effect](card));
+      const reveals = cards.map((card) => gsap.utils.toArray<HTMLElement>(".vip-reveal", card));
+      gsap.set(reveals.slice(1).flat(), { yPercent: 110, autoAlpha: 0 });
+
+      // The first card rises into view before the pin: reveal it on the way in.
+      const intro = gsap
+        .timeline()
+        .from(reveals[0], { yPercent: 110, autoAlpha: 0, duration: 0.5, ease: "power3.out", stagger: 0.05 }, 0.2)
+        .add(scenes[0].tl.paused(false), 0);
+      ScrollTrigger.create({ animation: intro, trigger: stage, start: "top 85%", end: "top top", scrub: SCRUB });
+
+      const master = gsap.timeline({ defaults: { ease: "none" } });
       cards.forEach((card, i) => {
-        const inner = card.querySelector(".vip-inner");
+        const holdStart = i * (HOLD + COVER);
+        const frame = card.querySelector(".vip-frame");
 
-        // Deck: hold each card until the final card has landed on top of it.
-        if (card !== last) {
-          ScrollTrigger.create({ trigger: card, start: "top top", endTrigger: last, end: "top top", pin: true, pinSpacing: false });
-        } else {
-          // The final card keeps the stage a little longer for its scene.
-          ScrollTrigger.create({ trigger: card, start: "top top", end: "+=55%", pin: true });
-        }
+        // Hold: the scene plays, the frame breathes ever so slightly.
+        master.fromTo(frame, { scale: 1 }, { scale: 1.035, duration: HOLD, ease: "sine.inOut" }, holdStart);
+        if (i > 0) master.add(scenes[i].tl.paused(false), holdStart + SCENE_AT);
 
-        // As the next card slides over, this one recedes into the deck.
+        // Cover: the next card glides over, this one sinks back into the deck.
         const next = cards[i + 1];
-        if (next) {
-          gsap.to(inner, {
-            scale: 0.9,
-            yPercent: -3,
-            filter: "brightness(0.35)",
-            ease: "none",
-            scrollTrigger: { trigger: next, start: "top bottom", end: "top top", scrub: true },
-          });
-        }
-
-        // Copy rises line by line as the card arrives.
-        gsap.from(card.querySelectorAll(".vip-reveal"), {
-          yPercent: 110,
-          autoAlpha: 0,
-          duration: 1.2,
-          ease: "expo.out",
-          stagger: 0.06,
-          scrollTrigger: { trigger: card, start: "top 45%", toggleActions: "play none none reverse" },
-        });
-
-        const cleanup = SCENES[SERVICES[i].effect](card);
-        if (cleanup) cleanups.push(cleanup);
+        if (!next) return;
+        const at = holdStart + HOLD;
+        const inner = card.querySelector(".vip-inner");
+        master
+          .to(inner, { scale: 0.86, yPercent: -6, borderRadius: 28, filter: "brightness(0.25)", duration: COVER, ease: "power2.inOut" }, at)
+          .to(next, { yPercent: 0, duration: COVER, ease: "power3.inOut" }, at)
+          .fromTo(next.querySelector(".vip-content"), { yPercent: 18 }, { yPercent: 0, duration: COVER, ease: "power3.out" }, at)
+          .to(reveals[i + 1], { yPercent: 0, autoAlpha: 1, duration: COVER * 0.45, ease: "power3.out", stagger: COVER * 0.04 }, at + COVER * 0.55);
       });
 
-      return () => cleanups.forEach((fn) => fn());
+      ScrollTrigger.create({
+        animation: master,
+        trigger: stage,
+        start: "top top",
+        end: () => "+=" + master.duration() * window.innerHeight,
+        pin: true,
+        scrub: SCRUB,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      });
+
+      return () => {
+        stage.removeAttribute("data-deck");
+        scenes.forEach((s) => s.cleanup?.());
+      };
     },
     { scope: root }
   );
@@ -92,7 +116,7 @@ export default function Services() {
   return (
     <section ref={root} id="hizmetler" className="relative bg-noir" aria-label="VIP hizmetler">
       {/* Intro */}
-      <div className="vip-head relative mx-auto flex max-w-[1600px] flex-col gap-10 px-5 pb-24 pt-32 md:flex-row md:items-end md:justify-between md:px-12 md:pb-32 md:pt-44">
+      <div className="vip-head relative mx-auto flex overflow-hidden max-w-[1600px] flex-col gap-10 px-5 pb-24 pt-32 md:flex-row md:items-end md:justify-between md:px-12 md:pb-32 md:pt-44">
         <div className="glow left-[10vw] top-[10%] h-[60vh] w-[60vh] opacity-30" />
         <div className="relative">
           <p className="mb-6 flex items-center gap-4 text-[10px] uppercase tracking-[0.5em] text-gold/80">
@@ -108,74 +132,70 @@ export default function Services() {
         </p>
       </div>
 
-      {/* Deck */}
-      <div className="relative">
+      {/* Deck stage */}
+      <div className="vip-stage relative">
         {SERVICES.map((s, i) => (
-          <Fragment key={s.no}>
-            {/* Dwell: the pinned card stays on stage while this gap scrolls by */}
-            {i > 0 && <div aria-hidden className="h-[60svh]" />}
-            <article className="vip-card relative h-[100svh] overflow-hidden" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
-              <div
-                className="vip-inner relative flex h-full w-full origin-top items-center border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)] will-change-transform"
-                style={{ background: TONES[i] }}
+          <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
+            <div
+              className="vip-inner relative flex h-full w-full origin-top items-center overflow-hidden border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)] will-change-transform"
+              style={{ background: TONES[i] }}
+            >
+              {/* Giant outline number */}
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-display text-[42vh] leading-none text-transparent [-webkit-text-stroke:1px_rgba(197,168,128,0.08)] ${
+                  i % 2 ? "left-[2vw]" : "right-[2vw]"
+                }`}
               >
-                {/* Giant outline number */}
-                <span
-                  aria-hidden
-                  className={`pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-display text-[42vh] leading-none text-transparent [-webkit-text-stroke:1px_rgba(197,168,128,0.08)] ${
-                    i % 2 ? "left-[2vw]" : "right-[2vw]"
-                  }`}
-                >
-                  {s.no}
-                </span>
+                {s.no}
+              </span>
 
-                <div
-                  className={`relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-8 px-5 pt-16 md:gap-12 md:px-12 md:pt-0 lg:flex-row lg:justify-center lg:gap-[9vw] ${
-                    i % 2 ? "lg:flex-row-reverse" : ""
-                  }`}
-                >
-                  <div className="shrink-0">
-                    <ServiceMedia service={s} />
+              <div
+                className={`vip-content relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-8 px-5 pt-16 md:gap-12 md:px-12 md:pt-0 lg:flex-row lg:justify-center lg:gap-[9vw] ${
+                  i % 2 ? "lg:flex-row-reverse" : ""
+                }`}
+              >
+                <div className="shrink-0">
+                  <ServiceMedia service={s} />
+                </div>
+
+                <div className="w-full max-w-xl">
+                  <div className="overflow-hidden">
+                    <p className="vip-reveal flex items-center gap-4 text-[10px] uppercase tracking-[0.45em] text-gold/80">
+                      <span className="font-display text-base tracking-[0.2em] text-gold">{s.no}</span>
+                      <span className="h-px w-10 bg-gold/50" />
+                      {s.subtitle}
+                    </p>
                   </div>
-
-                  <div className="w-full max-w-xl">
-                    <div className="overflow-hidden">
-                      <p className="vip-reveal flex items-center gap-4 text-[10px] uppercase tracking-[0.45em] text-gold/80">
-                        <span className="font-display text-base tracking-[0.2em] text-gold">{s.no}</span>
-                        <span className="h-px w-10 bg-gold/50" />
-                        {s.subtitle}
-                      </p>
-                    </div>
-                    <div className="overflow-hidden">
-                      <h3 id={`vip-${s.no}`} className="vip-reveal mt-4 font-display text-[clamp(1.7rem,4vw,4.2rem)] font-normal leading-[1.02] tracking-[0.03em] text-gold-light">
-                        {s.title}
-                      </h3>
-                    </div>
-                    <div className="overflow-hidden">
-                      <p className="vip-reveal mt-6 max-w-md text-sm leading-relaxed text-bone/65 max-md:hidden md:text-[15px]">{s.description}</p>
-                    </div>
-                    <ul className="mt-5 border-t border-gold/15 md:mt-8">
-                      {s.items.map((it) => (
-                        <li key={it.name} className="overflow-hidden border-b border-gold/15">
-                          <div className="vip-reveal flex items-baseline justify-between gap-6 py-2.5 text-sm md:py-3.5 md:text-[15px]">
-                            <span className="text-bone/85">{it.name}</span>
-                            <span className="font-serif italic text-gold">{it.price}</span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-8 hidden md:block">
-                      <Magnetic>
-                        <button type="button" onClick={() => scrollToTarget(lenis, "#iletisim")} className="btn-aura" data-cursor="RANDEVU">
-                          Randevu Planla <ArrowUpRight className="h-4 w-4 text-gold" />
-                        </button>
-                      </Magnetic>
-                    </div>
+                  <div className="overflow-hidden">
+                    <h3 id={`vip-${s.no}`} className="vip-reveal mt-4 font-display text-[clamp(1.7rem,4vw,4.2rem)] font-normal leading-[1.02] tracking-[0.03em] text-gold-light">
+                      {s.title}
+                    </h3>
+                  </div>
+                  <div className="overflow-hidden">
+                    <p className="vip-reveal mt-6 max-w-md text-sm leading-relaxed text-bone/65 max-md:hidden md:text-[15px]">{s.description}</p>
+                  </div>
+                  <ul className="mt-5 border-t border-gold/15 md:mt-8">
+                    {s.items.map((it) => (
+                      <li key={it.name} className="overflow-hidden border-b border-gold/15">
+                        <div className="vip-reveal flex items-baseline justify-between gap-6 py-2.5 text-sm md:py-3.5 md:text-[15px]">
+                          <span className="text-bone/85">{it.name}</span>
+                          <span className="font-serif italic text-gold">{it.price}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-8 hidden md:block">
+                    <Magnetic>
+                      <button type="button" onClick={() => scrollToTarget(lenis, "#iletisim")} className="btn-aura" data-cursor="RANDEVU">
+                        Randevu Planla <ArrowUpRight className="h-4 w-4 text-gold" />
+                      </button>
+                    </Magnetic>
                   </div>
                 </div>
               </div>
-            </article>
-          </Fragment>
+            </div>
+          </article>
         ))}
       </div>
     </section>

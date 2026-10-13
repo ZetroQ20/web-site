@@ -19,7 +19,7 @@ npm run build && npm start
 | `components/Preloader.tsx` | Gold maskeli split-text, %000 sayaç, asimetrik çapraz kapı açılışı |
 | `components/Navbar.tsx` | Kaydırınca küçülen glassmorphism bar, dönen gold kenarlı “Randevu Al” |
 | `components/Hero.tsx` | Kelime reveal, mouse paralaks katmanları, dönen PRESTIGE rozeti |
-| `components/Services.tsx` | VIP dikey kart destesi: tam ekran kartlar sırayla pin'lenir, bir sonraki kart iskambil gibi üstüne kapanır |
+| `components/Services.tsx` | VIP dikey kart destesi: sahne tek seferde pin'lenir, tek bir scrub'lı timeline her kartı bekletir (`HOLD`) ve bir sonrakini iskambil gibi üstüne kapatır (`COVER`); tempo bu sabitlerden ayarlanır |
 | `components/services/ServiceMedia.tsx` | Her hizmetin altın oran (1:1.618) çerçevesi ve sahne katmanları |
 | `components/services/effects.ts` | Hizmete özel GSAP sahneleri: ipek dalga (saç), lazer tarama (cilt), altın oran kılavuzları (estetik), ışık yansıması (nail art) |
 | `components/Gallery.tsx` | Asimetrik mozaik, farklı hızlarda paralaks, sergi tarzı reveal + marquee |

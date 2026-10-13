@@ -106,6 +106,15 @@ html.lenis body {
   }
 }
 
+/* VIP deck: JS stacks the cards on one pinned stage (plain column without JS) */
+.vip-stage[data-deck] {
+  height: 100svh;
+}
+.vip-stage[data-deck] .vip-card {
+  position: absolute;
+  inset: 0;
+}
+
 /* ---------- Film grain ---------- */
 .grain {
   pointer-events: none;
