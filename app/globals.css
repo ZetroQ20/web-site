@@ -19,6 +19,12 @@
 }
 
 /* ---------- Base ---------- */
+:root {
+  --font-cinzel: "Cinzel Variable";
+  --font-playfair: "Playfair Display Variable";
+  --font-manrope: "Manrope Variable";
+}
+
 html {
   background: var(--color-noir);
   color: var(--color-bone);
