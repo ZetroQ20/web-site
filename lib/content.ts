@@ -21,8 +21,12 @@ export const SALON = {
 
 export const HERO_IMAGE = u("photo-1534528741775-53994a69daeb", 1400);
 
+/** Bespoke entrance effect that matches the spirit of each service. */
+export type ServiceEffect = "wave" | "laser" | "golden" | "gloss";
+
 export type Service = {
   no: string;
+  effect: ServiceEffect;
   title: string;
   subtitle: string;
   description: string;
@@ -34,6 +38,7 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     no: "01",
+    effect: "wave",
     title: "HAIR DESIGN & EXTENSIONS",
     subtitle: "Saç Tasarımı ve Kaynak",
     description:
@@ -47,6 +52,7 @@ export const SERVICES: Service[] = [
   },
   {
     no: "02",
+    effect: "laser",
     title: "SKINCARE & LASER",
     subtitle: "Cilt Bakımı ve Yeni Nesil Lazer",
     description:
@@ -60,6 +66,7 @@ export const SERVICES: Service[] = [
   },
   {
     no: "03",
+    effect: "golden",
     title: "AESTHETICS & FACE",
     subtitle: "Microblading · İpek Kirpik · Dolgu Tozu",
     description:
@@ -73,6 +80,7 @@ export const SERVICES: Service[] = [
   },
   {
     no: "04",
+    effect: "gloss",
     title: "NAIL ART",
     subtitle: "Protez Tırnak & Nail Art",
     description:
