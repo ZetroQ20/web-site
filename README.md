@@ -19,7 +19,9 @@ npm run build && npm start
 | `components/Preloader.tsx` | Gold maskeli split-text, %000 sayaç, asimetrik çapraz kapı açılışı |
 | `components/Navbar.tsx` | Kaydırınca küçülen glassmorphism bar, dönen gold kenarlı “Randevu Al” |
 | `components/Hero.tsx` | Kelime reveal, mouse paralaks katmanları, dönen PRESTIGE rozeti |
-| `components/Services.tsx` | Pin'lenen yatay scroll, kart içi paralaks, hover'da fiyat reveal |
+| `components/Services.tsx` | VIP dikey kart destesi: tam ekran kartlar sırayla pin'lenir, bir sonraki kart iskambil gibi üstüne kapanır |
+| `components/services/ServiceMedia.tsx` | Her hizmetin altın oran (1:1.618) çerçevesi ve sahne katmanları |
+| `components/services/effects.ts` | Hizmete özel GSAP sahneleri: ipek dalga (saç), lazer tarama (cilt), altın oran kılavuzları (estetik), ışık yansıması (nail art) |
 | `components/Gallery.tsx` | Asimetrik mozaik, farklı hızlarda paralaks, sergi tarzı reveal + marquee |
 | `components/Booking.tsx` | Animasyonlu input'lar, WhatsApp taslak mesajı, iletişim & footer |
 | `components/Cursor.tsx` / `Magnetic.tsx` | Etiketli özel imleç (`data-cursor="KEŞFET"`) ve mıknatıs efekti |
@@ -29,6 +31,6 @@ npm run build && npm start
 - `lib/content.ts` içindeki **fiyatlar örnektir** — salonun güncel fiyat listesiyle değiştirin.
 - `SALON.instagram` şu an genel Instagram adresi — salonun hesabıyla değiştirin.
 - Görseller Unsplash'ten geliyor; kendi fotoğraflarınızı `public/` altına koyup `lib/content.ts`'teki adresleri değiştirebilirsiniz. Bir görsel yüklenemezse çerçeve noir/gold bir gradyana döner.
-- `prefers-reduced-motion` açık olan ziyaretçilerde smooth scroll ve scroll-jacking devre dışı kalır.
+- `prefers-reduced-motion` açık olan ziyaretçilerde smooth scroll, kart pin'leme ve sahne efektleri devre dışı kalır; görseller son hâlleriyle gösterilir.
 
 > Not: Kök dizindeki `index.html`, önceki “Maison de Beauté — Aura Salon” statik sayfasıdır ve Next.js uygulamasından bağımsızdır.

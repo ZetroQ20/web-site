@@ -90,18 +90,20 @@ html.lenis body {
   -webkit-text-stroke: 1px rgb(197 168 128 / 0.22);
 }
 
-/* Reveal masks used by split text */
-.mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  /* room for Turkish diacritics (İ, Ş, Ç, Ğ) above/below the line box */
-  padding: 0.14em 0 0.1em;
-  margin: -0.14em 0 -0.1em;
-}
-.mask > span {
-  display: inline-block;
-  will-change: transform;
+/* Reveal masks used by split text (layered so utilities like `block` win) */
+@layer components {
+  .mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    /* room for Turkish diacritics (İ, Ş, Ç, Ğ) above/below the line box */
+    padding: 0.14em 0 0.1em;
+    margin: -0.14em 0 -0.1em;
+  }
+  .mask > span {
+    display: inline-block;
+    will-change: transform;
+  }
 }
 
 /* ---------- Film grain ---------- */
@@ -339,14 +341,6 @@ html.lenis body {
 }
 .animate-marquee {
   animation: marquee 32s linear infinite;
-}
-
-/* Touch devices: reveal service details without hover */
-@media (hover: none) {
-  .service-card .service-details {
-    transform: none !important;
-    opacity: 1 !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
