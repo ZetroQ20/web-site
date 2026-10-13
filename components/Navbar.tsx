@@ -65,7 +65,7 @@ export default function Navbar({ ready }: { ready: boolean }) {
       className="group/nav fixed inset-x-0 top-0 z-[100] px-4 pt-4 transition-[padding] duration-700 ease-silk data-[scrolled]:pt-3 md:px-8 md:pt-6"
     >
       <nav
-        className="mx-auto flex max-w-[1600px] items-center justify-between rounded-full border border-transparent px-4 py-3 transition-all duration-700 ease-silk group-data-[scrolled]/nav:max-w-[1200px] group-data-[scrolled]/nav:border-gold/15 group-data-[scrolled]/nav:bg-noir/45 group-data-[scrolled]/nav:py-2 group-data-[scrolled]/nav:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] group-data-[scrolled]/nav:backdrop-blur-xl md:px-6"
+        className="mx-auto flex max-w-[1600px] items-center justify-between rounded-full border border-transparent px-4 py-3 transition-all duration-700 ease-silk group-data-[scrolled]/nav:max-w-[1200px] group-data-[scrolled]/nav:border-gold/15 group-data-[scrolled]/nav:bg-noir/85 md:group-data-[scrolled]/nav:bg-noir/45 group-data-[scrolled]/nav:py-2 group-data-[scrolled]/nav:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] md:group-data-[scrolled]/nav:backdrop-blur-xl md:px-6"
         aria-label="Ana menü"
       >
         <a href="#top" onClick={(e) => go(e, "#top")} className="nav-item invisible flex items-center gap-3" aria-label="THE GRACE — başa dön">

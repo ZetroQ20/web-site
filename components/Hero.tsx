@@ -162,7 +162,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           {/* Front: portrait */}
           <div data-depth="0.45" className="absolute inset-0">
             <div className="hero-frame gold-glaze relative h-full w-full overflow-hidden [clip-path:polygon(0_6%,88%_0,100%_100%,8%_96%)]">
-              <Photo src={HERO_IMAGE} alt="THE GRACE — sinematik güzellik portresi" priority className="hero-img h-full w-full object-cover grayscale-[35%] contrast-[1.08] sepia-[18%]" />
+              <Photo src={HERO_IMAGE} alt="THE GRACE — sinematik güzellik portresi" priority sizes="(min-width: 1024px) 40vw, 92vw" className="hero-img h-full w-full object-cover grayscale-[35%] contrast-[1.08] sepia-[18%]" />
             </div>
           </div>
 
@@ -186,7 +186,7 @@ export default function Hero({ ready }: { ready: boolean }) {
 
           {/* Caption */}
           <div data-depth="0.7" className="absolute -bottom-6 right-0 z-20 md:-right-6">
-            <div className="hero-fade border-l border-gold/60 bg-noir/70 px-5 py-4 backdrop-blur-md">
+            <div className="hero-fade border-l border-gold/60 bg-noir/85 px-5 py-4 md:bg-noir/70 md:backdrop-blur-md">
               <p className="text-[9px] uppercase tracking-[0.45em] text-gold/80">Signature Salon · {SALON.name}</p>
               <p className="mt-1 font-serif text-lg italic text-bone">Cansu Üçdağ</p>
             </div>

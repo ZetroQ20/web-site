@@ -1,6 +1,6 @@
 "use client";
 
-import { gsap } from "@/lib/gsap";
+import { gsap, isFinePointer } from "@/lib/gsap";
 import type { ServiceEffect } from "@/lib/content";
 
 /**
@@ -40,7 +40,9 @@ const wave: Scene = (card) => {
     media.style.clipPath = `polygon(${pts.join(",")})`;
   };
   draw();
-  gsap.set(img, { scale: 1.18, skewY: 4, yPercent: -6, filter: "url(#fx-liquid) saturate(0.6)" });
+  // The per-pixel SVG ripple is too heavy for phone GPUs; touch devices keep the silk edge only.
+  const liquid = isFinePointer() ? "url(#fx-liquid) " : "";
+  gsap.set(img, { scale: 1.18, skewY: 4, yPercent: -6, filter: `${liquid}saturate(0.6)` });
   gsap.set(displace, { attr: { scale: 120 } });
   gsap.set(turbulence, { attr: { baseFrequency: "0.004 0.03" } });
 
@@ -49,7 +51,7 @@ const wave: Scene = (card) => {
     .to(state, { p: 1, duration: 1, ease: "power2.inOut", onUpdate: draw }, 0)
     .to(displace, { attr: { scale: 0 }, duration: 1.1, ease: "power2.out" }, 0)
     .to(turbulence, { attr: { baseFrequency: "0.012 0.06" }, duration: 1.1, ease: "sine.inOut" }, 0)
-    .to(img, { scale: 1, skewY: 0, yPercent: 0, filter: "url(#fx-liquid) saturate(1)", duration: 1.1, ease: "power3.out" }, 0)
+    .to(img, { scale: 1, skewY: 0, yPercent: 0, filter: `${liquid}saturate(1)`, duration: 1.1, ease: "power3.out" }, 0)
     // Still water: drop the costly filter (restored automatically when scrubbing back).
     .set(img, { filter: "none" }, 1.1);
   return { tl };

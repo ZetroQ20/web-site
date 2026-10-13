@@ -4,6 +4,9 @@ import Photo from "../Photo";
 const FRAME =
   "relative aspect-[1000/1618] h-[44svh] max-w-full overflow-hidden bg-graphite md:h-[74svh] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
+/** Frame is ~27% of the viewport height wide on phones, ~46% on desktop. */
+const SIZES = "(min-width: 768px) 30vw, 60vw";
+
 /** Golden-rectangle frame whose inner layers depend on the service's scene. */
 export default function ServiceMedia({ service }: { service: Service }) {
   const alt = `${service.title} — ${service.subtitle}`;
@@ -23,7 +26,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
             </filter>
           </svg>
           <div className="fx-wave-media absolute inset-0">
-            <Photo src={service.image} alt={alt} className={`fx-wave-img ${img} sepia-[12%]`} />
+            <Photo sizes={SIZES} src={service.image} alt={alt} className={`fx-wave-img ${img} sepia-[12%]`} />
           </div>
           <Glaze />
         </div>
@@ -32,10 +35,10 @@ export default function ServiceMedia({ service }: { service: Service }) {
       {service.effect === "glow" && (
         <div className={FRAME}>
           {/* Matte, tired skin… */}
-          <Photo src={service.image} alt={alt} className={`${img} brightness-[0.62] contrast-[0.9] saturate-[0.35]`} />
+          <Photo sizes={SIZES} src={service.image} alt={alt} className={`${img} brightness-[0.62] contrast-[0.9] saturate-[0.35]`} />
           {/* …gives way to a dewy radiance blooming from the centre */}
           <div className="fx-glow-vivid absolute inset-0 [clip-path:circle(0%_at_50%_40%)]">
-            <Photo src={service.image} alt="" className={`${img} brightness-[1.06] saturate-[1.12]`} />
+            <Photo sizes={SIZES} src={service.image} alt="" className={`${img} brightness-[1.06] saturate-[1.12]`} />
             <div className="absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_40%,rgba(255,244,225,0.22),transparent_70%)] mix-blend-screen" />
           </div>
           {/* Positioned wrapper keeps Tailwind's translate apart from GSAP's scale */}
@@ -48,10 +51,10 @@ export default function ServiceMedia({ service }: { service: Service }) {
 
       {service.effect === "laser" && (
         <div className={FRAME}>
-          <Photo src={service.image} alt={alt} className={img} />
+          <Photo sizes={SIZES} src={service.image} alt={alt} className={img} />
           {/* Frosted glass copy — clipped away above the laser */}
           <div className="fx-laser-frost absolute inset-0 overflow-hidden">
-            <Photo src={service.image} alt="" className={`${img} scale-110 blur-[22px] brightness-75 saturate-50`} />
+            <Photo sizes={SIZES} src={service.image} alt="" className={`${img} scale-110 blur-[22px] brightness-75 saturate-50`} />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(239,232,220,0.08),rgba(197,168,128,0.12))]" />
           </div>
           {/* Full-height track: translating it by y% moves the beam on the compositor */}
@@ -66,7 +69,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
 
       {service.effect === "golden" && (
         <div className={FRAME}>
-          <Photo src={service.image} alt={alt} className={`fx-golden-img ${img}`} />
+          <Photo sizes={SIZES} src={service.image} alt={alt} className={`fx-golden-img ${img}`} />
           <Glaze />
           <svg viewBox="0 0 1000 1618" preserveAspectRatio="none" className="fx-golden-guides pointer-events-none absolute inset-0 z-10 h-full w-full" aria-hidden>
             <g fill="none" stroke="#E4CFA6" strokeWidth="1" vectorEffect="non-scaling-stroke">
@@ -89,7 +92,7 @@ export default function ServiceMedia({ service }: { service: Service }) {
 
       {service.effect === "gloss" && (
         <div className={`fx-gloss-frame ${FRAME}`}>
-          <Photo src={service.image} alt={alt} className={`fx-gloss-img ${img}`} />
+          <Photo sizes={SIZES} src={service.image} alt={alt} className={`fx-gloss-img ${img}`} />
           <Glaze />
           <div className="fx-gloss-wide pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(135deg,transparent_38%,rgba(255,248,235,0.08)_44%,rgba(255,248,235,0.42)_50%,rgba(255,248,235,0.08)_56%,transparent_62%)] bg-[length:200%_200%] bg-[position:100%_100%] opacity-0 mix-blend-screen" />
           <div className="fx-gloss-sharp pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(135deg,transparent_48.6%,rgba(255,255,255,0.95)_50%,transparent_51.4%)] bg-[length:200%_200%] bg-[position:100%_100%] opacity-0 mix-blend-screen" />

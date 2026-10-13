@@ -80,6 +80,7 @@ export default function Gallery() {
               <Photo
                 src={g.src}
                 alt={g.alt}
+                sizes={i === 0 || i === GALLERY.length - 1 ? "(min-width: 768px) 42vw, 100vw" : "(min-width: 768px) 34vw, 50vw"}
                 className="gal-img h-full w-full object-cover grayscale contrast-[1.1] brightness-[0.8] transition-[filter] duration-[1.2s] ease-silk group-hover:grayscale-0 group-hover:brightness-100 group-hover:sepia-[12%]"
               />
               <span className="pointer-events-none absolute inset-3 z-[2] border border-gold/0 transition-colors duration-700 group-hover:border-gold/40" />
