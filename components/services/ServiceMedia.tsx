@@ -1,8 +1,11 @@
 import type { Service } from "@/lib/content";
 import Photo from "../Photo";
 
+// Golden rectangle (1 : 1.618). Width is set explicitly from the height rather than via
+// aspect-ratio: Safari/iOS gives a height-only aspect-ratio box whose children are all
+// absolutely positioned an intrinsic width of 0, which hid every service photo on iPhone.
 const FRAME =
-  "relative aspect-[1000/1618] h-[44svh] max-w-full overflow-hidden bg-graphite md:h-[74svh] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
+  "relative h-[44svh] w-[calc(44svh*0.618)] max-w-full overflow-hidden bg-graphite md:h-[74svh] md:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
 /** Frame is ~27% of the viewport height wide on phones, ~46% on desktop. */
 const SIZES = "(min-width: 768px) 30vw, 60vw";
