@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison de Beauté — Aura Salon | Kendini Yeniden Tanımla</title>
+  <meta name="description" content="Maison de Beauté — Aura Salon. Saç tasarımı, yüz estetiği, spa & wellness ve gelin hazırlığında lüks deneyim." />
+  <meta name="theme-color" content="#050505" />
+
+  <!-- Google Fonts: Cinzel + Playfair Display (serif) & Plus Jakarta Sans (sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+  <script>
+    window.tailwind && (tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#050505',
+            coal: '#0D0D0D',
+            gold: '#D4AF37',
+            champagne: '#C5A880',
+            bone: '#EDE6D9',
+            sand: '#B9AD98'
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    });
+  </script>
+
+  <style>
+    /* ================================================================
+       TOKENS
+       ================================================================ */
+    :root {
+      --ink: #050505;
+      --coal: #0D0D0D;
+      --coal-2: #141311;
+      --gold: #D4AF37;
+      --champagne: #C5A880;
+      --bone: #EDE6D9;
+      --sand: #B9AD98;
+      --muted: rgba(237, 230, 217, .55);
+      --line: rgba(197, 168, 128, .22);
+      --ease: cubic-bezier(.76, 0, .24, 1);
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* Lenis recommended CSS */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--ink); }
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: 'Plus Jakarta Sans', Inter, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body.is-loading { overflow: hidden; }
+    ::selection { background: var(--gold); color: var(--ink); }
+
+    @media (pointer: fine) {
+      body, a, button, input, textarea, select, label { cursor: none; }
+    }
+
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-play { font-family: 'Playfair Display', serif; }
+
+    .gold-text {
+      background: linear-gradient(100deg, #8a6d3b 0%, #D4AF37 25%, #f3e2b3 45%, #C5A880 60%, #9c7a43 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      animation: goldSheen 8s linear infinite;
+    }
+    @keyframes goldSheen { to { background-position: -200% 0; } }
+
+    .eyebrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px; letter-spacing: .38em; text-transform: uppercase;
+      color: var(--champagne);
+    }
+
+    /* Global film grain */
+    .grain-layer {
+      position: fixed; inset: -50%; width: 200%; height: 200%;
+      background-image: var(--noise);
+      opacity: .07; pointer-events: none; z-index: 9990;
+      animation: grain 1s steps(6) infinite;
+      mix-blend-mode: overlay;
+    }
+    @keyframes grain {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-6%, 4%); }
+      40% { transform: translate(5%, -7%); }
+      60% { transform: translate(-3%, 8%); }
+      80% { transform: translate(7%, 2%); }
+      100% { transform: translate(-4%, -5%); }
+    }
+
+    /* ================================================================
+       SPLIT TEXT MASKS
+       ================================================================ */
+    .mask { display: inline-block; overflow: hidden; vertical-align: top; padding: .12em 0 .08em; margin: -.12em 0 -.08em; }
+    .mask > .inner { display: inline-block; will-change: transform; }
+
+    /* ================================================================
+       PRELOADER
+       ================================================================ */
+    #preloader {
+      position: fixed; inset: 0; z-index: 10000;
+      background: radial-gradient(ellipse at 50% 60%, #15120c 0%, var(--ink) 65%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #preloader::after {
+      content: ''; position: absolute; inset: 0; background-image: var(--noise); opacity: .08; pointer-events: none;
+    }
+    .pl-title {
+      font-family: 'Cinzel', serif; font-weight: 500;
+      font-size: clamp(2.2rem, 7.5vw, 7rem); letter-spacing: .12em; line-height: 1;
+      text-align: center; color: var(--bone);
+    }
+    .pl-title .char { display: inline-block; transform: translateY(115%); }
+    .pl-title:not(.is-split) { opacity: 0; }
+    .pl-sub { overflow: hidden; }
+    .pl-sub span { display: inline-block; transform: translateY(110%); }
+    .pl-line { width: min(420px, 70vw); height: 1px; background: var(--line); position: relative; overflow: hidden; }
+    .pl-line i { position: absolute; inset: 0; background: linear-gradient(90deg, transparent, var(--gold), var(--champagne)); transform-origin: left; transform: scaleX(0); }
+    .pl-count {
+      position: absolute; right: clamp(20px, 4vw, 56px); bottom: clamp(16px, 3vw, 40px);
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(3rem, 10vw, 9rem); line-height: 1; color: var(--champagne); opacity: .9;
+    }
+    .pl-corner { position: absolute; left: clamp(20px, 4vw, 56px); bottom: clamp(24px, 3.4vw, 48px); }
+
+    /* ================================================================
+       CUSTOM CURSOR
+       ================================================================ */
+    .cursor, .cursor-dot { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10001; border-radius: 50%; }
+    .cursor {
+      width: 40px; height: 40px; margin: -20px 0 0 -20px;
+      border: 1px solid rgba(212, 175, 55, .7);
+      display: flex; align-items: center; justify-content: center;
+      transition: width .45s var(--ease-out), height .45s var(--ease-out), margin .45s var(--ease-out), background-color .35s, border-color .35s;
+      mix-blend-mode: normal;
+    }
+    .cursor span {
+      font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--ink); font-weight: 600;
+      opacity: 0; transform: scale(.6); transition: opacity .3s, transform .3s;
+    }
+    .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--gold); }
+    .cursor.is-hover { width: 72px; height: 72px; margin: -36px 0 0 -36px; background: rgba(212, 175, 55, .12); border-color: var(--gold); backdrop-filter: blur(2px); }
+    .cursor.is-label { width: 100px; height: 100px; margin: -50px 0 0 -50px; background: var(--gold); border-color: var(--gold); }
+    .cursor.is-label span { opacity: 1; transform: scale(1); }
+    .cursor.is-down { transform: scale(.85); }
+    .cursor-dot.is-hidden { opacity: 0; }
+    @media (pointer: coarse), (hover: none) { .cursor, .cursor-dot { display: none; } }
+
+    /* ================================================================
+       NAVBAR
+       ================================================================ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      padding: 28px clamp(20px, 4vw, 56px);
+      transition: padding .6s var(--ease-out), background-color .6s, backdrop-filter .6s, border-color .6s;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.is-scrolled {
+      padding-top: 14px; padding-bottom: 14px;
+      background: rgba(8, 8, 8, .55);
+      -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+      border-bottom-color: rgba(197, 168, 128, .14);
+    }
+    #nav .logo { transition: transform .6s var(--ease-out); transform-origin: left center; }
+    #nav.is-scrolled .logo { transform: scale(.88); }
+
+    .nav-link { position: relative; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--bone); opacity: .82; padding: 6px 0; transition: opacity .3s, color .3s; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--champagne));
+      transform: scaleX(0); transform-origin: right; transition: transform .6s var(--ease-out);
+    }
+    .nav-link:hover { opacity: 1; color: var(--champagne); }
+    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    /* Luxury pulsing button */
+    .btn-lux {
+      position: relative; display: inline-flex; align-items: center; gap: 12px;
+      padding: 15px 30px; border-radius: 999px; overflow: hidden; isolation: isolate;
+      border: 1px solid rgba(212, 175, 55, .6);
+      font-size: 11.5px; letter-spacing: .28em; text-transform: uppercase; font-weight: 500;
+      color: var(--bone); background: transparent;
+      animation: borderPulse 2.8s ease-in-out infinite;
+      transition: color .5s var(--ease-out), border-color .5s;
+    }
+    .btn-lux::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(120deg, #b8912f, var(--gold) 40%, #ecd9a5 60%, var(--champagne));
+      border-radius: inherit;
+      transform: translateY(101%); transition: transform .6s var(--ease-out);
+    }
+    .btn-lux:hover { color: var(--ink); border-color: var(--gold); }
+    .btn-lux:hover::before { transform: translateY(0); }
+    @keyframes borderPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0), inset 0 0 0 0 rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, .45); }
+      50% { box-shadow: 0 0 22px 2px rgba(212, 175, 55, .28), inset 0 0 12px rgba(212, 175, 55, .12); border-color: rgba(240, 214, 140, 1); }
+    }
+    .btn-lux .btn-label { position: relative; display: inline-block; overflow: hidden; height: 1.2em; line-height: 1.2em; }
+    .btn-lux .btn-label span { display: block; transition: transform .6s var(--ease-out); }
+    .btn-lux .btn-label span + span { position: absolute; left: 0; top: 100%; }
+    .btn-lux:hover .btn-label span { transform: translateY(-100%); }
+
+    .btn-ghost {
+      position: relative; display: inline-flex; align-items: center; gap: 18px;
+      font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--bone);
+      padding: 6px 0;
+    }
+    .btn-ghost .arrow-ring {
+      width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line);
+      display: grid; place-items: center; color: var(--gold);
+      transition: background .5s var(--ease-out), color .5s, border-color .5s;
+    }
+    .btn-ghost .arrow-ring i { animation: nudge 1.8s var(--ease) infinite; }
+    .btn-ghost:hover .arrow-ring { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    @keyframes nudge { 0%, 100% { transform: translateX(-3px); } 50% { transform: translateX(5px); } }
+
+    @media (max-width: 639px) { #nav .btn-lux { display: none; } }
+
+    /* Mobile menu */
+    #menu {
+      position: fixed; inset: 0; z-index: 890; background: var(--ink);
+      clip-path: circle(0% at calc(100% - 40px) 40px);
+      transition: clip-path .9s var(--ease);
+      display: flex; flex-direction: column; justify-content: center; padding: 0 28px;
+    }
+    #menu.is-open { clip-path: circle(150% at calc(100% - 40px) 40px); }
+    #menu a.m-link { font-family: 'Cinzel', serif; font-size: clamp(2rem, 10vw, 3.4rem); color: var(--bone); display: block; padding: 6px 0; }
+    .burger { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); position: relative; }
+    .burger i { position: absolute; left: 13px; right: 13px; height: 1px; background: var(--bone); transition: transform .5s var(--ease-out), top .5s var(--ease-out); }
+    .burger i:nth-child(1) { top: 18px; } .burger i:nth-child(2) { top: 25px; }
+    .burger.is-open i:nth-child(1) { top: 21.5px; transform: rotate(45deg); }
+    .burger.is-open i:nth-child(2) { top: 21.5px; transform: rotate(-45deg); }
+
+    /* ================================================================
+       MEDIA (images) — grain, gold overlay, fallback
+       ================================================================ */
+    .media {
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(212, 175, 55, .22), transparent 55%),
+        radial-gradient(circle at 80% 90%, rgba(120, 82, 40, .35), transparent 60%),
+        linear-gradient(160deg, #1c1813, #0b0a08);
+    }
+    .media::before { /* fallback monogram if image fails */
+      content: 'M·B'; position: absolute; inset: 0; display: grid; place-items: center;
+      font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: .3em; color: rgba(197, 168, 128, .25);
+    }
+    .media img {
+      position: relative; width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: sepia(.28) saturate(.82) contrast(1.06) brightness(.82);
+      transition: filter .9s var(--ease-out);
+    }
+    .media .tone { /* gold–coffee overlay */
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(60, 40, 18, .05) 0%, rgba(40, 26, 10, .35) 60%, rgba(5, 5, 5, .75) 100%),
+                  linear-gradient(120deg, rgba(212, 175, 55, .16), rgba(90, 55, 25, .18));
+      mix-blend-mode: multiply;
+    }
+    .media::after { /* image grain */
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: var(--noise); opacity: .14; mix-blend-mode: overlay;
+    }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+    .hero-title {
+      font-family: 'Cinzel', serif; font-weight: 500;
+      font-size: clamp(2.7rem, 7.4vw, 8.4rem); line-height: .95; letter-spacing: -.01em;
+    }
+    .hero-title .ital { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; text-transform: none; }
+    .hero-sub { font-family: 'Playfair Display', serif; font-style: italic; letter-spacing: .32em; }
+
+    .hero-visual { perspective: 1200px; }
+    .hero-frame {
+      position: relative; width: 100%; aspect-ratio: 3 / 4.25;
+      border-radius: 999px 999px 28px 28px; /* arch cut */
+      transform-style: preserve-3d; will-change: transform;
+    }
+    .hero-frame .media { position: absolute; inset: 0; border-radius: inherit; }
+    .hero-frame .media img { transform: scale(1.18); }
+    .hero-outline {
+      position: absolute; inset: -16px; border-radius: 999px 999px 40px 40px;
+      border: 1px solid rgba(212, 175, 55, .45); pointer-events: none;
+      transform: translateZ(-40px);
+    }
+    .hero-outline.two { inset: auto; top: 12%; left: -14%; width: 52%; height: 64%; border-radius: 24px; border-color: rgba(197, 168, 128, .25); transform: translateZ(30px); }
+
+    .rotating-badge {
+      position: absolute; width: clamp(120px, 12vw, 170px); aspect-ratio: 1; left: -60px; bottom: 9%;
+      z-index: 5; transform: translateZ(80px);
+    }
+    .rotating-badge svg { width: 100%; height: 100%; animation: spin 22s linear infinite; }
+    .rotating-badge .core { position: absolute; inset: 31%; border-radius: 50%; background: rgba(5, 5, 5, .85); border: 1px solid rgba(212, 175, 55, .5); display: grid; place-items: center; color: var(--gold); backdrop-filter: blur(6px); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-line { position: absolute; background: linear-gradient(90deg, transparent, var(--gold), transparent); height: 1px; transform-origin: left; }
+    .hero-line.v { width: 1px; height: auto; background: linear-gradient(180deg, transparent, var(--gold), transparent); transform-origin: top; }
+
+    .scroll-ind { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 5; }
+    .scroll-ind .lbl { font-size: 10px; letter-spacing: .5em; writing-mode: vertical-rl; color: var(--champagne); animation: blink 2.4s ease-in-out infinite; }
+    .scroll-ind .track { width: 1px; height: 70px; background: rgba(197, 168, 128, .18); position: relative; overflow: hidden; }
+    .scroll-ind .track::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 40%; background: linear-gradient(180deg, transparent, var(--gold)); animation: drip 2s var(--ease) infinite; }
+    @keyframes blink { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+    @keyframes drip { 0% { transform: translateY(-100%); } 100% { transform: translateY(260%); } }
+
+    /* ================================================================
+       HORIZONTAL SERVICES
+       ================================================================ */
+    #services { position: relative; background: linear-gradient(180deg, var(--ink), var(--coal) 18%, var(--coal) 82%, var(--ink)); overflow: hidden; }
+    .h-track { display: flex; align-items: center; gap: clamp(28px, 3vw, 56px); height: 100vh; padding: 0 clamp(20px, 6vw, 96px); width: max-content; will-change: transform; }
+    .h-intro { width: min(560px, 80vw); flex-shrink: 0; }
+    .svc-card {
+      position: relative; flex-shrink: 0;
+      width: clamp(300px, 31vw, 500px); height: min(74vh, 700px);
+      border-radius: 28px; overflow: hidden; isolation: isolate;
+      background: #0a0907;
+    }
+    .svc-card:nth-child(odd) { margin-top: 8vh; }
+    .svc-card:nth-child(even) { margin-bottom: 8vh; border-radius: 160px 28px 28px 28px; }
+    .svc-card .media { position: absolute; inset: 0; }
+    .svc-card .media img { width: 125%; max-width: none; margin-left: -12.5%; transform: scale(1.05); transition: transform 1.4s var(--ease-out), filter .9s; }
+    .svc-card:hover .media img { filter: sepia(.15) saturate(.95) contrast(1.08) brightness(.7); }
+
+    /* shimmering gold border */
+    @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    .gold-border::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: 6; pointer-events: none;
+      background: conic-gradient(from var(--angle), rgba(212, 175, 55, .15) 0deg, rgba(212, 175, 55, .15) 200deg, #f4e2a8 250deg, var(--gold) 280deg, rgba(212, 175, 55, .15) 330deg);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: rotateBorder 6s linear infinite;
+    }
+    @keyframes rotateBorder { to { --angle: 360deg; } }
+
+    .svc-num {
+      position: absolute; top: 18px; right: 26px; z-index: 4;
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(5rem, 9vw, 9rem); line-height: 1;
+      background: linear-gradient(180deg, rgba(240, 220, 160, .95), rgba(197, 168, 128, .25));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      transition: transform 1s var(--ease-out);
+    }
+    .svc-card:hover .svc-num { transform: translateY(-8px) scale(1.04); }
+    .svc-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; padding: 30px; }
+    .svc-title { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 2.2vw, 2.3rem); line-height: 1.05; transition: transform .8s var(--ease-out); }
+    .svc-details {
+      display: grid; grid-template-rows: 0fr; opacity: 0; transform: translateY(30px);
+      transition: grid-template-rows .8s var(--ease-out), opacity .6s, transform .8s var(--ease-out);
+    }
+    .svc-details > div { overflow: hidden; }
+    .svc-card:hover .svc-details, .svc-card:focus-within .svc-details { grid-template-rows: 1fr; opacity: 1; transform: translateY(0); }
+    .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed rgba(197, 168, 128, .25); font-size: 13.5px; }
+    .price-row b { font-family: 'Playfair Display', serif; font-weight: 500; color: var(--gold); font-size: 15px; }
+    .svc-hint { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--champagne); transition: opacity .4s; }
+    .svc-card:hover .svc-hint { opacity: 0; }
+    @media (hover: none) { .svc-details { grid-template-rows: 1fr; opacity: 1; transform: none; } .svc-hint { display: none; } }
+
+    .h-progress { position: absolute; left: clamp(20px, 6vw, 96px); right: clamp(20px, 6vw, 96px); bottom: 36px; height: 1px; background: rgba(197, 168, 128, .15); }
+    .h-progress i { position: absolute; inset: 0; background: linear-gradient(90deg, var(--champagne), var(--gold)); transform-origin: left; transform: scaleX(0); }
+
+    /* Mobile fallback for horizontal: vertical stack */
+    @media (max-width: 767px) {
+      .h-track { flex-direction: column; height: auto; width: 100%; padding: 110px 20px 90px; gap: 28px; }
+      .h-intro { width: 100%; }
+      .svc-card { width: 100%; height: 560px; margin: 0 !important; }
+      .h-progress { display: none; }
+    }
+
+    /* ================================================================
+       GALLERY
+       ================================================================ */
+    .g-item { position: relative; }
+    .g-item .reveal { position: relative; overflow: hidden; border-radius: 22px; clip-path: inset(100% 0 0 0 round 22px); will-change: clip-path; }
+    .g-item .reveal .media { width: 100%; height: 100%; }
+    .g-item .reveal .shade { position: absolute; inset: 0; background: linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, .85) 100%); z-index: 3; pointer-events: none; }
+    .g-item .frame { position: absolute; inset: 14px; border: 1px solid rgba(212, 175, 55, .35); border-radius: 14px; z-index: 4; pointer-events: none; transition: inset .8s var(--ease-out), border-color .6s; }
+    .g-item:hover .frame { inset: 22px; border-color: rgba(212, 175, 55, .8); }
+    .g-item .reveal img { transform: scale(1.35); }
+    .g-cap { display: flex; justify-content: space-between; margin-top: 14px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+    .g-cap em { font-family: 'Playfair Display', serif; font-style: italic; letter-spacing: .04em; text-transform: none; font-size: 15px; color: var(--champagne); }
+    .g-item.arch .reveal { border-radius: 999px 999px 22px 22px; clip-path: inset(100% 0 0 0 round 999px 999px 22px 22px); }
+    .g-item.arch .frame { border-radius: 999px 999px 14px 14px; }
+    .g-item.cut .reveal { border-radius: 22px 22px 22px 140px; clip-path: inset(100% 0 0 0 round 22px 22px 22px 140px); }
+    .g-item.cut .frame { border-radius: 14px 14px 14px 130px; }
+
+    .stat-num { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 4.6vw, 4.6rem); line-height: 1; }
+
+    /* ================================================================
+       TESTIMONIALS
+       ================================================================ */
+    #testimonials { position: relative; overflow: hidden; }
+    .marquee { position: absolute; left: 0; width: 100%; white-space: nowrap; pointer-events: none; user-select: none; }
+    .marquee .row { display: inline-flex; will-change: transform; }
+    .marquee .row span {
+      font-family: 'Cinzel', serif; font-weight: 600; font-size: clamp(5rem, 13vw, 14rem); line-height: 1; padding-right: .35em;
+      color: transparent; -webkit-text-stroke: 1px rgba(212, 175, 55, .16);
+    }
+    .marquee .row span.fill { color: rgba(212, 175, 55, .045); -webkit-text-stroke: 0; }
+
+    .t-stage { position: relative; min-height: 360px; }
+    .t-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+    .t-slide.is-active { position: relative; opacity: 1; visibility: visible; }
+    .t-quote { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.6vw, 2.5rem); line-height: 1.4; font-weight: 400; }
+    .t-quote .word { display: inline-block; }
+    .quote-mark { font-family: 'Playfair Display', serif; font-size: clamp(7rem, 14vw, 12rem); line-height: .6; height: .45em; display: block; }
+    .stars i { color: var(--gold); font-size: 13px; margin-right: 4px; }
+    .t-avatar { width: 56px; height: 56px; border-radius: 50%; border: 1px solid rgba(212, 175, 55, .6); padding: 3px; }
+    .t-avatar > div { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; font-family: 'Cinzel', serif; color: var(--ink); background: linear-gradient(135deg, #f0dca2, var(--gold) 50%, #8f6f32); }
+    .t-nav { width: 62px; height: 62px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--bone); transition: background .5s var(--ease-out), color .4s, border-color .4s; }
+    .t-nav:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    .t-dots button { width: 28px; height: 2px; background: rgba(197, 168, 128, .25); position: relative; overflow: hidden; }
+    .t-dots button i { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+    .t-dots button.is-active i { animation: fillDot var(--t-dur, 7s) linear forwards; }
+    .t-dots button.done i { transform: scaleX(1); }
+    @keyframes fillDot { to { transform: scaleX(1); } }
+
+    /* ================================================================
+       FOOTER / FORM
+       ================================================================ */
+    .field { position: relative; padding-top: 22px; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: transparent; border: 0; outline: none; color: var(--bone);
+      font-size: 16px; padding: 10px 0 12px; font-family: inherit; resize: none;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    .field select option { background: var(--coal); color: var(--bone); }
+    .field label {
+      position: absolute; left: 0; top: 32px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+      transition: top .5s var(--ease-out), font-size .5s var(--ease-out), color .4s; pointer-events: none;
+    }
+    .field input:focus ~ label, .field input:not(:placeholder-shown) ~ label,
+    .field textarea:focus ~ label, .field textarea:not(:placeholder-shown) ~ label,
+    .field select ~ label { top: 4px; font-size: 10px; color: var(--champagne); }
+    .field .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: rgba(237, 230, 217, .18); }
+    .field .bar::after {
+      content: ''; position: absolute; left: 50%; right: 50%; top: -.5px; height: 2px;
+      background: linear-gradient(90deg, var(--champagne), var(--gold), var(--champagne));
+      transition: left .7s var(--ease-out), right .7s var(--ease-out); box-shadow: 0 0 12px rgba(212, 175, 55, .6);
+    }
+    .field input:focus ~ .bar::after, .field textarea:focus ~ .bar::after, .field select:focus ~ .bar::after { left: 0; right: 0; }
+    .field .caret { position: absolute; right: 0; bottom: 16px; color: var(--champagne); font-size: 11px; pointer-events: none; }
+
+    .social { width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--bone); transition: background .5s var(--ease-out), color .4s, border-color .4s; }
+    .social:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+    .mega {
+      font-family: 'Cinzel', serif; font-weight: 600; line-height: .78; letter-spacing: -.02em;
+      font-size: clamp(5rem, 22.5vw, 26rem); text-align: center; white-space: nowrap; color: var(--champagne);
+    }
+    .mega .char {
+      display: inline-block; line-height: .9;
+      background: linear-gradient(180deg, rgba(240, 222, 170, .95) 0%, rgba(197, 168, 128, .55) 45%, rgba(197, 168, 128, 0) 92%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .hours-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(197, 168, 128, .12); font-size: 14px; }
+    .hours-row span:last-child { color: var(--champagne); font-family: 'Playfair Display', serif; font-style: italic; }
+
+    .section-title { font-family: 'Cinzel', serif; font-weight: 500; font-size: clamp(2.4rem, 5.6vw, 5.6rem); line-height: 1; }
+    .section-title em { font-family: 'Playfair Display', serif; font-weight: 400; text-transform: none; }
+
+    .hairline { height: 1px; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, .4), transparent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .grain-layer, .gold-border::before, .rotating-badge svg, .btn-lux { animation: none !important; }
+    }
+  </style>
+</head>
+
+<body class="is-loading">
+
+  <!-- Film grain overlay -->
+  <div class="grain-layer" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true"><span>Keşfet</span></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       1. PRELOADER
+       ============================================================ -->
+  <div id="preloader" aria-hidden="true">
+    <div class="pl-sub mb-8 eyebrow"><span>AURA SALON — EST. 2026</span></div>
+    <h2 class="pl-title" data-split-chars>MAISON DE BEAUTÉ</h2>
+    <div class="pl-line mt-10"><i></i></div>
+    <div class="pl-sub mt-6 font-play italic text-sand text-sm tracking-[.3em]"><span>l'art de la beauté</span></div>
+    <div class="pl-corner eyebrow hidden sm:block">YÜKLENİYOR · LOADING</div>
+    <div class="pl-count"><span id="plCount">0</span><span class="text-[.35em] align-top ml-1">%</span></div>
+  </div>
+
+  <!-- ============================================================
+       2. NAVBAR
+       ============================================================ -->
+  <header id="nav">
+    <nav class="flex items-center justify-between gap-6">
+      <a href="#top" class="logo magnetic flex items-center gap-3" data-scroll-to data-cursor="hover" aria-label="Maison de Beauté ana sayfa">
+        <span class="w-10 h-10 rounded-full border border-gold/60 grid place-items-center font-cinzel text-gold text-sm">M</span>
+        <span class="leading-none">
+          <span class="block font-cinzel text-[15px] tracking-[.32em] text-bone">MAISON</span>
+          <span class="block font-play italic text-[11px] tracking-[.34em] text-champagne mt-1">de Beauté</span>
+        </span>
+      </a>
+
+      <ul class="hidden lg:flex items-center gap-12">
+        <li><a class="nav-link" href="#services" data-scroll-to>Hizmetler</a></li>
+        <li><a class="nav-link" href="#gallery" data-scroll-to>Galeri</a></li>
+        <li><a class="nav-link" href="#team" data-scroll-to>Ekibimiz</a></li>
+        <li><a class="nav-link" href="#contact" data-scroll-to>İletişim</a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <a href="#contact" data-scroll-to class="btn-lux magnetic hidden sm:inline-flex" data-cursor="hover">
+          <span class="btn-label"><span>Randevu Al</span><span>BOOK NOW</span></span>
+          <i class="fa-solid fa-arrow-right-long text-[12px]"></i>
+        </a>
+        <button class="burger lg:hidden" id="burger" aria-label="Menüyü aç" aria-expanded="false"><i></i><i></i></button>
+      </div>
+    </nav>
+  </header>
+
+  <div id="menu" aria-hidden="true">
+    <p class="eyebrow mb-8">Menü</p>
+    <a class="m-link" href="#services" data-scroll-to>Hizmetler</a>
+    <a class="m-link" href="#gallery" data-scroll-to>Galeri</a>
+    <a class="m-link" href="#team" data-scroll-to>Ekibimiz</a>
+    <a class="m-link" href="#contact" data-scroll-to>İletişim</a>
+    <a href="#contact" data-scroll-to class="btn-lux mt-12 self-start"><span class="btn-label"><span>Randevu Al</span><span>BOOK NOW</span></span></a>
+  </div>
+
+  <main id="top">
+
+    <!-- ============================================================
+         3. HERO
+         ============================================================ -->
+    <section id="hero" class="relative min-h-screen overflow-hidden flex items-center pt-28 pb-24 px-5 sm:px-10 lg:px-14">
+      <!-- ambient glows -->
+      <div class="absolute -top-40 -left-40 w-[640px] h-[640px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(212,175,55,.10), transparent 65%);"></div>
+      <div class="absolute bottom-0 right-0 w-[720px] h-[720px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(140,95,45,.14), transparent 60%);"></div>
+
+      <div class="relative w-full max-w-[1600px] mx-auto grid lg:grid-cols-12 gap-14 lg:gap-8 items-center">
+        <!-- Left -->
+        <div class="lg:col-span-7 relative z-10">
+          <div class="flex items-center gap-4 mb-8 hero-fade">
+            <span class="w-12 h-px bg-gold/70"></span>
+            <span class="eyebrow">MAISON DE BEAUTÉ · AURA SALON</span>
+          </div>
+
+          <h1 class="hero-title uppercase">
+            <span class="mask"><span class="inner hero-word">Kendini</span></span><br />
+            <span class="mask"><span class="inner hero-word ital gold-text">yeniden</span></span>
+            <span class="mask"><span class="inner hero-word">Tanımla</span></span>
+          </h1>
+
+          <p class="hero-sub mt-7 text-[11px] sm:text-sm text-champagne uppercase">
+            <span class="mask"><span class="inner hero-word">REDEFINE</span></span>
+            <span class="mask"><span class="inner hero-word">your</span></span>
+            <span class="mask"><span class="inner hero-word">AESTHETIC</span></span>
+          </p>
+
+          <div class="mt-12 flex flex-col sm:flex-row sm:items-end gap-10 sm:gap-16">
+            <p class="hero-fade max-w-sm text-[15px] leading-relaxed text-bone/70">
+              Paris atölyelerinin zarafetini İstanbul'un ritmiyle buluşturuyoruz. Her kesim bir imza, her dokunuş bir ritüel — size özel, zamansız bir güzellik.
+            </p>
+            <a href="#services" data-scroll-to class="btn-ghost magnetic hero-fade shrink-0" data-cursor="hover">
+              <span>Hizmetlerimizi<br />Keşfet</span>
+              <span class="arrow-ring"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+          </div>
+
+          <div class="hero-fade mt-14 flex items-center gap-8 text-[11px] tracking-[.3em] uppercase text-bone/50">
+            <span><b class="font-play italic text-gold text-lg normal-case tracking-normal mr-2">4.9</b>Google</span>
+            <span class="w-px h-5 bg-champagne/30"></span>
+            <span><b class="font-play italic text-gold text-lg normal-case tracking-normal mr-2">12k+</b>Misafir</span>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="lg:col-span-5 hero-visual relative flex justify-center lg:justify-end">
+          <div class="relative w-[78%] sm:w-[62%] lg:w-[86%] max-w-[520px]" id="heroVisualWrap">
+            <span class="hero-line" style="width: 70%; top: 6%; right: -12%;"></span>
+            <span class="hero-line v" style="height: 60%; top: 30%; right: -8%;"></span>
+            <span class="hero-line" style="width: 40%; bottom: -5%; left: -18%;"></span>
+
+            <div class="hero-frame" id="heroFrame">
+              <div class="hero-outline"></div>
+              <div class="hero-outline two"></div>
+              <div class="media hero-media">
+                <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1100&q=80" alt="Salonda saç tasarımı yapılan bir müşteri" onerror="this.style.opacity=0" />
+                <div class="tone"></div>
+              </div>
+              <div class="rotating-badge">
+                <svg viewBox="0 0 200 200" aria-hidden="true">
+                  <defs><path id="circlePath" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
+                  <circle cx="100" cy="100" r="96" fill="rgba(5,5,5,.55)" stroke="rgba(212,175,55,.35)" stroke-width="1" />
+                  <text fill="#D4AF37" font-family="Cinzel, serif" font-size="13">
+                    <textPath href="#circlePath" textLength="486" lengthAdjust="spacing">EST. 2026 • LUXURY EXPERIENCE • MAISON •</textPath>
+                  </text>
+                </svg>
+                <div class="core"><i class="fa-solid fa-star-of-life text-sm"></i></div>
+              </div>
+            </div>
+
+            <div class="hero-fade absolute -right-2 sm:-right-6 top-[58%] bg-ink/70 backdrop-blur-md border border-champagne/25 rounded-2xl px-5 py-4" style="transform: translateZ(60px);">
+              <p class="eyebrow !text-[9px]">SIGNATURE RITUAL</p>
+              <p class="font-play italic text-lg text-bone mt-1">Golden Silk Hair</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-ind" aria-hidden="true">
+        <span class="lbl">SCROLL</span>
+        <span class="track"></span>
+      </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="relative px-5 sm:px-10 lg:px-14 py-28 lg:py-40">
+      <div class="max-w-6xl mx-auto">
+        <p class="eyebrow mb-10 reveal-up">— Manifesto</p>
+        <p class="manifesto font-play text-[clamp(1.7rem,3.8vw,3.6rem)] leading-[1.25] text-bone">
+          Güzellik bir trend değil, bir <em class="text-gold">duruştur</em>. Maison de Beauté'de her detayı ölçüyor, her tonu yeniden düşünüyor ve sizi yalnızca
+          <em class="text-champagne">daha güzel</em> değil, daha <em class="text-gold">siz</em> hissettiren bir deneyim tasarlıyoruz.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. HORIZONTAL SERVICES
+         ============================================================ -->
+    <section id="services">
+      <div class="h-track" id="hTrack">
+        <div class="h-intro pr-6">
+          <p class="eyebrow mb-8">(04) Hizmetlerimiz — SERVICES</p>
+          <h2 class="section-title uppercase">Ritüellerin<br /><em class="gold-text">sanatı</em></h2>
+          <p class="mt-8 text-bone/65 leading-relaxed max-w-md">Her hizmet, uzman ekibimizin elinde kişiye özel bir koreografiye dönüşür. Kaydırın ve deneyimi keşfedin.</p>
+          <div class="mt-10 flex items-center gap-4 text-champagne text-xs tracking-[.3em] uppercase">
+            <span class="w-16 h-px bg-champagne/50"></span> Kaydır <i class="fa-solid fa-arrow-right-long"></i>
+          </div>
+        </div>
+
+        <!-- 01 -->
+        <article class="svc-card gold-border" data-cursor-label="Detay" tabindex="0">
+          <div class="media"><img class="svc-img" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=80" alt="Saç tasarımı" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+          <span class="svc-num">01</span>
+          <div class="svc-body">
+            <p class="eyebrow mb-3">COIFFURE</p>
+            <h3 class="svc-title">HAIR<br />DESIGN</h3>
+            <p class="svc-hint mt-4">Detaylar için üzerine gelin ↑</p>
+            <div class="svc-details"><div>
+              <p class="text-sm text-bone/70 leading-relaxed mt-5 mb-3">Yüz hatlarınıza göre mimari kesimler, balayage ve kişiye özel renk formülleri.</p>
+              <div class="price-row"><span>Signature Kesim & Fön</span><b>₺2.400</b></div>
+              <div class="price-row"><span>Balayage / Airtouch</span><b>₺6.800</b></div>
+              <div class="price-row"><span>Keratin Silk Bakım</span><b>₺4.200</b></div>
+            </div></div>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="svc-card gold-border" data-cursor-label="Detay" tabindex="0">
+          <div class="media"><img class="svc-img" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=80" alt="Yüz estetiği" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+          <span class="svc-num">02</span>
+          <div class="svc-body">
+            <p class="eyebrow mb-3">VISAGE</p>
+            <h3 class="svc-title">FACIAL<br />AESTHETICS</h3>
+            <p class="svc-hint mt-4">Detaylar için üzerine gelin ↑</p>
+            <div class="svc-details"><div>
+              <p class="text-sm text-bone/70 leading-relaxed mt-5 mb-3">Medikal cilt analizi eşliğinde hydrafacial, altın maske ve yaşlanma karşıtı protokoller.</p>
+              <div class="price-row"><span>24K Gold Facial</span><b>₺3.600</b></div>
+              <div class="price-row"><span>HydraGlow Ritüeli</span><b>₺2.900</b></div>
+              <div class="price-row"><span>Lifting & Sculpt</span><b>₺4.500</b></div>
+            </div></div>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="svc-card gold-border" data-cursor-label="Detay" tabindex="0">
+          <div class="media"><img class="svc-img" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1000&q=80" alt="Spa ve wellness" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+          <span class="svc-num">03</span>
+          <div class="svc-body">
+            <p class="eyebrow mb-3">BIEN-ÊTRE</p>
+            <h3 class="svc-title">SPA &amp;<br />WELLNESS</h3>
+            <p class="svc-hint mt-4">Detaylar için üzerine gelin ↑</p>
+            <div class="svc-details"><div>
+              <p class="text-sm text-bone/70 leading-relaxed mt-5 mb-3">Sıcak taş, aromaterapi ve özel hamam seremonisiyle bedeni ve zihni dinlendiren ritüeller.</p>
+              <div class="price-row"><span>Aroma Massage · 60'</span><b>₺2.700</b></div>
+              <div class="price-row"><span>Hot Stone · 90'</span><b>₺3.900</b></div>
+              <div class="price-row"><span>Royal Hamam Seremonisi</span><b>₺5.200</b></div>
+            </div></div>
+          </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="svc-card gold-border" data-cursor-label="Detay" tabindex="0">
+          <div class="media"><img class="svc-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80" alt="Gelin ve özel gün hazırlığı" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+          <span class="svc-num">04</span>
+          <div class="svc-body">
+            <p class="eyebrow mb-3">MARIÉE</p>
+            <h3 class="svc-title">BRIDAL &amp;<br />SPECIAL</h3>
+            <p class="svc-hint mt-4">Detaylar için üzerine gelin ↑</p>
+            <div class="svc-details"><div>
+              <p class="text-sm text-bone/70 leading-relaxed mt-5 mb-3">Prova, saç, makyaj ve gün boyu eşlik — hayatınızın en özel gününe kusursuz imza.</p>
+              <div class="price-row"><span>Gelin Paketi (Prova dahil)</span><b>₺18.000</b></div>
+              <div class="price-row"><span>Nişan / Kına Hazırlığı</span><b>₺9.500</b></div>
+              <div class="price-row"><span>Gala Makyajı</span><b>₺3.800</b></div>
+            </div></div>
+          </div>
+        </article>
+
+        <div class="flex-shrink-0 w-[70vw] md:w-[34vw] flex flex-col justify-center items-start pl-4 md:pl-10">
+          <p class="font-play italic text-3xl md:text-5xl text-bone/90 leading-tight">Size özel bir<br />ritüel <span class="gold-text">tasarlayalım.</span></p>
+          <a href="#contact" data-scroll-to class="btn-lux magnetic mt-10" data-cursor="hover"><span class="btn-label"><span>Randevu Al</span><span>BOOK NOW</span></span><i class="fa-solid fa-arrow-right-long text-[12px]"></i></a>
+        </div>
+      </div>
+      <div class="h-progress"><i id="hProgress"></i></div>
+    </section>
+
+    <!-- ============================================================
+         5. GALLERY & PRESTIGE
+         ============================================================ -->
+    <section id="gallery" class="relative px-5 sm:px-10 lg:px-14 py-28 lg:py-44">
+      <div class="max-w-[1500px] mx-auto">
+        <div class="grid lg:grid-cols-12 gap-10 items-end mb-20 lg:mb-28">
+          <div class="lg:col-span-7">
+            <p class="eyebrow mb-8 reveal-up">(05) Galeri & Prestij</p>
+            <h2 class="section-title uppercase" data-split-words>Zamansız <em class="gold-text">eserler</em></h2>
+          </div>
+          <p class="lg:col-span-4 lg:col-start-9 text-bone/65 leading-relaxed reveal-up">Her misafirimiz bir tuval, her sonuç imzalı bir eser. Atölyemizden seçilmiş anlar — ışığın, dokunun ve zarafetin buluştuğu yerde.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-12 gap-x-5 md:gap-x-8 gap-y-14 md:gap-y-0">
+          <figure class="g-item arch col-span-2 md:col-span-4" data-speed="-0.12" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[3/4.2]"><div class="media"><img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80" alt="Makyaj portresi" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 01 — VISAGE</span><em>Lumière</em></figcaption>
+          </figure>
+
+          <figure class="g-item col-span-1 md:col-span-3 md:mt-48" data-speed="0.18" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[3/4]"><div class="media"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=800&q=80" alt="Saç bakımı" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 02</span><em>Soie</em></figcaption>
+          </figure>
+
+          <figure class="g-item cut col-span-1 md:col-span-4 md:col-start-9 md:mt-20" data-speed="-0.06" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[4/5]"><div class="media"><img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=900&q=80" alt="Salon iç mekanı" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 03 — ATELIER</span><em>Maison</em></figcaption>
+          </figure>
+
+          <figure class="g-item col-span-2 md:col-span-6 md:col-start-2 md:mt-28" data-speed="0.08" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[16/10]"><div class="media"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1400&q=80" alt="Salon atmosferi" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 04 — THE SALON</span><em>Héritage</em></figcaption>
+          </figure>
+
+          <figure class="g-item arch col-span-1 md:col-span-3 md:col-start-9 md:-mt-10" data-speed="-0.2" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[3/4.4]"><div class="media"><img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&q=80" alt="Makyaj sanatı" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 05</span><em>Éclat</em></figcaption>
+          </figure>
+
+          <figure class="g-item cut col-span-1 md:col-span-4 md:col-start-4 md:mt-24" data-speed="0.14" data-cursor-label="Görüntüle">
+            <div class="reveal aspect-[4/5]"><div class="media"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80" alt="Spa ritüeli" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div><div class="shade"></div><div class="frame"></div></div>
+            <figcaption class="g-cap"><span>N° 06 — SPA</span><em>Sérénité</em></figcaption>
+          </figure>
+        </div>
+
+        <!-- Stats -->
+        <div class="mt-32 lg:mt-44 grid grid-cols-2 lg:grid-cols-4 gap-y-14 border-t border-champagne/15 pt-14">
+          <div class="reveal-up"><p class="stat-num gold-text" data-count="12">0</p><p class="eyebrow mt-4">Yıllık Ustalık</p></div>
+          <div class="reveal-up"><p class="stat-num gold-text"><span data-count="12">0</span>k+</p><p class="eyebrow mt-4">Mutlu Misafir</p></div>
+          <div class="reveal-up"><p class="stat-num gold-text" data-count="18">0</p><p class="eyebrow mt-4">Uzman Sanatçı</p></div>
+          <div class="reveal-up"><p class="stat-num gold-text" data-count="7">0</p><p class="eyebrow mt-4">Uluslararası Ödül</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team" class="relative px-5 sm:px-10 lg:px-14 pb-28 lg:pb-40">
+      <div class="max-w-[1500px] mx-auto">
+        <div class="hairline mb-20"></div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div>
+            <p class="eyebrow mb-6 reveal-up">Ekibimiz — THE ARTISANS</p>
+            <h2 class="section-title uppercase" data-split-words>Ustaların <em class="gold-text">imzası</em></h2>
+          </div>
+          <p class="max-w-sm text-bone/60 reveal-up">Paris, Milano ve Londra'da eğitim almış sanat yönetmenlerimizle tanışın.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="team-card group reveal-up" data-cursor="hover">
+            <div class="media rounded-[999px_999px_20px_20px] aspect-[3/4] border border-champagne/20"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=700&q=80" alt="Selin Aksoy" class="group-hover:scale-105 transition-transform duration-1000" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+            <p class="font-cinzel text-xl mt-6">Selin Aksoy</p><p class="font-play italic text-champagne">Kreatif Direktör · Hair</p>
+          </div>
+          <div class="team-card group reveal-up lg:mt-16" data-cursor="hover">
+            <div class="media rounded-[20px] aspect-[3/4] border border-champagne/20"><img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=700&q=80" alt="Deniz Arman" class="group-hover:scale-105 transition-transform duration-1000" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+            <p class="font-cinzel text-xl mt-6">Deniz Arman</p><p class="font-play italic text-champagne">Colorist · Balayage</p>
+          </div>
+          <div class="team-card group reveal-up" data-cursor="hover">
+            <div class="media rounded-[999px_999px_20px_20px] aspect-[3/4] border border-champagne/20"><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=80" alt="Mira Lefèvre" class="group-hover:scale-105 transition-transform duration-1000" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+            <p class="font-cinzel text-xl mt-6">Mira Lefèvre</p><p class="font-play italic text-champagne">Cilt Uzmanı · Facial</p>
+          </div>
+          <div class="team-card group reveal-up lg:mt-16" data-cursor="hover">
+            <div class="media rounded-[20px_20px_20px_120px] aspect-[3/4] border border-champagne/20"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80" alt="Ece Tunalı" class="group-hover:scale-105 transition-transform duration-1000" onerror="this.style.opacity=0" loading="lazy" /><div class="tone"></div></div>
+            <p class="font-cinzel text-xl mt-6">Ece Tunalı</p><p class="font-play italic text-champagne">Bridal Makyaj Sanatçısı</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. TESTIMONIALS
+         ============================================================ -->
+    <section id="testimonials" class="relative py-32 lg:py-48 bg-coal">
+      <div class="marquee" style="top: 8%;" aria-hidden="true">
+        <div class="row" data-dir="-1">
+          <span>PRESTIGE •</span><span class="fill">BEAUTY •</span><span>EXPERIENCE •</span><span class="fill">LUXURY •</span>
+          <span>PRESTIGE •</span><span class="fill">BEAUTY •</span><span>EXPERIENCE •</span><span class="fill">LUXURY •</span>
+        </div>
+      </div>
+      <div class="marquee" style="bottom: 6%;" aria-hidden="true">
+        <div class="row" data-dir="1">
+          <span class="fill">LUXURY •</span><span>EXPERIENCE •</span><span class="fill">BEAUTY •</span><span>PRESTIGE •</span>
+          <span class="fill">LUXURY •</span><span>EXPERIENCE •</span><span class="fill">BEAUTY •</span><span>PRESTIGE •</span>
+        </div>
+      </div>
+
+      <div class="relative z-10 max-w-5xl mx-auto px-5 sm:px-10">
+        <div class="flex items-center justify-between mb-12">
+          <p class="eyebrow">(06) Müşterilerimizin Deneyimleri</p>
+          <p class="font-play italic text-champagne text-lg"><span id="tIndex">01</span> <span class="text-bone/30">/ 04</span></p>
+        </div>
+
+        <span class="quote-mark gold-text" aria-hidden="true">“</span>
+
+        <div class="t-stage" id="tStage" aria-live="polite">
+          <div class="t-slide is-active">
+            <div class="stars mb-8"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="t-quote">Salona adım attığım an zamanın yavaşladığını hissettim. Saçım hiç bu kadar canlı, bu kadar ‘ben’ olmamıştı. Burası bir salon değil, bir sanat galerisi.</p>
+            <div class="flex items-center gap-4 mt-12"><div class="t-avatar"><div>A</div></div><div><p class="font-cinzel tracking-widest">Ayşe Demirtaş</p><p class="text-xs tracking-[.25em] uppercase text-bone/50 mt-1">HAIR DESIGN · İSTANBUL</p></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="stars mb-8"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="t-quote">Düğün günümde Ece Hanım ve ekibi bir orkestra gibi çalıştı. Fotoğraflara her baktığımda o günkü ışıltıyı yeniden yaşıyorum.</p>
+            <div class="flex items-center gap-4 mt-12"><div class="t-avatar"><div>Z</div></div><div><p class="font-cinzel tracking-widest">Zeynep Kalkan</p><p class="text-xs tracking-[.25em] uppercase text-bone/50 mt-1">BRIDAL · BODRUM</p></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="stars mb-8"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="t-quote">24K Gold Facial sonrası cildim adeta ışık yayıyor. Detaylara gösterilen özen, Paris'teki en iyi enstitülerle yarışır seviyede.</p>
+            <div class="flex items-center gap-4 mt-12"><div class="t-avatar"><div>C</div></div><div><p class="font-cinzel tracking-widest">Camille Durand</p><p class="text-xs tracking-[.25em] uppercase text-bone/50 mt-1">FACIAL AESTHETICS · PARIS</p></div></div>
+          </div>
+          <div class="t-slide">
+            <div class="stars mb-8"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p class="t-quote">Royal Hamam seremonisi tam anlamıyla bir yeniden doğuştu. Müzikten kokuya kadar her şey kusursuz kurgulanmış.</p>
+            <div class="flex items-center gap-4 mt-12"><div class="t-avatar"><div>L</div></div><div><p class="font-cinzel tracking-widest">Leyla Öztürk</p><p class="text-xs tracking-[.25em] uppercase text-bone/50 mt-1">SPA & WELLNESS · İZMİR</p></div></div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-16">
+          <div class="t-dots flex gap-3" id="tDots"></div>
+          <div class="flex gap-4">
+            <button class="t-nav magnetic" id="tPrev" aria-label="Önceki yorum" data-cursor="hover"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="t-nav magnetic" id="tNext" aria-label="Sonraki yorum" data-cursor="hover"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       7. FOOTER
+       ============================================================ -->
+  <footer id="contact" class="relative overflow-hidden pt-28 lg:pt-40 px-5 sm:px-10 lg:px-14">
+    <div class="absolute inset-x-0 top-0 h-[60%] pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(212,175,55,.08), transparent 70%);"></div>
+
+    <div class="relative max-w-[1500px] mx-auto">
+      <div class="mb-20">
+        <p class="eyebrow mb-6 reveal-up">(07) Randevu & İletişim</p>
+        <h2 class="section-title uppercase" data-split-words>Sizi <em class="gold-text">bekliyoruz</em></h2>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-16 lg:gap-10">
+        <!-- Form -->
+        <form class="lg:col-span-7 grid sm:grid-cols-2 gap-x-10 gap-y-8 reveal-up" id="bookingForm" novalidate>
+          <div class="field">
+            <input id="fName" name="name" type="text" placeholder=" " required autocomplete="name" />
+            <label for="fName">Ad Soyad</label><span class="bar"></span>
+          </div>
+          <div class="field">
+            <input id="fPhone" name="phone" type="tel" placeholder=" " required autocomplete="tel" />
+            <label for="fPhone">Telefon</label><span class="bar"></span>
+          </div>
+          <div class="field">
+            <input id="fMail" name="email" type="email" placeholder=" " autocomplete="email" />
+            <label for="fMail">E-posta</label><span class="bar"></span>
+          </div>
+          <div class="field">
+            <select id="fService" name="service">
+              <option>Hair Design</option>
+              <option>Facial Aesthetics</option>
+              <option>Spa &amp; Wellness</option>
+              <option>Bridal &amp; Special</option>
+            </select>
+            <label for="fService">Hizmet</label><span class="bar"></span><i class="fa-solid fa-chevron-down caret"></i>
+          </div>
+          <div class="field sm:col-span-2">
+            <textarea id="fMsg" name="message" rows="3" placeholder=" "></textarea>
+            <label for="fMsg">Notunuz / Tercih ettiğiniz tarih</label><span class="bar"></span>
+          </div>
+          <div class="sm:col-span-2 flex flex-wrap items-center justify-between gap-6 mt-4">
+            <p class="text-xs text-bone/45 max-w-xs leading-relaxed">Ekibimiz 2 saat içinde sizinle iletişime geçerek randevunuzu onaylayacaktır.</p>
+            <button type="submit" class="btn-lux magnetic" data-cursor="hover" id="submitBtn">
+              <span class="btn-label"><span>Randevu Talep Et</span><span>REQUEST</span></span>
+              <i class="fa-solid fa-arrow-right-long text-[12px]"></i>
+            </button>
+          </div>
+          <p id="formMsg" class="sm:col-span-2 font-play italic text-champagne text-lg h-6"></p>
+        </form>
+
+        <!-- Info -->
+        <div class="lg:col-span-4 lg:col-start-9 space-y-14 reveal-up">
+          <div>
+            <p class="eyebrow mb-4">Çalışma Saatleri</p>
+            <div class="hours-row"><span>Pazartesi — Cuma</span><span>10:00 – 21:00</span></div>
+            <div class="hours-row"><span>Cumartesi</span><span>09:00 – 22:00</span></div>
+            <div class="hours-row"><span>Pazar</span><span>Özel Randevu</span></div>
+          </div>
+          <div>
+            <p class="eyebrow mb-4">Adres</p>
+            <p class="font-play text-xl leading-relaxed text-bone/90">Abdi İpekçi Cad. No: 26<br />Nişantaşı, İstanbul</p>
+            <a href="tel:+902120000000" class="nav-link inline-block mt-5 !tracking-[.2em]">+90 (212) 000 00 00</a><br />
+            <a href="mailto:bonjour@maisondebeaute.com" class="nav-link inline-block mt-2 !tracking-[.12em] !normal-case">bonjour@maisondebeaute.com</a>
+          </div>
+          <div>
+            <p class="eyebrow mb-5">Takip Edin</p>
+            <div class="flex gap-3">
+              <a href="#" class="social magnetic" aria-label="Instagram" data-cursor="hover"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="social magnetic" aria-label="Pinterest" data-cursor="hover"><i class="fa-brands fa-pinterest-p"></i></a>
+              <a href="#" class="social magnetic" aria-label="TikTok" data-cursor="hover"><i class="fa-brands fa-tiktok"></i></a>
+              <a href="#" class="social magnetic" aria-label="WhatsApp" data-cursor="hover"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative mt-28 lg:mt-40 -mx-5 sm:-mx-10 lg:-mx-14 overflow-hidden">
+      <h2 class="mega" id="mega" aria-label="Maison">MAISON</h2>
+    </div>
+
+    <div class="relative max-w-[1500px] mx-auto border-t border-champagne/15 py-8 flex flex-col md:flex-row gap-4 items-center justify-between text-[11px] tracking-[.28em] uppercase text-bone/45">
+      <span>© 2026 MAISON DE BEAUTÉ — AURA SALON</span>
+      <span class="text-champagne">AWWWARDS 2026 — DESIGNED FOR EXCELLENCE</span>
+      <a href="#top" data-scroll-to class="nav-link !text-[11px]" data-cursor="hover">Başa Dön ↑</a>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS: GSAP (TweenMax core is part of GSAP 3) + ScrollTrigger + Lenis
+       ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const $ = (s, c = document) => c.querySelector(s);
+    const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Graceful fallback if CDNs fail
+    if (typeof gsap === 'undefined') {
+      $('#preloader')?.remove();
+      document.body.classList.remove('is-loading');
+      $$('.g-item .reveal').forEach(el => el.style.clipPath = 'none');
+      $$('.g-item .shade').forEach(el => el.remove());
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ---------------------------------------------------------------
+       Helpers: split text into chars / words wrapped in masks
+       --------------------------------------------------------------- */
+    function splitChars(el) {
+      const text = el.textContent;
+      el.innerHTML = '';
+      el.setAttribute('aria-label', text);
+      [...text].forEach(ch => {
+        const m = document.createElement('span');
+        m.className = 'mask';
+        m.setAttribute('aria-hidden', 'true');
+        const c = document.createElement('span');
+        c.className = 'char inner';
+        c.innerHTML = ch === ' ' ? '&nbsp;' : ch;
+        m.appendChild(c);
+        el.appendChild(m);
+      });
+      return $$('.char', el);
+    }
+
+    function splitWords(el) {
+      // keeps inline elements (em) intact by splitting text nodes
+      const words = [];
+      const walk = (node) => {
+        [...node.childNodes].forEach(n => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(part => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+              const m = document.createElement('span'); m.className = 'mask';
+              const w = document.createElement('span'); w.className = 'inner word'; w.textContent = part;
+              m.appendChild(w); frag.appendChild(m); words.push(w);
+            });
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+            walk(n);
+          }
+        });
+      };
+      walk(el);
+      return words;
+    }
+
+    /* ---------------------------------------------------------------
+       Lenis smooth scroll synced with GSAP ticker
+       --------------------------------------------------------------- */
+    let lenis = null;
+    if (typeof Lenis !== 'undefined' && !reduceMotion) {
+      lenis = new Lenis({ duration: 1.25, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.95 });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+      lenis.stop();
+    }
+
+    const scrollToTarget = (target) => {
+      const el = typeof target === 'string' ? $(target) : target;
+      if (!el) return;
+      if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.8 });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    $$('[data-scroll-to]').forEach(a => a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      closeMenu();
+      scrollToTarget(href === '#top' ? document.body : href);
+    }));
+
+    /* ---------------------------------------------------------------
+       Mobile menu
+       --------------------------------------------------------------- */
+    const burger = $('#burger'), menu = $('#menu');
+    function closeMenu() {
+      if (!menu.classList.contains('is-open')) return;
+      menu.classList.remove('is-open'); burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false'); menu.setAttribute('aria-hidden', 'true');
+      lenis?.start();
+    }
+    burger.addEventListener('click', () => {
+      const open = !menu.classList.contains('is-open');
+      if (!open) return closeMenu();
+      menu.classList.add('is-open'); burger.classList.add('is-open');
+      burger.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-hidden', 'false');
+      lenis?.stop();
+      gsap.fromTo($$('#menu .m-link'), { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, stagger: .07, duration: .9, ease: 'expo.out', delay: .3 });
+    });
+
+    /* ---------------------------------------------------------------
+       Custom cursor + magnetic elements
+       --------------------------------------------------------------- */
+    if (finePointer) {
+      const cursor = $('.cursor'), dot = $('.cursor-dot'), label = $('.cursor span');
+      const pos = { x: innerWidth / 2, y: innerHeight / 2 };
+      const ring = { x: pos.x, y: pos.y };
+      const setDot = { x: gsap.quickSetter(dot, 'x', 'px'), y: gsap.quickSetter(dot, 'y', 'px') };
+      const setRing = { x: gsap.quickSetter(cursor, 'x', 'px'), y: gsap.quickSetter(cursor, 'y', 'px') };
+
+      window.addEventListener('mousemove', e => { pos.x = e.clientX; pos.y = e.clientY; setDot.x(pos.x); setDot.y(pos.y); });
+      gsap.ticker.add(() => {
+        const dt = 1 - Math.pow(1 - 0.18, gsap.ticker.deltaRatio());
+        ring.x += (pos.x - ring.x) * dt; ring.y += (pos.y - ring.y) * dt;
+        setRing.x(ring.x); setRing.y(ring.y);
+      });
+      window.addEventListener('mousedown', () => cursor.classList.add('is-down'));
+      window.addEventListener('mouseup', () => cursor.classList.remove('is-down'));
+      document.addEventListener('mouseleave', () => gsap.to([cursor, dot], { opacity: 0, duration: .3 }));
+      document.addEventListener('mouseenter', () => gsap.to([cursor, dot], { opacity: 1, duration: .3 }));
+
+      $$('a, button, [data-cursor="hover"], input, textarea, select').forEach(el => {
+        el.addEventListener('mouseenter', () => { if (!cursor.classList.contains('is-label')) cursor.classList.add('is-hover'); });
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+      });
+      $$('[data-cursor-label]').forEach(el => {
+        el.addEventListener('mouseenter', () => { label.textContent = el.dataset.cursorLabel; cursor.classList.remove('is-hover'); cursor.classList.add('is-label'); dot.classList.add('is-hidden'); });
+        el.addEventListener('mouseleave', () => { cursor.classList.remove('is-label'); dot.classList.remove('is-hidden'); });
+      });
+
+      // Magnetic pull
+      $$('.magnetic').forEach(el => {
+        const strength = el.classList.contains('social') || el.classList.contains('t-nav') ? 0.45 : 0.3;
+        const xTo = gsap.quickTo(el, 'x', { duration: .8, ease: 'elastic.out(1, .4)' });
+        const yTo = gsap.quickTo(el, 'y', { duration: .8, ease: 'elastic.out(1, .4)' });
+        el.addEventListener('mousemove', e => {
+          const r = el.getBoundingClientRect();
+          xTo((e.clientX - (r.left + r.width / 2)) * strength);
+          yTo((e.clientY - (r.top + r.height / 2)) * strength);
+        });
+        el.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+      });
+    }
+
+    /* ---------------------------------------------------------------
+       Navbar: glass + shrink on scroll
+       --------------------------------------------------------------- */
+    const nav = $('#nav');
+    ScrollTrigger.create({
+      start: 60,
+      end: 'max',
+      onToggle: self => nav.classList.toggle('is-scrolled', self.isActive)
+    });
+
+    /* ---------------------------------------------------------------
+       Prepare split texts
+       --------------------------------------------------------------- */
+    const plChars = splitChars($('[data-split-chars]'));
+    gsap.set(plChars, { yPercent: 115, y: 0 });
+    $('[data-split-chars]').classList.add('is-split');
+    $$('[data-split-words]').forEach(el => {
+      const words = splitWords(el);
+      gsap.from(words, {
+        yPercent: 110, rotate: 3, duration: 1.3, ease: 'expo.out', stagger: .08,
+        scrollTrigger: { trigger: el, start: 'top 85%' }
+      });
+    });
+    const megaChars = splitChars($('#mega'));
+    $('#mega').setAttribute('aria-label', 'Maison');
+
+    // Hero initial states
+    gsap.set('.hero-word', { yPercent: 115 });
+    gsap.set('.hero-fade', { opacity: 0, y: 30 });
+    gsap.set('.hero-media', { clipPath: 'inset(100% 0% 0% 0% round 999px 999px 28px 28px)' });
+    gsap.set('.hero-media img', { scale: 1.5 });
+    gsap.set('.hero-line', { scaleX: 0 });
+    gsap.set('.hero-line.v', { scaleX: 1, scaleY: 0 });
+    gsap.set('.rotating-badge', { scale: 0, rotate: -90 });
+
+    /* ---------------------------------------------------------------
+       1. PRELOADER timeline
+       --------------------------------------------------------------- */
+    const counter = { v: 0 };
+    const plTl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    plTl
+      .to('#preloader .pl-sub span', { y: 0, duration: 1.2, stagger: .1 }, 0.1)
+      .to(plChars, { yPercent: 0, duration: 1.4, stagger: { each: .055, from: 'start' } }, 0.2)
+      .to('.pl-line i', { scaleX: 1, duration: 2.6, ease: 'power2.inOut' }, 0.3)
+      .to(counter, {
+        v: 100, duration: 2.6, ease: 'power2.inOut',
+        onUpdate: () => { $('#plCount').textContent = Math.round(counter.v); }
+      }, 0.3)
+      .to(plChars, { yPercent: -115, duration: .9, ease: 'expo.in', stagger: .025 }, '+=0.25')
+      .to('#preloader .pl-sub span, .pl-count, .pl-corner, .pl-line', { opacity: 0, duration: .5, ease: 'power2.out' }, '<')
+      .to('#preloader', {
+        yPercent: -100, duration: 1.3, ease: 'expo.inOut',
+        onStart: () => heroIntro.play(0.0)
+      }, '-=0.35')
+      .add(() => {
+        $('#preloader').remove();
+        document.body.classList.remove('is-loading');
+        lenis?.start();
+        ScrollTrigger.refresh();
+      });
+
+    /* ---------------------------------------------------------------
+       3. HERO intro (played by preloader)
+       --------------------------------------------------------------- */
+    const heroIntro = gsap.timeline({ paused: true, delay: .55, defaults: { ease: 'expo.out' } });
+    heroIntro
+      .to('.hero-title .hero-word', { yPercent: 0, duration: 1.6, stagger: .12 }, 0)
+      .to('.hero-sub .hero-word', { yPercent: 0, duration: 1.3, stagger: .08 }, 0.35)
+      .to('.hero-media', { clipPath: 'inset(0% 0% 0% 0% round 999px 999px 28px 28px)', duration: 1.8, ease: 'expo.inOut' }, 0.05)
+      .to('.hero-media img', { scale: 1.18, duration: 2.4, ease: 'expo.out' }, 0.3)
+      .to('.hero-line', { scaleX: 1, duration: 1.6, stagger: .15, ease: 'power3.inOut' }, 0.8)
+      .to('.hero-line.v', { scaleY: 1, duration: 1.6, ease: 'power3.inOut' }, 0.9)
+      .to('.rotating-badge', { scale: 1, rotate: 0, duration: 1.6, ease: 'back.out(1.4)' }, 1.0)
+      .to('.hero-fade', { opacity: 1, y: 0, duration: 1.2, stagger: .1 }, 0.9);
+
+    // Mouse parallax (3D tilt) on hero visual
+    if (finePointer && !reduceMotion) {
+      const frame = $('#heroFrame'), wrap = $('#heroVisualWrap'), img = $('.hero-media img');
+      const rx = gsap.quickTo(frame, 'rotationX', { duration: 1.2, ease: 'power3.out' });
+      const ry = gsap.quickTo(frame, 'rotationY', { duration: 1.2, ease: 'power3.out' });
+      const ix = gsap.quickTo(img, 'xPercent', { duration: 1.4, ease: 'power3.out' });
+      const iy = gsap.quickTo(img, 'yPercent', { duration: 1.4, ease: 'power3.out' });
+      const wx = gsap.quickTo(wrap, 'x', { duration: 1.6, ease: 'power3.out' });
+      const wy = gsap.quickTo(wrap, 'y', { duration: 1.6, ease: 'power3.out' });
+      $('#hero').addEventListener('mousemove', e => {
+        const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5;
+        ry(nx * 14); rx(-ny * 12);
+        ix(-nx * 5); iy(-ny * 5);
+        wx(nx * 24); wy(ny * 18);
+      });
+      $('#hero').addEventListener('mouseleave', () => { rx(0); ry(0); ix(0); iy(0); wx(0); wy(0); });
+    }
+
+    // Hero scroll-out parallax
+    gsap.to('#hero .hero-title', { yPercent: -30, opacity: .2, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero-visual', { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+    /* ---------------------------------------------------------------
+       Generic reveals
+       --------------------------------------------------------------- */
+    $$('.reveal-up').forEach(el => {
+      gsap.from(el, { y: 60, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+    });
+
+    // Manifesto word-by-word scrub highlight
+    const manifestoWords = splitWords($('.manifesto'));
+    gsap.set(manifestoWords, { yPercent: 0 });
+    gsap.fromTo(manifestoWords, { opacity: .12 }, {
+      opacity: 1, stagger: .05, ease: 'none',
+      scrollTrigger: { trigger: '.manifesto', start: 'top 80%', end: 'bottom 45%', scrub: 1 }
+    });
+
+    /* ---------------------------------------------------------------
+       4. HORIZONTAL SCROLL services
+       --------------------------------------------------------------- */
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      const track = $('#hTrack');
+      const getDist = () => track.scrollWidth - innerWidth;
+
+      const hTween = gsap.to(track, {
+        x: () => -getDist(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#services',
+          start: 'top top',
+          end: () => '+=' + getDist(),
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: self => gsap.set('#hProgress', { scaleX: self.progress })
+        }
+      });
+
+      // inner image parallax while moving horizontally
+      $$('.svc-card').forEach(card => {
+        const img = $('.svc-img', card);
+        gsap.fromTo(img, { xPercent: -8 }, {
+          xPercent: 8, ease: 'none',
+          scrollTrigger: { trigger: card, containerAnimation: hTween, start: 'left right', end: 'right left', scrub: true }
+        });
+        gsap.from($('.svc-num', card), {
+          yPercent: 60, opacity: 0, duration: 1.2, ease: 'expo.out',
+          scrollTrigger: { trigger: card, containerAnimation: hTween, start: 'left 85%' }
+        });
+        gsap.from(card, {
+          rotate: 4, scale: .9, opacity: .3, ease: 'none',
+          scrollTrigger: { trigger: card, containerAnimation: hTween, start: 'left right', end: 'center center', scrub: true }
+        });
+      });
+    });
+    mm.add('(max-width: 767px)', () => {
+      $$('.svc-card').forEach(card => gsap.from(card, { y: 80, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 90%' } }));
+    });
+
+    /* ---------------------------------------------------------------
+       5. GALLERY: clip reveal + scale + parallax speeds
+       --------------------------------------------------------------- */
+    $$('.g-item').forEach(item => {
+      const rev = $('.reveal', item), img = $('img', item), shade = $('.shade', item);
+      const radius = getComputedStyle(rev).borderRadius;
+      const tl = gsap.timeline({ scrollTrigger: { trigger: item, start: 'top 88%' } });
+      tl.fromTo(rev,
+          { clipPath: `inset(100% 0% 0% 0% round ${radius})` },
+          { clipPath: `inset(0% 0% 0% 0% round ${radius})`, duration: 1.6, ease: 'expo.inOut' })
+        .to(img, { scale: 1, duration: 2.2, ease: 'expo.out' }, 0.2)
+        .to(shade, { opacity: 0, duration: 1.8, ease: 'power2.out' }, 0.3)
+        .from($('.g-cap', item), { y: 20, opacity: 0, duration: 1, ease: 'expo.out' }, 0.9);
+
+      const speed = parseFloat(item.dataset.speed || 0);
+      if (speed && innerWidth > 767) {
+        gsap.to(item, {
+          yPercent: speed * -100, ease: 'none',
+          scrollTrigger: { trigger: item, start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+      }
+    });
+
+    // Count-up stats
+    $$('[data-count]').forEach(el => {
+      const end = +el.dataset.count, o = { v: 0 };
+      gsap.to(o, { v: end, duration: 2.2, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%' }, onUpdate: () => el.textContent = Math.round(o.v) });
+    });
+
+    /* ---------------------------------------------------------------
+       6. MARQUEE (velocity-reactive) + TESTIMONIAL slider
+       --------------------------------------------------------------- */
+    const marqueeTweens = $$('.marquee .row').map(row => {
+      const dir = +row.dataset.dir;
+      return gsap.fromTo(row, { xPercent: dir < 0 ? 0 : -50 }, { xPercent: dir < 0 ? -50 : 0, duration: 38, ease: 'none', repeat: -1 });
+    });
+    let velTimeout;
+    ScrollTrigger.create({
+      trigger: '#testimonials', start: 'top bottom', end: 'bottom top',
+      onUpdate: self => {
+        const v = Math.min(Math.abs(self.getVelocity()) / 300, 6);
+        marqueeTweens.forEach(t => gsap.to(t, { timeScale: 1 + v, duration: .3, overwrite: true }));
+        clearTimeout(velTimeout);
+        velTimeout = setTimeout(() => marqueeTweens.forEach(t => gsap.to(t, { timeScale: 1, duration: 1.2 })), 120);
+      }
+    });
+    gsap.from('.marquee', { opacity: 0, duration: 1.5, scrollTrigger: { trigger: '#testimonials', start: 'top 70%' } });
+
+    const slides = $$('.t-slide'), dotsWrap = $('#tDots'), idxEl = $('#tIndex');
+    const DURATION = 7;
+    let current = 0, animating = false, autoTimer;
+    slides.forEach(s => splitWords($('.t-quote', s)));
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.setAttribute('aria-label', `Yorum ${i + 1}`);
+      b.innerHTML = '<i></i>';
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+    const dots = $$('button', dotsWrap);
+    dotsWrap.style.setProperty('--t-dur', DURATION + 's');
+
+    function setDots() {
+      dots.forEach((d, i) => {
+        d.classList.remove('is-active', 'done');
+        void d.offsetWidth; // restart animation
+        if (i < current) d.classList.add('done');
+        if (i === current) d.classList.add('is-active');
+      });
+      idxEl.textContent = String(current + 1).padStart(2, '0');
+    }
+    function scheduleAuto() { clearTimeout(autoTimer); autoTimer = setTimeout(() => goTo((current + 1) % slides.length, 1), DURATION * 1000); }
+
+    function goTo(next, dir) {
+      if (animating || next === current) return;
+      dir = dir || (next > current ? 1 : -1);
+      animating = true;
+      const out = slides[current], inn = slides[next];
+      const tl = gsap.timeline({ onComplete: () => { animating = false; } });
+      tl.to($$('.word', out), { yPercent: -110 * dir, duration: .7, ease: 'expo.in', stagger: .008 })
+        .to($$('.stars, .t-avatar, .t-avatar + div', out), { opacity: 0, y: -15 * dir, duration: .5, ease: 'power2.in' }, 0)
+        .add(() => {
+          out.classList.remove('is-active');
+          gsap.set(out, { clearProps: 'all' });
+          inn.classList.add('is-active');
+          gsap.set($$('.stars, .t-avatar, .t-avatar + div', out), { clearProps: 'all' });
+          gsap.set($$('.word', out), { clearProps: 'transform' });
+        })
+        .fromTo($$('.word', inn), { yPercent: 110 * dir }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .012 })
+        .fromTo($$('.stars i', inn), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: .6, stagger: .06, ease: 'back.out(3)' }, '<')
+        .fromTo($$('.t-avatar, .t-avatar + div', inn), { opacity: 0, y: 20 * dir }, { opacity: 1, y: 0, duration: .9, ease: 'expo.out' }, '<0.2');
+      current = next;
+      setDots();
+      scheduleAuto();
+    }
+    $('#tNext').addEventListener('click', () => goTo((current + 1) % slides.length, 1));
+    $('#tPrev').addEventListener('click', () => goTo((current - 1 + slides.length) % slides.length, -1));
+
+    // swipe / drag
+    let startX = null;
+    const stage = $('#tStage');
+    stage.addEventListener('pointerdown', e => { startX = e.clientX; });
+    window.addEventListener('pointerup', e => {
+      if (startX === null) return;
+      const dx = e.clientX - startX; startX = null;
+      if (Math.abs(dx) > 50) dx < 0 ? goTo((current + 1) % slides.length, 1) : goTo((current - 1 + slides.length) % slides.length, -1);
+    });
+    // keyboard
+    document.addEventListener('keydown', e => {
+      const r = $('#testimonials').getBoundingClientRect();
+      if (r.top > innerHeight || r.bottom < 0) return;
+      if (e.key === 'ArrowRight') goTo((current + 1) % slides.length, 1);
+      if (e.key === 'ArrowLeft') goTo((current - 1 + slides.length) % slides.length, -1);
+    });
+    ScrollTrigger.create({ trigger: '#testimonials', start: 'top 70%', once: true, onEnter: () => { setDots(); scheduleAuto(); } });
+
+    /* ---------------------------------------------------------------
+       7. FOOTER: mega word reveal + form
+       --------------------------------------------------------------- */
+    gsap.set(megaChars, { yPercent: 100 });
+    gsap.to(megaChars, {
+      yPercent: 0, ease: 'expo.out', duration: 1.6, stagger: .07,
+      scrollTrigger: { trigger: '#mega', start: 'top 95%' }
+    });
+
+    const form = $('#bookingForm'), msg = $('#formMsg'), btn = $('#submitBtn');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('#fName').value.trim(), phone = $('#fPhone').value.trim();
+      if (!name || !phone) {
+        msg.textContent = 'Lütfen adınızı ve telefon numaranızı paylaşın.';
+        gsap.fromTo(msg, { x: -8 }, { x: 0, duration: .6, ease: 'elastic.out(1,.3)' });
+        return;
+      }
+      btn.disabled = true;
+      $$('.btn-label span', btn).forEach(s => s.textContent = 'Teşekkürler ✦');
+      msg.textContent = `Merci, ${name.split(' ')[0]}. Concierge ekibimiz en kısa sürede sizi arayacak.`;
+      gsap.fromTo(msg, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1, ease: 'expo.out' });
+      form.reset();
+    });
+
+    // Refresh after images load (layout shifts)
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  })();
+  </script>
+</body>
+</html>
