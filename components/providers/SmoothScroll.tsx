@@ -23,8 +23,9 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     if (prefersReducedMotion()) return;
 
     const instance = new Lenis({
-      lerp: 0.085,
-      wheelMultiplier: 0.95,
+      // Low lerp = long, weighty glide that matches the cinematic scrubs.
+      lerp: 0.07,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1.4,
       smoothWheel: true,
     });
