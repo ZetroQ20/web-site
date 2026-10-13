@@ -55,7 +55,26 @@ const wave: Scene = (card) => {
   return { tl };
 };
 
-/* --------------------------------------------------------------- 02 · LASER */
+/* ---------------------------------------------------------------- 02 · GLOW */
+// Matte skin turns dewy: a luminous circle blooms from the centre of the frame
+// while a soft gold halo ripples outward and fades, like light on hydrated skin.
+const glow: Scene = (card) => {
+  const vivid = $(card, ".fx-glow-vivid");
+  const halo = $(card, ".fx-glow-halo");
+
+  gsap.set(vivid, { clipPath: "circle(0% at 50% 40%)" });
+  gsap.set(halo, { scale: 0.2, autoAlpha: 0 });
+
+  const tl = gsap
+    .timeline({ paused: true })
+    .to(halo, { autoAlpha: 1, duration: 0.15, ease: "none" }, 0)
+    .to(halo, { scale: 1.9, duration: 1, ease: "power2.out" }, 0)
+    .to(halo, { autoAlpha: 0, duration: 0.45, ease: "power1.in" }, 0.55)
+    .to(vivid, { clipPath: "circle(90% at 50% 40%)", duration: 1, ease: "power2.inOut" }, 0.05);
+  return { tl };
+};
+
+/* --------------------------------------------------------------- 03 · LASER */
 // The photo sits under frosted glass. A glowing gold laser descends with the
 // scroll and everything it has passed becomes crisp.
 const laser: Scene = (card) => {
@@ -65,7 +84,8 @@ const laser: Scene = (card) => {
   const state = { y: 0 };
   const render = () => {
     frost.style.clipPath = `inset(${state.y}% 0% 0% 0%)`;
-    line.style.top = `${state.y}%`;
+    line.style.transform = `translate3d(0, ${state.y}%, 0)`; // compositor-only, no layout
+
     readout.textContent = `${String(Math.round(state.y)).padStart(3, "0")}%`;
   };
   render();
@@ -79,7 +99,7 @@ const laser: Scene = (card) => {
   return { tl };
 };
 
-/* -------------------------------------------------------------- 03 · GOLDEN */
+/* -------------------------------------------------------------- 04 · GOLDEN */
 // Golden-ratio and symmetry guides are drawn with surgical precision, then
 // fade back while the portrait's colour comes alive.
 const golden: Scene = (card) => {
@@ -101,7 +121,7 @@ const golden: Scene = (card) => {
   return { tl };
 };
 
-/* --------------------------------------------------------------- 04 · GLOSS */
+/* --------------------------------------------------------------- 05 · GLOSS */
 // Once the frame has settled, a sharp specular highlight races diagonally
 // from top-left to bottom-right — wet, glossy, freshly lacquered.
 const gloss: Scene = (card) => {
@@ -144,11 +164,11 @@ const gloss: Scene = (card) => {
   };
 };
 
-export const SCENES: Record<ServiceEffect, Scene> = { wave, laser, golden, gloss };
+export const SCENES: Record<ServiceEffect, Scene> = { wave, glow, laser, golden, gloss };
 
 /** Final, motionless state used when the visitor prefers reduced motion. */
 export function settle(card: HTMLElement) {
-  card.querySelectorAll<HTMLElement>(".fx-wave-media").forEach((el) => (el.style.clipPath = "none"));
+  card.querySelectorAll<HTMLElement>(".fx-wave-media, .fx-glow-vivid").forEach((el) => (el.style.clipPath = "none"));
   card.querySelectorAll<HTMLElement>(".fx-laser-frost").forEach((el) => (el.style.clipPath = "inset(100% 0 0 0)"));
   card.querySelectorAll<HTMLElement>(".fx-laser-line, .fx-golden-guides").forEach((el) => (el.style.opacity = "0"));
 }

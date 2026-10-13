@@ -22,7 +22,7 @@ export const SALON = {
 export const HERO_IMAGE = u("photo-1534528741775-53994a69daeb", 1400);
 
 /** Bespoke entrance effect that matches the spirit of each service. */
-export type ServiceEffect = "wave" | "laser" | "golden" | "gloss";
+export type ServiceEffect = "wave" | "glow" | "laser" | "golden" | "gloss";
 
 export type Service = {
   no: string;
@@ -52,20 +52,34 @@ export const SERVICES: Service[] = [
   },
   {
     no: "02",
-    effect: "laser",
-    title: "SKINCARE & LASER",
-    subtitle: "Cilt Bakımı ve Yeni Nesil Lazer",
+    effect: "glow",
+    title: "SKINCARE",
+    subtitle: "Kişiye Özel Cilt Bakımı",
     description:
-      "Cildinizin ihtiyacına göre kişiselleştirilen bakım protokolleri ve konforlu, yeni nesil lazer teknolojisiyle kalıcı pürüzsüzlük.",
+      "Cildinizin ihtiyacına göre kişiselleştirilen bakım protokolleriyle içten gelen, nemli ve ışıltılı bir görünüm.",
     image: u("photo-1570172619644-dfd03ed5d881"),
     items: [
       { name: "Hydra Glow Bakım", price: "₺2.000'den" },
-      { name: "Yeni Nesil Lazer (Seans)", price: "₺1.200'den" },
       { name: "Leke & Gözenek Protokolü", price: "₺2.500'den" },
+      { name: "Derin Nem Bakımı", price: "₺1.800'den" },
     ],
   },
   {
     no: "03",
+    effect: "laser",
+    title: "LASER",
+    subtitle: "Yeni Nesil Lazer Epilasyon",
+    description:
+      "Konforlu, yeni nesil lazer teknolojisiyle her cilt tipine uygun, kalıcı pürüzsüzlük.",
+    image: u("photo-1616394584738-fc6e612e71b9"),
+    items: [
+      { name: "Yeni Nesil Lazer (Seans)", price: "₺1.200'den" },
+      { name: "Bölgesel Lazer", price: "₺600'den" },
+      { name: "Tüm Vücut Paketi", price: "₺4.500'den" },
+    ],
+  },
+  {
+    no: "04",
     effect: "golden",
     title: "AESTHETICS & FACE",
     subtitle: "Microblading · İpek Kirpik · Dolgu Tozu",
@@ -79,7 +93,7 @@ export const SERVICES: Service[] = [
     ],
   },
   {
-    no: "04",
+    no: "05",
     effect: "gloss",
     title: "NAIL ART",
     subtitle: "Protez Tırnak & Nail Art",
