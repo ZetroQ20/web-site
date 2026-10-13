@@ -1,0 +1,379 @@
+@import "tailwindcss";
+
+@theme {
+  --color-noir: #030303;
+  --color-anthracite: #0b0b0b;
+  --color-graphite: #141414;
+  --color-gold: #c5a880;
+  --color-gold-light: #e4cfa6;
+  --color-gold-deep: #8f7550;
+  --color-sand: #d8cbb6;
+  --color-bone: #efe8dc;
+
+  --font-display: var(--font-cinzel), "Cinzel", serif;
+  --font-serif: var(--font-playfair), "Playfair Display", serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --ease-luxe: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--color-noir);
+  color: var(--color-bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-noir);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-noir);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Hide native cursor on fine pointers once the custom one is mounted */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ---------- Utilities ---------- */
+@utility text-gold-gradient {
+  background-image: linear-gradient(
+    105deg,
+    #8f7550 0%,
+    #c5a880 22%,
+    #f3e3c3 42%,
+    #c5a880 58%,
+    #8f7550 80%,
+    #c5a880 100%
+  );
+  background-size: 220% 100%;
+  /* extend the painted box so diacritics (ş, ğ, İ) aren't clipped */
+  padding-block: 0.12em 0.16em;
+  margin-block: -0.12em -0.16em;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility shimmer {
+  animation: shimmer 4.5s linear infinite;
+}
+
+@utility outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(197 168 128 / 0.22);
+}
+
+/* Reveal masks used by split text */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for Turkish diacritics (İ, Ş, Ç, Ğ) above/below the line box */
+  padding: 0.14em 0 0.1em;
+  margin: -0.14em 0 -0.1em;
+}
+.mask > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ---------- Film grain ---------- */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  z-index: 90;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(6) infinite;
+}
+
+/* Gold glaze for photos */
+.gold-glaze::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(160deg, rgb(197 168 128 / 0.22), transparent 38%),
+    linear-gradient(0deg, rgb(3 3 3 / 0.85), transparent 55%);
+  mix-blend-mode: normal;
+}
+.gold-glaze::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 80% 10%, rgb(228 207 166 / 0.18), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* Slowly drifting light / smoke */
+.glow {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(80px);
+  background: radial-gradient(circle, rgb(197 168 128 / 0.35), transparent 65%);
+  animation: drift 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.glow--soft {
+  background: radial-gradient(circle, rgb(216 203 182 / 0.14), transparent 65%);
+  animation-duration: 26s;
+  animation-direction: alternate-reverse;
+}
+
+/* ---------- Gold rotating border button ---------- */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.btn-aura {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  padding: 0.9rem 1.8rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-bone);
+  background: rgb(11 11 11 / 0.6);
+  transition: color 0.5s var(--ease-silk), background 0.5s var(--ease-silk);
+}
+.btn-aura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    rgb(197 168 128 / 0.25) 0%,
+    rgb(197 168 128 / 0.25) 55%,
+    #f3e3c3 72%,
+    #c5a880 80%,
+    rgb(197 168 128 / 0.25) 95%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.btn-aura::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: -2;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle), transparent 60%, rgb(197 168 128 / 0.45) 78%, transparent 92%);
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-silk);
+}
+.btn-aura:hover::before,
+.btn-aura:focus-visible::before,
+.btn-aura:hover::after,
+.btn-aura:focus-visible::after {
+  animation: spin-angle 2.4s linear infinite;
+}
+.btn-aura:hover::after,
+.btn-aura:focus-visible::after {
+  opacity: 1;
+}
+.btn-aura:hover {
+  color: var(--color-gold-light);
+}
+.btn-aura--solid {
+  background: linear-gradient(120deg, #a88a5e, #c5a880 40%, #e4cfa6 60%, #c5a880);
+  color: var(--color-noir);
+  font-weight: 600;
+}
+.btn-aura--solid:hover {
+  color: var(--color-noir);
+  background: linear-gradient(120deg, #c5a880, #f3e3c3 50%, #c5a880);
+}
+
+/* ---------- Luxury input ---------- */
+.field {
+  position: relative;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(239 232 220 / 0.14);
+  padding: 1.6rem 0 0.7rem;
+  color: var(--color-bone);
+  font-size: 1rem;
+  outline: none;
+  border-radius: 0;
+  appearance: none;
+}
+.field select option {
+  background: var(--color-anthracite);
+  color: var(--color-bone);
+}
+.field textarea {
+  resize: none;
+}
+.field label {
+  position: absolute;
+  left: 0;
+  top: 1.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(239 232 220 / 0.45);
+  pointer-events: none;
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-silk), color 0.5s var(--ease-silk);
+}
+.field input:focus ~ label,
+.field input:not(:placeholder-shown) ~ label,
+.field textarea:focus ~ label,
+.field textarea:not(:placeholder-shown) ~ label,
+.field select:focus ~ label,
+.field select.has-value ~ label {
+  transform: translateY(-1.35rem) scale(0.78);
+  color: var(--color-gold);
+}
+.field .line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, #c5a880 20%, #f3e3c3 50%, #c5a880 80%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.8s var(--ease-luxe);
+  box-shadow: 0 0 14px rgb(197 168 128 / 0.6);
+}
+.field input:focus ~ .line,
+.field textarea:focus ~ .line,
+.field select:focus ~ .line {
+  transform: scaleX(1);
+}
+.field input[type="date"]::-webkit-calendar-picker-indicator,
+.field input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(78%) sepia(20%) saturate(500%) hue-rotate(350deg);
+  opacity: 0.7;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6%, 4%); }
+  40% { transform: translate(4%, -8%); }
+  60% { transform: translate(-10%, 2%); }
+  80% { transform: translate(6%, 8%); }
+  100% { transform: translate(-2%, -4%); }
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6%, -8%, 0) scale(1.15); }
+  100% { transform: translate3d(-8%, 6%, 0) scale(0.92); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes dash {
+  to { stroke-dashoffset: 0; }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+/* Touch devices: reveal service details without hover */
+@media (hover: none) {
+  .service-card .service-details {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .glow,
+  .animate-spin-slow,
+  .animate-marquee,
+  .shimmer {
+    animation: none !important;
+  }
+}
+
+@utility outline-text-strong {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(197 168 128 / 0.85);
+}
+
+@keyframes scrollcue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+.field--float label {
+  transform: translateY(-1.35rem) scale(0.78);
+}
+.field input[type="date"],
+.field input[type="time"] {
+  color-scheme: dark;
+  min-height: 3.6rem;
+}
