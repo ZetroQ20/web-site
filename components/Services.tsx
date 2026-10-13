@@ -141,7 +141,7 @@ export default function Services() {
         {SERVICES.map((s, i) => (
           <article key={s.no} className="vip-card relative h-[100svh] overflow-hidden" style={{ zIndex: i + 1 }} aria-labelledby={`vip-${s.no}`}>
             <div
-              className="vip-inner relative flex h-full w-full origin-top items-start overflow-hidden lg:items-center border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)]"
+              className="vip-inner relative flex h-full w-full origin-top items-center overflow-hidden border-t border-gold/15 shadow-[0_-30px_80px_rgba(0,0,0,0.75)]"
               style={{ background: TONES[i] }}
             >
               {/* Darkens the card as the next one covers it (cheaper than a filter) */}
@@ -157,7 +157,7 @@ export default function Services() {
               </span>
 
               <div
-                className={`vip-content relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-5 px-5 pt-[4.75rem] md:gap-8 md:px-12 md:pt-28 lg:flex-row lg:justify-center lg:gap-[9vw] lg:pt-0 ${
+                className={`vip-content relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-7 px-5 pt-16 md:gap-9 md:px-12 md:pt-20 lg:flex-row lg:justify-center lg:gap-[9vw] lg:pt-0 ${
                   i % 2 ? "lg:flex-row-reverse" : ""
                 }`}
               >

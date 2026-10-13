@@ -8,7 +8,7 @@ import Photo from "../Photo";
 // Safari/iOS gives a height-only aspect-ratio box whose children are all absolutely
 // positioned an intrinsic width of 0, which once hid every service photo on iPhone.
 const FRAME =
-  "relative h-[clamp(12rem,calc(100svh-23rem),62svh)] w-[min(calc(100vw-2.5rem),30rem,clamp(12rem,calc(100svh-23rem),62svh))] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-35rem),58svh)] md:w-[min(calc(100vw-6rem),30rem,clamp(16rem,calc(100svh-35rem),58svh))] lg:h-[74svh] lg:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
+  "relative h-[clamp(11rem,calc(100svh-24rem),60svh)] w-[min(calc(100vw-2.5rem),30rem,clamp(11rem,calc(100svh-24rem),60svh))] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-37rem),56svh)] md:w-[min(calc(100vw-6rem),30rem,clamp(16rem,calc(100svh-37rem),56svh))] lg:h-[74svh] lg:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
 /** Rendered width: almost the full screen on phones/tablets, ~46% of the height on desktop. */
 const SIZES = "(min-width: 1024px) 30vw, (min-width: 768px) 30rem, 92vw";
