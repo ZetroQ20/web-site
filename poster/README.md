@@ -1,15 +1,18 @@
 # THE GRACE — Afiş
 
+Koyu zemin + altın varak, 1200×1560 (render: 2400×3120 PNG).
+
 | Dosya | Görev |
 | --- | --- |
-| `poster.html` | Afişin kaynağı (1200×1500, 4:5). Fontlar: Bodoni Moda (marka adı), Jost ultra-light (atölye satırı, liste, künye), Cormorant Garamond light (slogan). |
-| `the-grace-poster.png` | 2400×3000 baskı/paylaşım çıktısı |
+| `poster.html` | Afişin kaynağı. Fontlar: Cinzel (başlık, slogan, liste, künye — sitedeki marka fontu), Jost (küçük İngilizce satır, Instagram) |
+| `the-grace-poster.png` | Baskı / paylaşım çıktısı |
 | `portrait-original.jpg` | Orijinal fotoğraf |
-| `portrait.jpg` | Çene hattı yumuşatılmış fotoğraf (`soften-jaw.py` ile üretilir) |
+| `portrait.jpg` | Çene hattı yuvarlatılmış fotoğraf (`soften-jaw.py`) |
+| `portrait-crop.jpg`, `portrait-hair.png` | Afiş kırpımı ve "R"/"A" harflerinin arkasına geçtiği saç katmanı (`make-layers.py`) |
 
 ```bash
-python3 poster/soften-jaw.py poster/portrait-original.jpg poster/portrait.jpg
-node poster/render.mjs   # playwright gerekir (npm i -D playwright)
+cd poster
+python3 soften-jaw.py portrait-original.jpg portrait.jpg
+python3 make-layers.py portrait.jpg
+node render.mjs          # playwright gerekir (npm i -D playwright)
 ```
-
-Fotoğraf `mix-blend-mode: multiply` ile basılır: beyaz perdeler altın "THE GRACE" yazısını gösterir, saçlar ise örter; böylece "R" ve "A" harfleri başın arkasından geçiyormuş gibi görünür.

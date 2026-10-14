@@ -5,154 +5,187 @@
 <title>THE GRACE — Afiş</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  /* 4:5 poster, rendered to PNG at 2x by render.mjs */
+  /* 1200×1560 poster, rendered to PNG at 2x by render.mjs */
   :root {
-    --ivory: #f7f3ec;
-    --anthracite: #2b2a29;
-    --gold: #b08a4a;
-    --gold-leaf: linear-gradient(115deg,
-      #7a5a26 0%, #b8913f 14%, #f3dfa2 24%, #c99f4f 33%, #8c6a2f 46%,
-      #d7b66a 58%, #fff1c4 63%, #c69c4c 70%, #8a682c 84%, #c9a55a 100%);
+    --noir: #0b0a09;
+    --cream: #f2e6cc;
+    --gold: #c9a35c;
+    --gold-leaf: linear-gradient(172deg,
+      #fff4cf 0%, #f0d48e 16%, #c9993f 34%, #8f6626 48%,
+      #d9b260 60%, #fbe7a8 70%, #b98a3a 84%, #7a5520 100%);
+    --gold-line: linear-gradient(90deg, transparent, #8f6626 15%, #f0d48e 50%, #8f6626 85%, transparent);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: var(--ivory); }
+  html, body { background: var(--noir); }
   .poster {
-    position: relative; width: 1200px; height: 1500px; overflow: hidden;
-    background: var(--ivory); color: var(--anthracite);
-    font-family: "Jost", sans-serif; font-weight: 300;
+    position: relative; width: 1200px; height: 1560px; overflow: hidden;
+    background: radial-gradient(120% 80% at 70% 30%, #1d1a17 0%, #0e0d0c 55%, #070606 100%);
+    font-family: "Cinzel", serif; color: var(--cream);
   }
 
-  /* Layer 1 — brand name, sits BEHIND the photo. The photo uses multiply, so
-     the white curtains let the gold through while the hair covers it: the
-     "R" and "A" read as passing behind her head. */
-  .brand {
-    position: absolute; top: 132px; left: 0; width: 100%; text-align: center; z-index: 1;
-  }
-  .brand h1 {
-    font-family: "Bodoni Moda", serif; font-weight: 400;
-    font-variation-settings: "opsz" 96;
-    font-size: 150px; line-height: 1; letter-spacing: 0.07em; padding-left: 0.07em; white-space: nowrap;
-    background: var(--gold-leaf); background-size: 100% 100%;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 2px 0 rgba(122, 90, 38, 0.35)) drop-shadow(0 10px 14px rgba(60, 40, 10, 0.22));
-    position: relative;
-  }
-  /* gold-leaf grain */
-  .brand h1::after {
-    content: "THE GRACE"; position: absolute; inset: 0;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.92  0 0 0 0 0.7  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    mix-blend-mode: overlay; opacity: 0.55;
-  }
-  .atelier {
-    font-family: "Jost", sans-serif; font-weight: 200;
-    font-size: 17px; letter-spacing: 0.92em; padding-left: 0.92em;
-    color: var(--gold); position: relative; z-index: 4;
-  }
+  /* ── background: dark facets, gold ribbons, gold dust ── */
+  .facet { position: absolute; inset: 0; }
+  .f1 { clip-path: polygon(62% 0, 100% 0, 100% 34%, 80% 22%); background: linear-gradient(200deg, #26221e, #0f0e0c); }
+  .f2 { clip-path: polygon(0 62%, 20% 74%, 14% 100%, 0 100%); background: linear-gradient(20deg, #24201b, #0c0b0a); }
+  .f3 { clip-path: polygon(100% 58%, 100% 100%, 76% 100%); background: linear-gradient(330deg, #1f1c18, #0b0a09); }
+  .f4 { clip-path: polygon(0 0, 30% 0, 0 22%); background: linear-gradient(140deg, #1c1916, #0b0a09); }
+  .ribbon { position: absolute; inset: 0; background: var(--gold-leaf); opacity: 0.9; }
+  .r1 { clip-path: polygon(78% 0, 81% 0, 100% 15%, 100% 17.5%); }
+  .r2 { clip-path: polygon(86% 0, 87.2% 0, 100% 9%, 100% 10%); opacity: 0.55; }
+  .r3 { clip-path: polygon(0 70%, 0 71.6%, 19% 100%, 17% 100%); }
+  .r4 { clip-path: polygon(0 76%, 0 76.8%, 13% 100%, 12% 100%); opacity: 0.5; }
+  .r5 { clip-path: polygon(100% 64%, 100% 65.2%, 79% 100%, 77.5% 100%); opacity: 0.7; }
+  #dust { position: absolute; inset: 0; }
 
-  /* Layer 2 — photo */
+  /* ── frame ── */
+  .frame { position: absolute; inset: 18px; border: 1px solid rgba(201, 163, 92, 0.55); z-index: 9; pointer-events: none; }
+  .frame::before { content: ""; position: absolute; inset: 7px; border: 0.5px solid rgba(201, 163, 92, 0.3); }
+
+  /* ── left strip ── */
+  .strip { position: absolute; left: 44px; top: 230px; bottom: 150px; width: 62px; z-index: 6;
+           border-left: 1px solid rgba(201, 163, 92, 0.7); border-right: 1px solid rgba(201, 163, 92, 0.7); }
+  .strip p {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap; font-size: 30px; font-weight: 500; letter-spacing: 0.16em;
+    background: var(--gold-leaf); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .strip p span { padding: 0 0.5em; font-weight: 400; }
+
+  /* ── photo + hair layer (hair sits above the title so R and A pass behind her head) ── */
+  .photo, .hair { position: absolute; left: 112px; top: 272px; width: 640px; height: 1112.6px; }
   .photo {
-    position: absolute; left: 0; top: 140px; width: 1200px; height: 1200px; z-index: 2;
-    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 40px, #000 1150px, transparent 1200px);
-            mask-image: linear-gradient(180deg, transparent 0, #000 40px, #000 1150px, transparent 1200px);
-    background: url("portrait.jpg") center / cover no-repeat;
-    mix-blend-mode: multiply;
+    z-index: 2;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 70px, #000 86%, transparent 100%),
+                        linear-gradient(90deg, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
   }
-  /* hairline frame */
-  .frame { position: absolute; inset: 22px; border: 0.75px solid rgba(176, 138, 74, 0.55); z-index: 5; pointer-events: none; }
-  .frame::before { content: ""; position: absolute; inset: 6px; border: 0.5px solid rgba(176, 138, 74, 0.28); }
+  .hair { z-index: 4; }
+  .photo img, .hair img { width: 100%; height: 100%; display: block; }
+  .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 70%, rgba(11,10,9,0.55)); }
 
-  /* Layer 3 — copy over the curtains */
+  /* ── title ── */
+  .title { position: absolute; z-index: 3; left: 0; width: 100%; text-align: center; font-weight: 600; line-height: 0.86; }
+  .title .w {
+    display: inline-block; position: relative;
+    background: var(--gold-leaf); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 1px 0 #5a3d14) drop-shadow(0 3px 0 #3d290d) drop-shadow(0 12px 18px rgba(0,0,0,0.75));
+  }
+  .t1 { top: 30px; font-size: 190px; letter-spacing: 0.04em; }
+  .t2 { top: 180px; font-size: 226px; letter-spacing: 0.01em; }
+
+  .atelier {
+    position: absolute; z-index: 6; right: 70px; top: 425px;
+    font-size: 30px; font-weight: 600; letter-spacing: 0.06em;
+    background: var(--gold-leaf); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.8));
+  }
+
+  /* ── right column ── */
+  .col { position: absolute; z-index: 6; left: 742px; right: 58px; top: 500px; text-align: center; }
   .slogan {
-    position: absolute; z-index: 4; right: 70px; top: 330px; width: 300px; text-align: right;
-    font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: 25px;
-    line-height: 1.55; letter-spacing: 0.26em; color: var(--anthracite);
+    font-size: 33px; font-weight: 600; line-height: 1.16; letter-spacing: 0.02em; color: var(--cream);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.9);
   }
-  .slogan em { display: block; font-style: italic; letter-spacing: 0.12em; color: var(--gold); font-size: 27px; }
-  .slogan::after { content: ""; display: block; width: 60px; height: 0.75px; background: var(--gold); margin: 22px 0 0 auto; }
+  .discover { margin-top: 12px; font-family: "Jost", sans-serif; font-weight: 400; font-size: 14px; letter-spacing: 0.14em; color: #d8c8a6; }
+  .orn { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 18px 0 8px; }
+  .orn::before, .orn::after { content: ""; flex: 0 0 74px; height: 1px; background: var(--gold-line); }
+  .orn svg { width: 44px; height: 44px; }
+  .services { list-style: none; }
+  .services li { font-size: 22px; font-weight: 500; line-height: 1.22; letter-spacing: 0.02em; color: var(--cream); text-shadow: 0 2px 5px rgba(0,0,0,0.9); }
+  .services li::before { content: "•"; color: var(--gold); margin-right: 0.35em; }
+  .sep { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 15px 0; }
+  .sep::before, .sep::after { content: ""; flex: 0 0 64px; height: 1px; background: var(--gold-line); }
+  .sep svg { width: 26px; height: 26px; }
 
-  .services { position: absolute; z-index: 4; right: 70px; top: 562px; width: 292px; list-style: none; }
-  .services li {
-    display: grid; grid-template-columns: 22px 1fr; align-items: center; gap: 12px;
-    padding: 17px 0; border-bottom: 0.5px solid rgba(176, 138, 74, 0.35);
-    font-family: "Jost", sans-serif; font-weight: 300; font-size: 12.5px;
-    letter-spacing: 0.24em; line-height: 1.35; color: var(--anthracite);
-  }
-  .services li:first-child { border-top: 0.5px solid rgba(176, 138, 74, 0.35); }
-  .services small {
-    display: block; margin-top: 4px; font-family: "Cormorant Garamond", serif; font-style: italic;
-    font-weight: 300; font-size: 14px; letter-spacing: 0.06em; color: var(--gold);
-  }
-  .services svg { width: 18px; height: 18px; stroke: var(--gold); stroke-width: 0.8; fill: none; }
-
-  .strip {
-    position: absolute; z-index: 4; left: 74px; top: 430px; transform-origin: left top;
-    transform: rotate(-90deg) translateX(-100%); white-space: nowrap;
-    font-family: "Jost", sans-serif; font-weight: 200; font-size: 13px; letter-spacing: 0.7em; color: var(--anthracite);
-    display: flex; align-items: center; gap: 26px;
-  }
-  .strip b { font-weight: 200; color: var(--gold); }
-  .strip span.rule { width: 70px; height: 0.5px; background: var(--gold); display: inline-block; }
-
-  .seal { position: absolute; z-index: 4; left: 64px; top: 1150px; width: 92px; height: 92px; }
-
+  /* ── imprint ── */
   .imprint {
-    position: absolute; z-index: 4; left: 0; bottom: 0; width: 100%; height: 140px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-    background: var(--ivory);
+    position: absolute; z-index: 6; left: 18px; right: 18px; bottom: 18px; height: 96px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 46px;
+    background: linear-gradient(180deg, rgba(11,10,9,0.4), #0b0a09);
+    font-size: 19px; font-weight: 500; letter-spacing: 0.05em; color: #e7d6b2;
   }
-  .imprint::before { content: ""; width: 1050px; height: 0.5px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-bottom: 4px; }
-  .imprint .row { font-family: "Jost", sans-serif; font-weight: 200; font-size: 13px; letter-spacing: 0.42em; color: var(--anthracite); }
-  .imprint .row .dot { color: var(--gold); padding: 0 18px; }
-  .imprint .founder { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 300; font-size: 17px; letter-spacing: 0.18em; color: var(--gold); }
+  .imprint::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--gold-line); }
+  .imprint .ig { display: flex; align-items: center; gap: 10px; font-family: "Jost", sans-serif; font-weight: 400; letter-spacing: 0.04em; }
+  .imprint .ig svg { width: 26px; height: 26px; }
 </style>
 </head>
 <body>
 <div class="poster">
-  <div class="brand">
-    <h1>THE GRACE</h1>
-  </div>
-  <div class="photo" role="img" aria-label="Cansu Üçdağ, perde aralığından bakıyor"></div>
-  <p class="atelier" style="position:absolute;top:96px;left:0;width:100%;text-align:center;">HAIR &amp; BEAUTY ATELIER</p>
+  <div class="facet f1"></div><div class="facet f2"></div><div class="facet f3"></div><div class="facet f4"></div>
+  <div class="ribbon r1"></div><div class="ribbon r2"></div><div class="ribbon r3"></div><div class="ribbon r4"></div><div class="ribbon r5"></div>
+  <svg id="dust" viewBox="0 0 1200 1560" aria-hidden="true"></svg>
 
-  <div class="slogan">
-    ZAMANSIZ<br>DOKUNUŞLARLA
-    <em>kusursuz zarafet</em>
-  </div>
-
-  <ul class="services">
-    <li><svg viewBox="0 0 20 20"><path d="M10 1.5 18.5 10 10 18.5 1.5 10Z"/><path d="M10 6 14 10 10 14 6 10Z"/></svg>
-      <span>HAUTE COUTURE<br>SAÇ TASARIMI<small>Kesim · Renk · Balayage</small></span></li>
-    <li><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.5"/><path d="M10 1.5v17M1.5 10h17"/></svg>
-      <span>PREMIUM<br>SAÇ KAYNAĞI<small>Mikro Kaynak</small></span></li>
-    <li><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.5"/><circle cx="10" cy="10" r="4"/></svg>
-      <span>KİŞİYE ÖZEL<br>CİLT BAKIMI<small>Signature Ritüel</small></span></li>
-    <li><svg viewBox="0 0 20 20"><path d="M10 1.5 18 16.5H2Z"/><path d="M10 9v7.5"/></svg>
-      <span>YENİ NESİL<br>LAZER EPİLASYON<small>Buz Başlık Teknolojisi</small></span></li>
-    <li><svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16"/><path d="M2 2l16 16M18 2 2 18"/></svg>
-      <span>MICROBLADING<br>&amp; İPEK KİRPİK<small>Altın Oran Estetiği</small></span></li>
-    <li><svg viewBox="0 0 20 20"><path d="M10 1.5 12.2 7.8 18.5 10 12.2 12.2 10 18.5 7.8 12.2 1.5 10 7.8 7.8Z"/></svg>
-      <span>VIP NAIL ART<small>Protez Tırnak &amp; Sanat</small></span></li>
-  </ul>
-
-  <div class="strip">EXQUISITE EXPERIENCE <span class="rule"></span> <b>EŞSİZ DENEYİM</b></div>
-
-  <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
-    <defs><path id="c" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs>
-    <circle cx="50" cy="50" r="47" fill="none" stroke="#b08a4a" stroke-width="0.5"/>
-    <circle cx="50" cy="50" r="29" fill="none" stroke="#b08a4a" stroke-width="0.4"/>
-    <text font-family="Jost" font-weight="300" font-size="6.4" letter-spacing="2.2" fill="#2b2a29"><textPath href="#c">THE GRACE ATELIER · DENİZLİ · </textPath></text>
-    <text x="50" y="61" text-anchor="middle" font-family="Bodoni Moda" font-size="32" fill="#b08a4a">G</text>
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fbe7a8"/><stop offset=".5" stop-color="#c9993f"/><stop offset="1" stop-color="#8f6626"/>
+      </linearGradient>
+    </defs>
   </svg>
 
+  <div class="strip"><p>EXQUISITE EXPERIENCE<span>/</span>EŞSİZ DENEYİM</p></div>
+
+  <div class="photo"><img src="portrait-crop.jpg" alt="Cansu Üçdağ"></div>
+  <h1>
+    <span class="title t1"><span class="w" data-t="THE">THE</span></span>
+    <span class="title t2"><span class="w" data-t="GRACE">GRACE</span></span>
+  </h1>
+  <div class="hair"><img src="portrait-hair.png" alt=""></div>
+
+  <div class="atelier">HAIR &amp; BEAUTY ATELIER</div>
+
+  <div class="col">
+    <div class="slogan">ZAMANSIZ<br>DOKUNUŞLARLA<br>BENLİĞİNİZİ<br>YENİDEN KEŞFEDİN</div>
+    <div class="discover">DISCOVER YOUR UNIQUE BEAUTY</div>
+    <div class="orn">
+      <svg viewBox="0 0 44 44" fill="none" stroke="url(#g)" stroke-width="1.2">
+        <path d="M22 2 42 22 22 42 2 22Z"/><path d="M22 8 36 22 22 36 8 22Z" stroke-width=".7"/>
+        <text x="22" y="27.5" text-anchor="middle" font-family="Cinzel" font-size="15" font-weight="600" fill="url(#g)" stroke="none">G</text>
+      </svg>
+    </div>
+    <ul class="services">
+      <li>HAUTE COUTURE<br>SAÇ TASARIMI</li>
+      <div class="sep"><svg viewBox="0 0 26 26" fill="none" stroke="url(#g)" stroke-width="1"><path d="M13 1 25 13 13 25 1 13Z"/><path d="M9 9l8 8M17 9l-8 8" stroke-width=".8"/></svg></div>
+      <li>LUXURY BRIDAL &amp; MAKE-UP</li>
+      <div class="sep"><svg viewBox="0 0 26 26" fill="none" stroke="url(#g)" stroke-width="1"><path d="M13 1 25 13 13 25 1 13Z"/><circle cx="13" cy="13" r="3.5" stroke-width=".8"/></svg></div>
+      <li>İLERİ TEKNOLOJİ LAZER</li>
+      <div class="sep"><svg viewBox="0 0 26 26" fill="none" stroke="url(#g)" stroke-width="1"><path d="M13 1 25 13 13 25 1 13Z"/><path d="M13 8v10M8 13h10" stroke-width=".8"/></svg></div>
+      <li>KLİNİK CİLT BAKIMI</li>
+      <div class="sep"><svg viewBox="0 0 26 26" fill="none" stroke="url(#g)" stroke-width="1"><path d="M13 1 25 13 13 25 1 13Z"/><path d="M8.5 15c2-4 7-4 9 0" stroke-width=".8"/></svg></div>
+      <li>ALTIN ORAN ESTETİK &amp; KAŞ</li>
+      <div class="sep"><svg viewBox="0 0 26 26" fill="none" stroke="url(#g)" stroke-width="1"><path d="M13 1 25 13 13 25 1 13Z"/><path d="M13 8l2 5-2 5-2-5Z" stroke-width=".8"/></svg></div>
+      <li>VIP NAIL ART</li>
+    </ul>
+  </div>
+
   <div class="imprint">
-    <div class="row">KINIKLI MAH. MEVLANA CAD. NO:30 KAT:1 · DENİZLİ<span class="dot">◆</span>+90 552 369 36 99<span class="dot">◆</span>09.30 – 20.30</div>
-    <div class="founder">by Cansu Üçdağ</div>
+    <span>REZERVASYON: 0552 369 36 99</span>
+    <span class="ig">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#e7d6b2" stroke-width="1.4"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1" fill="#e7d6b2" stroke="none"/></svg>
+      @thegracedenizli
+    </span>
+    <span>KINIKLI / DENİZLİ</span>
   </div>
 
   <div class="frame"></div>
 </div>
+<script>
+  // Deterministic gold dust in the lower-left and upper-right corners.
+  let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const dust = document.getElementById("dust"); let out = "";
+  const cloud = (cx, cy, rx, ry, n) => {
+    for (let i = 0; i < n; i++) {
+      const a = rnd() * Math.PI * 2, d = Math.pow(rnd(), 0.7);
+      const x = cx + Math.cos(a) * rx * d, y = cy + Math.sin(a) * ry * d;
+      const r = 0.4 + rnd() * 1.6, o = (0.25 + rnd() * 0.75) * (1 - d * 0.7);
+      out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(2)}" fill="${rnd() > 0.5 ? "#f0d48e" : "#c9993f"}" opacity="${o.toFixed(2)}"/>`;
+    }
+  };
+  cloud(60, 1420, 260, 200, 520);
+  cloud(1180, 120, 200, 160, 220);
+  dust.innerHTML = out;
+</script>
 </body>
 </html>
