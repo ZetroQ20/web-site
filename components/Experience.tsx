@@ -9,7 +9,11 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Services from "./Services";
 import Gallery from "./Gallery";
+import FounderVision from "./FounderVision";
+import Testimonials from "./Testimonials";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 import Booking from "./Booking";
+import { RitualProvider } from "./RitualBuilderModal";
 
 /** Holds scroll still until the curtain opens, then recalculates every trigger. */
 function ScrollGate({ ready }: { ready: boolean }) {
@@ -39,17 +43,23 @@ export default function Experience() {
 
   return (
     <SmoothScroll>
-      <ScrollGate ready={ready} />
-      <Preloader onReveal={() => setReady(true)} />
-      <Cursor />
-      <div className="grain" aria-hidden />
-      <Navbar ready={ready} />
-      <main className="overflow-x-clip">
-        <Hero ready={ready} />
-        <Services />
-        <Gallery />
-        <Booking />
-      </main>
+      {/* Ritual Builder: opened from the navbar, service cards and booking section */}
+      <RitualProvider>
+        <ScrollGate ready={ready} />
+        <Preloader onReveal={() => setReady(true)} />
+        <Cursor />
+        <div className="grain" aria-hidden />
+        <Navbar ready={ready} />
+        <main className="overflow-x-clip">
+          <Hero ready={ready} />
+          <Services />
+          <FounderVision />
+          <Gallery />
+          <Testimonials />
+          <BeforeAfterSlider />
+          <Booking />
+        </main>
+      </RitualProvider>
     </SmoothScroll>
   );
 }

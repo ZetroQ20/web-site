@@ -6,7 +6,7 @@ import { scrollToTarget, useLenis } from "./providers/SmoothScroll";
 import Magnetic from "./Magnetic";
 import Photo from "./Photo";
 import { ArrowUpRight } from "./icons";
-import { HERO_IMAGE, SALON } from "@/lib/content";
+import { HERO_IMAGE, SITE_CONFIG } from "@/lib/content";
 
 const HEADLINE = ["KENDİNİ", "YENİDEN", "KEŞFET"];
 const RING_TEXT = "• PRESTIGE • BEAUTY • LUXURY • PRESTIGE • BEAUTY • LUXURY ";
@@ -187,7 +187,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           {/* Caption */}
           <div data-depth="0.7" className="absolute -bottom-6 right-0 z-20 md:-right-6">
             <div className="hero-fade border-l border-gold/60 bg-noir/85 px-5 py-4 md:bg-noir/70 md:backdrop-blur-md">
-              <p className="text-[9px] uppercase tracking-[0.45em] text-gold/80">Signature Salon · {SALON.name}</p>
+              <p className="text-[9px] uppercase tracking-[0.45em] text-gold/80">Signature Salon · {SITE_CONFIG.name}</p>
               <p className="mt-1 font-serif text-lg italic text-bone">Cansu Üçdağ</p>
             </div>
           </div>

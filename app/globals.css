@@ -13,6 +13,7 @@
   --font-display: var(--font-cinzel), "Cinzel", serif;
   --font-serif: var(--font-playfair), "Playfair Display", serif;
   --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-script: var(--font-signature), "Great Vibes", cursive;
 
   --ease-luxe: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
@@ -23,6 +24,7 @@
   --font-cinzel: "Cinzel Variable";
   --font-playfair: "Playfair Display Variable";
   --font-manrope: "Manrope Variable";
+  --font-signature: "Great Vibes";
 }
 
 html {
@@ -119,6 +121,12 @@ html.lenis body {
 .vip-stage[data-deck] .vip-card {
   position: absolute;
   inset: 0;
+}
+
+/* Ritual Builder open: freeze the page behind the dialog (Lenis is stopped too) */
+html.ritual-open,
+html.ritual-open body {
+  overflow: hidden;
 }
 
 /* ---------- Film grain ---------- */

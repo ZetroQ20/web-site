@@ -8,7 +8,7 @@ import Photo from "../Photo";
 // Safari/iOS gives a height-only aspect-ratio box whose children are all absolutely
 // positioned an intrinsic width of 0, which once hid every service photo on iPhone.
 const FRAME =
-  "relative h-[clamp(12rem,calc(100svh-23rem),62svh)] w-[min(calc(100vw-2.5rem),30rem,clamp(12rem,calc(100svh-23rem),62svh))] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-35rem),58svh)] md:w-[min(calc(100vw-6rem),30rem,clamp(16rem,calc(100svh-35rem),58svh))] lg:h-[74svh] lg:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
+  "relative h-[clamp(11rem,calc(100svh-24rem),60svh)] w-[min(calc(100vw-2.5rem),30rem,clamp(11rem,calc(100svh-24rem),60svh))] overflow-hidden bg-graphite md:h-[clamp(16rem,calc(100svh-37rem),56svh)] md:w-[min(calc(100vw-6rem),30rem,clamp(16rem,calc(100svh-37rem),56svh))] lg:h-[74svh] lg:w-[calc(74svh*0.618)] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]";
 
 /** Rendered width: almost the full screen on phones/tablets, ~46% of the height on desktop. */
 const SIZES = "(min-width: 1024px) 30vw, (min-width: 768px) 30rem, 92vw";
@@ -41,13 +41,12 @@ export default function ServiceMedia({ service }: { service: Service }) {
 
       {service.effect === "glow" && (
         <div className={FRAME}>
-          {/* Matte, tired skin… */}
-          <Photo sizes={SIZES} src={service.image} alt={alt} className={`${img} brightness-[0.62] contrast-[0.9] saturate-[0.35]`} />
-          {/* …gives way to a dewy radiance blooming from the centre */}
-          <div className="fx-glow-vivid absolute inset-0 [clip-path:circle(0%_at_50%_40%)]">
-            <Photo sizes={SIZES} src={service.image} alt="" className={`${img} brightness-[1.06] saturate-[1.12]`} />
-            <div className="absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_40%,rgba(255,244,225,0.22),transparent_70%)] mix-blend-screen" />
-          </div>
+          {/* One photo only — the matte/dewy contrast is pure CSS layered on top of it */}
+          <Photo sizes={SIZES} src={service.image} alt={alt} className={`${img} brightness-[1.04] saturate-[1.1]`} />
+          {/* Matte veil (backdrop-filter) with a circular hole that blooms from the centre */}
+          <div className="fx-glow-veil absolute inset-0 [--r:0%] [backdrop-filter:saturate(0.35)_brightness(0.62)_contrast(0.9)] [-webkit-backdrop-filter:saturate(0.35)_brightness(0.62)_contrast(0.9)] [mask-image:radial-gradient(circle_at_50%_40%,transparent_var(--r),#000_calc(var(--r)_+_1%))] [-webkit-mask-image:radial-gradient(circle_at_50%_40%,transparent_var(--r),#000_calc(var(--r)_+_1%))]" />
+          {/* Dewy sheen that warms up as the skin "wakes" */}
+          <div className="fx-glow-sheen pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_40%,rgba(255,244,225,0.22),transparent_70%)] opacity-0 mix-blend-screen" />
           {/* Positioned wrapper keeps Tailwind's translate apart from GSAP's scale */}
           <div className="pointer-events-none absolute left-1/2 top-[40%] z-10 aspect-square w-[70%] -translate-x-1/2 -translate-y-1/2">
             <div className="fx-glow-halo h-full w-full rounded-full border border-gold-light/50 opacity-0 shadow-[0_0_40px_8px_rgba(228,207,166,0.35),inset_0_0_40px_8px_rgba(228,207,166,0.25)]" />
@@ -59,16 +58,12 @@ export default function ServiceMedia({ service }: { service: Service }) {
       {service.effect === "laser" && (
         <div className={FRAME}>
           <Photo sizes={SIZES} src={service.image} alt={alt} className={img} />
-          {/* Frosted glass copy — clipped away above the laser */}
-          <div className="fx-laser-frost absolute inset-0 overflow-hidden">
-            <Photo sizes={SIZES} src={service.image} alt="" className={`${img} scale-110 blur-[22px] brightness-75 saturate-50`} />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(239,232,220,0.08),rgba(197,168,128,0.12))]" />
-          </div>
+          {/* Frosted glass (backdrop-filter over the single photo) — clipped away above the laser */}
+          <div className="fx-laser-frost absolute inset-0 bg-[linear-gradient(180deg,rgba(239,232,220,0.08),rgba(197,168,128,0.12))] [backdrop-filter:blur(22px)_brightness(0.78)_saturate(0.55)] [-webkit-backdrop-filter:blur(22px)_brightness(0.78)_saturate(0.55)]" />
           {/* Full-height track: translating it by y% moves the beam on the compositor */}
           <div className="fx-laser-line pointer-events-none absolute inset-0 z-10 opacity-0 will-change-transform">
             <div className="absolute inset-x-0 -top-16 h-16 bg-gradient-to-b from-transparent to-gold/25" />
             <div className="h-[2px] bg-[linear-gradient(90deg,transparent,#c5a880_12%,#fff6e3_50%,#c5a880_88%,transparent)] shadow-[0_0_8px_2px_rgba(243,227,195,0.9),0_0_28px_6px_rgba(197,168,128,0.7),0_0_60px_14px_rgba(197,168,128,0.35)]" />
-            <span className="fx-laser-readout absolute right-3 top-2 font-sans text-[9px] tracking-[0.35em] text-gold-light">000%</span>
           </div>
           <Glaze />
         </div>

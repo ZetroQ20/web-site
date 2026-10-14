@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
-import { SALON, SERVICES } from "@/lib/content";
+import { SITE_CONFIG, SERVICES } from "@/lib/content";
 import { scrollToTarget, useLenis } from "./providers/SmoothScroll";
 import Magnetic from "./Magnetic";
 import { ArrowUpRight, Clock, Instagram, Phone, Pin, WhatsApp } from "./icons";
+import { useRitual } from "./RitualBuilderModal";
 
 type Form = { name: string; phone: string; service: string; date: string; time: string; note: string };
 const EMPTY: Form = { name: "", phone: "", service: "", date: "", time: "", note: "" };
@@ -33,6 +34,7 @@ function buildMessage(f: Form) {
 export default function Booking() {
   const root = useRef<HTMLElement>(null);
   const lenis = useLenis();
+  const ritual = useRitual();
   const [form, setForm] = useState<Form>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({});
   const [sent, setSent] = useState(false);
@@ -69,7 +71,7 @@ export default function Booking() {
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    const url = `https://wa.me/${SALON.whatsapp}?text=${encodeURIComponent(buildMessage(form))}`;
+    const url = `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(buildMessage(form))}`;
     const win = window.open(url, "_blank");
     if (win) win.opener = null;
     else window.location.href = url; // popup blocked → same tab
@@ -98,7 +100,24 @@ export default function Booking() {
             <span className="mask block"><span className="bk-title block font-serif italic text-gold-gradient shimmer">oluşturun</span></span>
           </h2>
 
-          <form onSubmit={onSubmit} noValidate className="mt-14 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-2">
+          {/* Multi-service visitors: the Ritual Builder adds up price & duration live */}
+          <button
+            type="button"
+            onClick={() => ritual.open()}
+            aria-haspopup="dialog"
+            data-cursor="OLUŞTUR"
+            className="bk-fade group mt-10 flex w-full items-center justify-between gap-6 border border-gold/25 bg-gold/[0.04] px-5 py-5 text-left transition-colors duration-500 hover:border-gold/60 md:px-7"
+          >
+            <span>
+              <span className="block text-[9px] uppercase tracking-[0.4em] text-gold/80">Birden fazla hizmet mi?</span>
+              <span className="mt-1.5 block font-serif text-lg italic text-bone md:text-xl">Ritüel Oluşturucu ile tutarı anında görün</span>
+            </span>
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold transition-transform duration-500 group-hover:translate-x-1">
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
+          </button>
+
+          <form onSubmit={onSubmit} noValidate className="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-2">
             <Field id="name" label="Ad Soyad" error={errors.name}>
               <input id="name" name="name" autoComplete="name" placeholder=" " value={form.name} onChange={set("name")} aria-invalid={!!errors.name} />
             </Field>
@@ -150,24 +169,24 @@ export default function Booking() {
         <aside className="flex flex-col justify-between gap-14 lg:col-span-5 lg:col-start-8 lg:pt-40">
           <div className="space-y-10">
             <Info icon={<Pin className="h-5 w-5" />} label="Adres">
-              <a href={SALON.mapsHref} target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 hover:text-gold-light" data-cursor="YOL TARİFİ">
-                {SALON.address}
+              <a href={SITE_CONFIG.mapsHref} target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-2 hover:text-gold-light" data-cursor="YOL TARİFİ">
+                {SITE_CONFIG.address}
                 <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-gold transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
               </a>
             </Info>
             <Info icon={<Clock className="h-5 w-5" />} label="Çalışma Saatleri">
-              <span className="text-gold-light">{SALON.hours}</span>
+              <span className="text-gold-light">{SITE_CONFIG.hours}</span>
             </Info>
             <Info icon={<Phone className="h-5 w-5" />} label="Telefon">
-              <a href={SALON.phoneHref} className="hover:text-gold-light" data-cursor="ARA">{SALON.phoneDisplay}</a>
+              <a href={SITE_CONFIG.phoneHref} className="hover:text-gold-light" data-cursor="ARA">{SITE_CONFIG.phoneDisplay}</a>
             </Info>
           </div>
 
           <div className="bk-fade flex items-center gap-4">
             {[
-              { href: `https://wa.me/${SALON.whatsapp}`, label: "WhatsApp", icon: <WhatsApp className="h-5 w-5" /> },
-              { href: SALON.instagram, label: "Instagram", icon: <Instagram className="h-5 w-5" /> },
-              { href: SALON.phoneHref, label: "Telefon", icon: <Phone className="h-5 w-5" /> },
+              { href: `https://wa.me/${SITE_CONFIG.whatsapp}`, label: "WhatsApp", icon: <WhatsApp className="h-5 w-5" /> },
+              { href: SITE_CONFIG.instagramUrl, label: "Instagram", icon: <Instagram className="h-5 w-5" /> },
+              { href: SITE_CONFIG.phoneHref, label: "Telefon", icon: <Phone className="h-5 w-5" /> },
             ].map((s) => (
               <Magnetic key={s.label} strength={0.5}>
                 <a
@@ -187,7 +206,7 @@ export default function Booking() {
 
       {/* Footer */}
       <footer className="relative mx-auto mt-40 flex max-w-[1600px] flex-col items-center gap-6 border-t border-gold/10 px-5 py-10 text-[10px] uppercase tracking-[0.4em] text-bone/40 md:mt-64 md:flex-row md:justify-between md:px-12">
-        <span>{SALON.full}</span>
+        <span>{SITE_CONFIG.full}</span>
         <span className="text-gold/70">The Grace 2026 • Design by Excellence</span>
         <button type="button" onClick={() => scrollToTarget(lenis, "#top")} className="group flex items-center gap-3 hover:text-gold-light" data-cursor="YUKARI">
           Başa Dön
