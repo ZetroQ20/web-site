@@ -5,6 +5,7 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { scrollToTarget, useLenis } from "./providers/SmoothScroll";
 import Magnetic from "./Magnetic";
 import { Monogram } from "./icons";
+import { useRitual } from "./RitualBuilderModal";
 
 const LINKS = [
   { href: "#hizmetler", label: "Hizmetler" },
@@ -15,6 +16,7 @@ const LINKS = [
 export default function Navbar({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null);
   const lenis = useLenis();
+  const ritual = useRitual();
 
   useGSAP(
     () => {
@@ -93,7 +95,16 @@ export default function Navbar({ ready }: { ready: boolean }) {
 
         <div className="nav-item invisible">
           <Magnetic strength={0.3}>
-            <a href="#iletisim" onClick={(e) => go(e, "#iletisim")} className="btn-aura !px-5 !py-3 md:!px-7" data-cursor="RANDEVU">
+            <a
+              href="#iletisim"
+              onClick={(e) => {
+                e.preventDefault(); // href stays as a no-JS fallback to the booking section
+                ritual.open();
+              }}
+              aria-haspopup="dialog"
+              className="btn-aura !px-5 !py-3 md:!px-7"
+              data-cursor="RANDEVU"
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_#C5A880]" />
               Randevu Al
             </a>

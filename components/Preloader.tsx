@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/gsap";
 import SplitText from "./SplitText";
-import { SALON } from "@/lib/content";
+import { SITE_CONFIG } from "@/lib/content";
 
 type Props = { onReveal: () => void };
 
@@ -105,7 +105,7 @@ export default function Preloader({ onReveal }: Props) {
       <div className="pl-content absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
         <div className="relative">
           <SplitText
-            text={SALON.name}
+            text={SITE_CONFIG.name}
             className="block font-display text-[clamp(2.8rem,10vw,8.5rem)] font-medium leading-none tracking-[0.12em] text-gold"
             innerClassName="pl-char"
           />
@@ -114,12 +114,12 @@ export default function Preloader({ onReveal }: Props) {
             aria-hidden
             className="pl-shine invisible absolute inset-0 block font-display text-[clamp(2.8rem,10vw,8.5rem)] font-medium leading-none tracking-[0.12em] text-gold-gradient shimmer opacity-0"
           >
-            {SALON.name}
+            {SITE_CONFIG.name}
           </span>
         </div>
         <div className="pl-line mt-6 h-px w-[min(70vw,520px)] origin-center scale-x-0 bg-gradient-to-r from-transparent via-gold-light to-transparent shadow-[0_0_12px_rgba(197,168,128,0.8)]" />
         <SplitText
-          text={SALON.founder}
+          text={SITE_CONFIG.founder}
           className="mt-6 block font-sans text-[clamp(0.7rem,1.6vw,0.95rem)] tracking-[0.7em] text-sand/80"
           innerClassName="pl-sub"
         />

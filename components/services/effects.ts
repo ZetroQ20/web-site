@@ -61,10 +61,12 @@ const wave: Scene = (card) => {
 // Matte skin turns dewy: a luminous circle blooms from the centre of the frame
 // while a soft gold halo ripples outward and fades, like light on hydrated skin.
 const glow: Scene = (card) => {
-  const vivid = $(card, ".fx-glow-vivid");
+  const veil = $(card, ".fx-glow-veil");
+  const sheen = $(card, ".fx-glow-sheen");
   const halo = $(card, ".fx-glow-halo");
 
-  gsap.set(vivid, { clipPath: "circle(0% at 50% 40%)" });
+  gsap.set(veil, { "--r": "0%" });
+  gsap.set(sheen, { autoAlpha: 0 });
   gsap.set(halo, { scale: 0.2, autoAlpha: 0 });
 
   const tl = gsap
@@ -72,7 +74,9 @@ const glow: Scene = (card) => {
     .to(halo, { autoAlpha: 1, duration: 0.15, ease: "none" }, 0)
     .to(halo, { scale: 1.9, duration: 1, ease: "power2.out" }, 0)
     .to(halo, { autoAlpha: 0, duration: 0.45, ease: "power1.in" }, 0.55)
-    .to(vivid, { clipPath: "circle(90% at 50% 40%)", duration: 1, ease: "power2.inOut" }, 0.05);
+    // the matte veil's hole grows until the whole photo is dewy and luminous
+    .to(veil, { "--r": "92%", duration: 1, ease: "power2.inOut" }, 0.05)
+    .to(sheen, { autoAlpha: 1, duration: 0.6, ease: "power1.out" }, 0.35);
   return { tl };
 };
 
@@ -82,13 +86,10 @@ const glow: Scene = (card) => {
 const laser: Scene = (card) => {
   const frost = $(card, ".fx-laser-frost");
   const line = $(card, ".fx-laser-line");
-  const readout = $(card, ".fx-laser-readout");
   const state = { y: 0 };
   const render = () => {
     frost.style.clipPath = `inset(${state.y}% 0% 0% 0%)`;
     line.style.transform = `translate3d(0, ${state.y}%, 0)`; // compositor-only, no layout
-
-    readout.textContent = `${String(Math.round(state.y)).padStart(3, "0")}%`;
   };
   render();
   gsap.set(line, { autoAlpha: 0 });
@@ -170,7 +171,8 @@ export const SCENES: Record<ServiceEffect, Scene> = { wave, glow, laser, golden,
 
 /** Final, motionless state used when the visitor prefers reduced motion. */
 export function settle(card: HTMLElement) {
-  card.querySelectorAll<HTMLElement>(".fx-wave-media, .fx-glow-vivid").forEach((el) => (el.style.clipPath = "none"));
+  card.querySelectorAll<HTMLElement>(".fx-wave-media").forEach((el) => (el.style.clipPath = "none"));
+  card.querySelectorAll<HTMLElement>(".fx-glow-veil").forEach((el) => (el.style.display = "none"));
   card.querySelectorAll<HTMLElement>(".fx-laser-frost").forEach((el) => (el.style.clipPath = "inset(100% 0 0 0)"));
   card.querySelectorAll<HTMLElement>(".fx-laser-line, .fx-golden-guides").forEach((el) => (el.style.opacity = "0"));
 }

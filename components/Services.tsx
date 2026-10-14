@@ -2,12 +2,12 @@
 
 import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/gsap";
-import { SERVICES } from "@/lib/content";
-import { scrollToTarget, useLenis } from "./providers/SmoothScroll";
+import { SERVICES, formatPrice } from "@/lib/content";
 import Magnetic from "./Magnetic";
 import ServiceMedia from "./services/ServiceMedia";
 import { SCENES, settle } from "./services/effects";
 import { ArrowUpRight } from "./icons";
+import { useRitual } from "./RitualBuilderModal";
 
 // Each card gets its own lighting so the deck reads as separate layers.
 const TONES = [
@@ -40,7 +40,7 @@ const SCENE_SPAN = SCENE_LEAD + HOLD * 0.8;
  */
 export default function Services() {
   const root = useRef<HTMLElement>(null);
-  const lenis = useLenis();
+  const ritual = useRitual();
 
   useGSAP(
     () => {
@@ -186,14 +186,14 @@ export default function Services() {
                       <li key={it.name} className="overflow-hidden border-b border-gold/15">
                         <div className="vip-reveal flex items-baseline justify-between gap-6 py-1.5 text-[13px] md:py-2.5 md:text-sm lg:py-3.5 lg:text-[15px]">
                           <span className="text-bone/85">{it.name}</span>
-                          <span className="font-serif italic text-gold">{it.price}</span>
+                          <span className="font-serif italic text-gold">{formatPrice(it.price)}</span>
                         </div>
                       </li>
                     ))}
                   </ul>
                   <div className="mt-6 hidden md:block lg:mt-8">
                     <Magnetic>
-                      <button type="button" onClick={() => scrollToTarget(lenis, "#iletisim")} className="btn-aura" data-cursor="RANDEVU">
+                      <button type="button" onClick={() => ritual.open({ category: s.no })} aria-haspopup="dialog" className="btn-aura" data-cursor="RANDEVU">
                         Randevu Planla <ArrowUpRight className="h-4 w-4 text-gold" />
                       </button>
                     </Magnetic>
