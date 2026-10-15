@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ÜÇDAĞ — Kreatif &amp; Dijital Ajans · Denizli</title>
+<meta name="description" content="Denizli merkezli kreatif ajans: web tasarım, reklam kampanyaları, grafik tasarım ve yapay zeka destekli görsel içerik. Kurucu &amp; Kreatif Direktör Abdullah Üçdağ." />
+<meta name="theme-color" content="#060708" />
+<meta property="og:title" content="ÜÇDAĞ — Markanızı geleceğe taşıyoruz" />
+<meta property="og:description" content="Denizli'den global kalitede web, reklam, grafik ve AI kreatif." />
+<meta property="og:locale" content="tr_TR" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<style>
+/* ================= Tokens ================= */
+:root {
+  --void: #060708;
+  --carbon: #0d0f11;
+  --ink: #edefea;
+  --mist: #a3a9a2;
+  --acid: #c6ff3d;
+  --volt: #4d7cff;
+  --line: rgb(237 239 234 / 0.12);
+  --display: "Syne", system-ui, sans-serif;
+  --sans: "Inter", system-ui, sans-serif;
+  --serif: "Instrument Serif", "Times New Roman", serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pad: clamp(20px, 4vw, 32px);
+  --max: 1400px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--void); color: var(--ink); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+.lenis.lenis-stopped { overflow: hidden; }
+body { margin: 0; background: var(--void); font-family: var(--sans); font-size: 16px; line-height: 1.5; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+::selection { background: var(--acid); color: var(--void); }
+:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: fixed; left: 16px; top: -60px; z-index: 300; padding: 10px 18px; border-radius: 999px; background: var(--acid); color: var(--void); font-weight: 600; transition: top .3s var(--ease); }
+.skip:focus { top: 16px; }
+svg.i { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.wrap { position: relative; max-width: var(--max); margin: 0 auto; }
+section.block { position: relative; padding: clamp(110px, 14vw, 170px) var(--pad); overflow: hidden; }
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+}
+
+/* ================= Shared UI ================= */
+.eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--mist); }
+.eyebrow::before { content: ""; width: 32px; height: 1px; background: var(--acid); }
+.h2 { font-family: var(--display); font-weight: 700; letter-spacing: -.035em; line-height: .95; font-size: clamp(2.6rem, 6.5vw, 6rem); }
+.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; }
+.acid { color: var(--acid); }
+.stroke { color: transparent; -webkit-text-stroke: 1px rgb(237 239 234 / .38); }
+.lead { font-size: 1.125rem; line-height: 1.65; color: var(--mist); max-width: 30rem; }
+
+.glass {
+  background: linear-gradient(140deg, rgb(255 255 255 / .07), rgb(255 255 255 / .02));
+  border: 1px solid rgb(255 255 255 / .09);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Fill button: an acid wipe rises from below */
+.btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 48px; padding: 0 1.6rem; border-radius: 999px;
+  border: 1px solid rgb(237 239 234 / .22); font-weight: 500; font-size: .95rem; white-space: nowrap;
+  transition: color .45s var(--ease), border-color .45s var(--ease);
+}
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--acid); transform: translateY(101%); transition: transform .45s var(--ease); }
+.btn:hover, .btn:focus-visible { color: var(--void); border-color: var(--acid); }
+.btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
+.btn svg { font-size: 1.1em; transition: transform .45s var(--ease); }
+.btn:hover svg { transform: translate(2px, -2px); }
+.btn--solid { background: var(--acid); color: var(--void); border-color: var(--acid); font-weight: 600; }
+.btn--solid::before { background: var(--ink); }
+.btn--sm { min-height: 40px; padding: 0 1.25rem; font-size: .875rem; }
+
+.draw { background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .45s var(--ease); }
+.draw:hover, .draw:focus-visible { background-size: 100% 1px; }
+
+.blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); opacity: .55; animation: drift 22s ease-in-out infinite alternate; }
+@keyframes drift { to { transform: translate3d(8%, -10%, 0) scale(1.15); } }
+
+.grain { pointer-events: none; position: fixed; inset: 0; z-index: 90; opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* Reveal on scroll (only when JS + motion are available) */
+.js [data-reveal] { opacity: 0; transform: translateY(48px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, 0s); }
+.js [data-reveal].in { opacity: 1; transform: none; }
+
+/* ================= Cursor ================= */
+.cursor-ring, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 200; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity .25s; }
+.cursor-ring { width: 36px; height: 36px; margin: -18px 0 0 -18px; border: 1px solid rgb(237 239 234 / .45); display: grid; place-items: center;
+  transition: width .45s var(--ease), height .45s var(--ease), margin .45s var(--ease), background-color .45s var(--ease), border-color .45s var(--ease), opacity .25s; }
+.cursor-ring span { font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--void); opacity: 0; transition: opacity .2s; }
+.cursor-dot { z-index: 201; width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--acid); box-shadow: 0 0 12px 2px rgb(198 255 61 / .7); transition: opacity .25s, transform .25s; }
+.has-cursor .cursor-ring, .has-cursor .cursor-dot { opacity: 1; }
+.cursor-ring.link { width: 62px; height: 62px; margin: -31px 0 0 -31px; background: rgb(198 255 61 / .08); border-color: rgb(198 255 61 / .9); }
+.cursor-ring.label { width: 104px; height: 104px; margin: -52px 0 0 -52px; background: rgb(198 255 61 / .95); border-color: var(--acid); }
+.cursor-ring.label span { opacity: 1; }
+.cursor-ring.link ~ .cursor-dot, .cursor-ring.label ~ .cursor-dot { transform: scale(0); }
+
+/* ================= Nav ================= */
+.nav { position: fixed; inset: 0 0 auto; z-index: 100; padding: 16px var(--pad) 0; }
+.nav-bar { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 10px 10px 10px 24px; border-radius: 999px; border: 1px solid transparent;
+  transition: background-color .5s var(--ease), border-color .5s var(--ease), box-shadow .5s var(--ease); }
+.nav.scrolled .nav-bar { background: linear-gradient(140deg, rgb(255 255 255 / .07), rgb(255 255 255 / .02)); border-color: rgb(255 255 255 / .09);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); box-shadow: 0 10px 40px -12px rgb(0 0 0 / .7); }
+.brand { font-family: var(--display); font-size: 1.125rem; font-weight: 700; letter-spacing: .02em; }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a { font-size: .875rem; color: rgb(237 239 234 / .75); padding: 4px 0; transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-end { display: flex; align-items: center; gap: 8px; }
+.icon-btn { display: none; width: 44px; height: 44px; place-items: center; border-radius: 50%; border: 1px solid rgb(237 239 234 / .2); font-size: 20px; }
+.js .nav { animation: drop 1.1s var(--ease) .2s both; }
+@keyframes drop { from { transform: translateY(-120%); opacity: 0; } }
+
+.menu { position: fixed; inset: 0; z-index: 150; display: flex; flex-direction: column; padding: 24px var(--pad) 40px; background: rgb(6 7 8 / .96); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+.menu[hidden] { display: none; }
+.menu-top { display: flex; justify-content: space-between; align-items: center; }
+.menu ul { margin-top: auto; }
+.menu ul a { display: flex; align-items: baseline; gap: 16px; padding: 8px 0; font-family: var(--display); font-size: 3rem; font-weight: 700; letter-spacing: -.03em; }
+.menu ul a small { font-size: .875rem; font-weight: 400; color: var(--acid); }
+.menu .btn { margin-top: 40px; width: 100%; }
+
+@media (max-width: 767px) {
+  .nav-links { display: none; }
+  .icon-btn { display: grid; }
+  .nav-bar { padding-left: 20px; }
+}
+@media (max-width: 479px) { .nav-cta { display: none; } }
+
+/* ================= Hero (SculptureHero) overrides ================= */
+.ajans-hero .sh-nav { visibility: hidden; }
+.ajans-hero .sh-h1 { font-weight: 700; letter-spacing: -.04em; }
+.ajans-hero .sh-accent { letter-spacing: -.01em; }
+.ajans-hero .sh-btn { background: var(--acid); color: var(--void); font-weight: 600; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.ajans-hero .sh-btn:hover { box-shadow: 0 10px 40px -8px rgb(198 255 61 / .55); }
+.ajans-hero .sh-txt:hover { border-bottom-color: var(--acid); }
+.js .ajans-hero .rise { animation: rise 1.3s var(--ease) both; animation-delay: var(--d, .35s); }
+@keyframes rise { from { opacity: 0; transform: translateY(60%); } }
+
+/* ================= Marquee ================= */
+.marquee-box { overflow: hidden; border-block: 1px solid rgb(237 239 234 / .1); padding: 32px 0; }
+.marquee { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+.marquee ul { display: flex; align-items: center; flex-shrink: 0; }
+.marquee li { display: flex; align-items: center; gap: 32px; padding: 0 16px; font-family: var(--display); font-weight: 700; letter-spacing: -.03em; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; }
+.marquee li svg { color: var(--acid); font-size: 28px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ================= Services ================= */
+.head-grid { display: grid; gap: 40px; align-items: end; }
+@media (min-width: 900px) { .head-grid { grid-template-columns: 7fr 4fr; justify-content: space-between; } }
+.cards { display: grid; gap: 20px; margin-top: clamp(64px, 8vw, 96px); }
+@media (min-width: 768px) { .cards { grid-template-columns: 1fr 1fr; gap: 24px; } .cards > li:nth-child(even) { margin-top: 80px; margin-bottom: -80px; } }
+.card { position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100%; min-height: 340px; padding: clamp(28px, 3vw, 36px); border-radius: 28px; transition: transform .5s var(--ease); }
+.card:hover { transform: translateY(-4px); }
+/* pointer-following neon edge + glow (--mx/--my set from JS) */
+.card::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; padding: 1px;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(198 255 61 / .75), rgb(77 124 255 / .35) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .4s var(--ease); }
+.card::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgb(198 255 61 / .08), transparent 65%); opacity: 0; transition: opacity .4s var(--ease); }
+.card:hover::before, .card:hover::after { opacity: 1; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; border: 1px solid rgb(237 239 234 / .1); background: rgb(237 239 234 / .04); color: var(--acid); font-size: 24px; transition: background-color .3s, color .3s; }
+.card-icon svg { stroke-width: 1.6; }
+.card:hover .card-icon { background: var(--acid); color: var(--void); }
+.card-no { font-family: var(--display); font-size: .875rem; color: var(--mist); }
+.card h3 { margin-top: auto; padding-top: 56px; font-family: var(--display); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; font-size: clamp(1.6rem, 2.6vw, 2.3rem); }
+.card p { margin-top: 12px; color: var(--mist); line-height: 1.65; max-width: 28rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.tags li { padding: 4px 12px; border-radius: 999px; border: 1px solid rgb(237 239 234 / .12); font-size: .75rem; color: rgb(237 239 234 / .82); }
+
+/* ================= Work ================= */
+.work-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; }
+.gallery { display: grid; gap: 24px; margin-top: clamp(64px, 8vw, 96px); }
+.proj a { display: block; }
+.frame { position: relative; overflow: hidden; border-radius: 24px; background: radial-gradient(120% 90% at 70% 20%, #1c2a10, #0d0f11 55%); }
+.proj--wide .frame { aspect-ratio: 4 / 3; }
+.proj--tall .frame { aspect-ratio: 4 / 5; }
+.proj--square .frame { aspect-ratio: 1; }
+.frame .par { position: absolute; inset: -12% 0; will-change: transform; }
+.frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.proj a:hover img, .proj a:focus-visible img { transform: scale(1.06); }
+.frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(6 7 8 / .9), rgb(6 7 8 / .1) 50%, transparent); opacity: .7; transition: opacity .5s; }
+.proj a:hover .frame::after { opacity: 1; }
+.year { position: absolute; left: 20px; top: 20px; z-index: 2; padding: 4px 12px; border-radius: 999px; background: rgb(6 7 8 / .6); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: .75rem; }
+.info { position: absolute; z-index: 2; inset: auto 16px 16px; padding: 20px; border-radius: 18px; transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.info-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.info h3 { font-family: var(--display); font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }
+.info p { margin-top: 4px; font-size: .875rem; color: var(--mist); }
+.info .go { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--acid); color: var(--void); font-size: 18px; flex-shrink: 0; }
+.info .tags { margin-top: 16px; }
+.info .tags li { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px; }
+@media (min-width: 768px) {
+  .gallery { grid-template-columns: repeat(12, 1fr); column-gap: 32px; row-gap: 40px; }
+  .proj--wide { grid-column: span 7; } .proj--tall, .proj--square { grid-column: span 5; }
+  .proj--wide .frame { aspect-ratio: 16 / 11; } .proj--tall .frame { aspect-ratio: 4 / 5.4; }
+  .gallery > :nth-child(2) { margin-top: 160px; } .gallery > :nth-child(3) { margin-top: -40px; } .gallery > :nth-child(4) { margin-top: 96px; } .gallery > :nth-child(5) { margin-top: -24px; }
+}
+@media (hover: hover) and (min-width: 768px) {
+  .info { opacity: 0; transform: translateY(8px); }
+  .proj a:hover .info, .proj a:focus-visible .info { opacity: 1; transform: none; }
+}
+
+/* ================= Philosophy ================= */
+.manifesto { max-width: 24ch; font-family: var(--display); font-weight: 700; letter-spacing: -.03em; line-height: 1.05; font-size: clamp(2rem, 5.2vw, 4.8rem); }
+.manifesto .w { display: inline-block; }
+.js .manifesto .w { opacity: var(--o, .14); transition: opacity .25s linear; }
+.about { display: grid; gap: 48px; margin-top: clamp(80px, 9vw, 112px); }
+@media (min-width: 900px) { .about { grid-template-columns: 4fr 7fr; gap: 10%; } }
+.founder { display: flex; align-items: center; gap: 16px; }
+.mono { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--acid), var(--volt)); color: var(--void); font-family: var(--display); font-weight: 700; font-size: 1.25rem; }
+.founder strong { display: block; font-family: var(--display); font-size: 1.25rem; }
+.founder span { font-size: .875rem; color: var(--mist); }
+.quote { margin-top: 24px; font-family: var(--serif); font-style: italic; font-size: 1.6rem; line-height: 1.3; color: rgb(237 239 234 / .9); }
+.pillars { display: grid; gap: 32px; }
+@media (min-width: 640px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+.pillars li { border-top: 1px solid rgb(237 239 234 / .15); padding-top: 24px; }
+.pillars small { font-family: var(--display); color: var(--acid); font-size: .875rem; }
+.pillars h3 { margin-top: 12px; font-family: var(--display); font-size: 1.25rem; }
+.pillars p { margin-top: 8px; color: var(--mist); line-height: 1.65; }
+
+/* ================= Contact ================= */
+#iletisim { padding-bottom: 40px; }
+.giant { font-family: var(--display); font-weight: 800; letter-spacing: -.045em; line-height: .86; font-size: clamp(3.4rem, 12.5vw, 13rem); }
+.giant .serif { letter-spacing: -.02em; }
+.contact { display: grid; gap: 64px; margin-top: 80px; }
+@media (min-width: 900px) { .contact { grid-template-columns: 7fr 4fr; gap: 8%; } }
+form { padding: clamp(24px, 4vw, 40px); border-radius: 28px; }
+.row2 { display: grid; gap: 24px; }
+@media (min-width: 640px) { .row2 { grid-template-columns: 1fr 1fr; } }
+.field { position: relative; }
+.field input, .field textarea { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgb(237 239 234 / .18); padding: 1.6rem 0 .7rem; font: inherit; font-size: 1.05rem; color: var(--ink); outline: none; resize: none; transition: border-color .3s var(--ease); }
+.field label { position: absolute; left: 0; top: 1.6rem; font-size: 1.05rem; color: var(--mist); pointer-events: none; transform-origin: left top; transition: transform .35s var(--ease), color .35s var(--ease); }
+.field input:focus, .field textarea:focus { border-bottom-color: var(--acid); }
+.field input:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-1.35rem) scale(.78); color: var(--acid); }
+.err { margin-top: 8px; font-size: .875rem; color: #ff7a7a; }
+.err:empty { display: none; }
+fieldset { border: 0; padding: 0; margin: 40px 0 0; }
+fieldset + fieldset { margin-top: 32px; }
+legend { padding: 0; margin-bottom: 16px; font-size: .875rem; color: var(--mist); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(237 239 234 / .2); font-size: .875rem; color: rgb(237 239 234 / .85); transition: background-color .2s, color .2s, border-color .2s; }
+.chip:hover { border-color: rgb(237 239 234 / .5); }
+.chip[aria-pressed="true"] { background: var(--acid); border-color: var(--acid); color: var(--void); }
+.submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 40px; }
+.submit-row p { font-size: .875rem; color: var(--mist); }
+.side { display: flex; flex-direction: column; gap: 40px; }
+.side h3 { font-size: .875rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--mist); }
+.side .mail { display: inline-flex; align-items: center; gap: 12px; margin-top: 16px; font-family: var(--display); font-weight: 700; font-size: clamp(1.25rem, 2vw, 1.5rem); word-break: break-all; }
+.side .tel { display: inline-flex; align-items: center; gap: 12px; margin-top: 12px; font-size: 1.125rem; color: rgb(237 239 234 / .85); }
+.side svg { color: var(--acid); }
+.socials { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+.socials .btn { width: 100%; justify-content: space-between; }
+.side address { margin-top: 16px; font-style: normal; font-size: 1.125rem; line-height: 1.65; }
+.side address span { color: var(--mist); }
+footer { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; margin-top: 112px; padding-top: 32px; border-top: 1px solid rgb(237 239 234 / .1); font-size: .875rem; color: var(--mist); }
+footer .brand { color: var(--ink); font-size: 1rem; }
+footer a:last-child { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+
+/* ================= Reduced motion ================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee, .blob, .js .nav, .js .ajans-hero .rise { animation: none; }
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .js .manifesto .w { opacity: 1; }
+  .btn, .btn::before, .card, .card::before, .card::after, .frame img, .info, .draw { transition: none; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+<a class="skip" href="#icerik">İçeriğe geç</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <nav class="nav-bar" aria-label="Ana menü">
+    <a class="brand" href="#top" aria-label="ÜÇDAĞ — başa dön">ÜÇDAĞ®</a>
+    <ul class="nav-links">
+      <li><a class="draw" href="#hizmetler">Hizmetler</a></li>
+      <li><a class="draw" href="#isler">İşler</a></li>
+      <li><a class="draw" href="#felsefe">Felsefe</a></li>
+      <li><a class="draw" href="#iletisim">İletişim</a></li>
+    </ul>
+    <div class="nav-end">
+      <a class="btn btn--solid btn--sm nav-cta" href="#iletisim">Projeye Başla <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+      <button class="icon-btn" type="button" id="menu-open" aria-label="Menüyü aç" aria-expanded="false" aria-controls="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></button>
+    </div>
+  </nav>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menü" hidden>
+  <div class="menu-top">
+    <span class="brand">ÜÇDAĞ®</span>
+    <button class="icon-btn" style="display:grid" type="button" id="menu-close" aria-label="Menüyü kapat"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+  </div>
+  <ul>
+    <li><a href="#hizmetler"><small>01</small>Hizmetler</a></li>
+    <li><a href="#isler"><small>02</small>İşler</a></li>
+    <li><a href="#felsefe"><small>03</small>Felsefe</a></li>
+    <li><a href="#iletisim"><small>04</small>İletişim</a></li>
+  </ul>
+  <a class="btn btn--solid" href="#iletisim">Projeye Başla <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+</div>
+
+<main id="top">
+  <!-- ============ HERO: liquid particle sculpture (WebGL2) ============ -->
+  <section class="sh-root ajans-hero" id="hero" aria-label="Giriş">
+    <div class="sh-backdrop" aria-hidden="true">üçdağ</div>
+    <div class="sh-stage" aria-hidden="true"><img class="sh-fallback" alt="" crossorigin="anonymous" draggable="false" /></div>
+    <span class="sr-only">Parçacıklardan oluşan, imleçle sıvılaşan soyut metalik heykel</span>
+    <!-- Invisible: keeps the hero's top band so the sculpture sits below the fixed bar -->
+    <nav class="sh-nav" aria-hidden="true"><span class="sh-brand">ÜÇDAĞ®</span><span class="sh-navcta">Projeye Başla</span></nav>
+    <div class="sh-hint" aria-hidden="true">Formun üzerinde gezinin</div>
+    <div class="sh-spacer"></div>
+    <div class="sh-content">
+      <div>
+        <p class="sh-eyebrow rise" style="--d:.35s">Denizli — Kreatif &amp; Dijital Ajans</p>
+        <h1 class="sh-h1">
+          <span class="sh-line rise" style="--d:.44s">Markanızı</span>
+          <span class="sh-line rise" style="--d:.53s"><span class="sh-accent">geleceğe</span> taşıyoruz.</span>
+        </h1>
+      </div>
+      <div class="sh-aside rise" style="--d:.62s">
+        <p class="sh-body">Web tasarım, reklam, grafik ve yapay zekâ destekli görsel içerikte global kalite. Cesur fikirleri ölçülebilir sonuçlara dönüştürüyoruz.</p>
+        <div class="sh-ctas">
+          <a class="sh-btn" href="#isler">Projelerimiz <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="sh-txt" href="#iletisim">Bizimle İletişime Geçin <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <a class="sh-credit" href="https://guglielmogiannattasio.it" target="_blank" rel="noopener">by guglielmogiannattasio.it</a>
+  </section>
+
+  <div id="icerik"></div>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee-box">
+    <div class="marquee">
+      <ul><li><span class="">Web Tasarım</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Reklam Kampanyaları</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="">Grafik Tasarım</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Yapay Zeka Kreatif</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="">Marka Stratejisi</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Motion</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li></ul>
+      <ul aria-hidden="true"><li><span class="">Web Tasarım</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Reklam Kampanyaları</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="">Grafik Tasarım</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Yapay Zeka Kreatif</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="">Marka Stratejisi</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li><li><span class="stroke">Motion</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></li></ul>
+    </div>
+  </div>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="block" id="hizmetler" aria-labelledby="hizmetler-baslik">
+    <div class="blob" aria-hidden="true" style="left:-160px;top:96px;width:420px;height:420px;background:rgb(77 124 255 / .4)"></div>
+    <div class="blob" aria-hidden="true" style="right:-128px;bottom:40px;width:380px;height:380px;background:rgb(198 255 61 / .25);animation-delay:-8s"></div>
+    <div class="wrap">
+      <div class="head-grid">
+        <div>
+          <p class="eyebrow" data-reveal>Hizmetlerimiz</p>
+          <h2 class="h2" id="hizmetler-baslik" data-reveal>Fikirden etkiye, <span class="serif acid">tek stüdyo.</span></h2>
+        </div>
+        <p class="lead" data-reveal>Stratejiyi, tasarımı ve teknolojiyi aynı ekipte buluşturuyoruz. Böylece markanız her temas noktasında aynı dili konuşur.</p>
+      </div>
+      <ul class="cards">
+        <li data-reveal>
+          <article class="card glass">
+            <div class="card-top"><span class="card-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><path d="M10 19v-3.96 3.15"></path><path d="M7 19h5"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg></span><span class="card-no">01</span></div>
+            <h3>Web Tasarım &amp; Geliştirme</h3>
+            <p>Hızlı, erişilebilir ve akılda kalan web deneyimleri. Strateji, arayüz ve kod tek masada.</p>
+            <ul class="tags" aria-label="Uzmanlıklar"><li>UI/UX</li><li>Next.js</li><li>E-ticaret</li><li>WebGL</li></ul>
+          </article>
+        </li>
+        <li data-reveal style="--d:.08s">
+          <article class="card glass">
+            <div class="card-top"><span class="card-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"></path><path d="M8 6v8"></path></svg></span><span class="card-no">02</span></div>
+            <h3>Reklam Kampanyaları</h3>
+            <p>Veriye dayalı, kreatifi güçlü kampanyalar. Meta, Google ve TikTok'ta ölçülebilir büyüme.</p>
+            <ul class="tags" aria-label="Uzmanlıklar"><li>Performans</li><li>Sosyal Medya</li><li>Kreatif Strateji</li></ul>
+          </article>
+        </li>
+        <li data-reveal>
+          <article class="card glass">
+            <div class="card-top"><span class="card-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 13-.654-4.736a4 4 0 00-2.756-3.266l-9.163-2.9a2 2 0 00-2.017.493l-.82.819a2 2 0 00-.492 2.017l2.9 9.163a4 4 0 003.266 2.756L13 18"></path><path d="M18.648 12.352a1.205 1.205 0 011.704 0l1.296 1.296a1.205 1.205 0 010 1.704l-6.296 6.296a1.205 1.205 0 01-1.704 0l-1.296-1.296a1.205 1.205 0 010-1.704z"></path><path d="m3 3 6.586 6.586"></path><circle cx="11" cy="11" r="2"></circle></svg></span><span class="card-no">03</span></div>
+            <h3>Grafik Tasarım &amp; Marka</h3>
+            <p>Logodan ambalaja, kurumsal kimlikten kampanya görsellerine kadar tutarlı bir görsel dil.</p>
+            <ul class="tags" aria-label="Uzmanlıklar"><li>Kimlik</li><li>Ambalaj</li><li>Art Direction</li></ul>
+          </article>
+        </li>
+        <li data-reveal style="--d:.08s">
+          <article class="card glass">
+            <div class="card-top"><span class="card-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></span><span class="card-no">04</span></div>
+            <h3>Yapay Zeka ile Kreatif</h3>
+            <p>AI destekli görsel üretim, ürün çekimi ve video. Daha hızlı iterasyon, sınırsız varyasyon.</p>
+            <ul class="tags" aria-label="Uzmanlıklar"><li>Generative AI</li><li>Ürün Görseli</li><li>Motion</li></ul>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section class="block" id="isler" aria-labelledby="isler-baslik">
+    <div class="wrap">
+      <div class="work-head">
+        <div>
+          <p class="eyebrow" data-reveal>Seçilmiş İşler</p>
+          <h2 class="h2" id="isler-baslik" data-reveal>İz bırakan<br /><span class="stroke">projeler</span></h2>
+        </div>
+        <a class="btn" href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-reveal>Tüm Portfolyo <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+      </div>
+      <ul class="gallery">
+        <li class="proj proj--wide" data-reveal>
+          <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-cursor="İNCELE" aria-label="Lal Shoes — Marka Kimliği · E-ticaret projesini incele (yeni sekme)">
+            <div class="frame">
+              <div class="par" data-speed="-8"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=78" alt="Lal Shoes proje görseli" loading="lazy" decoding="async" onerror="this.remove()" /></div>
+              <span class="year">2026</span>
+              <div class="info glass">
+                <div class="info-row"><div><h3>Lal Shoes</h3><p>Marka Kimliği · E-ticaret</p></div><span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></div>
+                <ul class="tags" aria-label="Kullanılan teknolojiler"><li>Shopify</li><li>Art Direction</li><li>AI Ürün Görseli</li></ul>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="proj proj--tall" data-reveal>
+          <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-cursor="İNCELE" aria-label="Runline — Kampanya · Sosyal Medya projesini incele (yeni sekme)">
+            <div class="frame">
+              <div class="par" data-speed="6"><img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=1400&q=78" alt="Runline proje görseli" loading="lazy" decoding="async" onerror="this.remove()" /></div>
+              <span class="year">2026</span>
+              <div class="info glass">
+                <div class="info-row"><div><h3>Runline</h3><p>Kampanya · Sosyal Medya</p></div><span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></div>
+                <ul class="tags" aria-label="Kullanılan teknolojiler"><li>Meta Ads</li><li>Motion</li><li>UGC</li></ul>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="proj proj--square" data-reveal>
+          <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-cursor="İNCELE" aria-label="Nebula AI — Generative Görsel Seri projesini incele (yeni sekme)">
+            <div class="frame">
+              <div class="par" data-speed="-4"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1400&q=78" alt="Nebula AI proje görseli" loading="lazy" decoding="async" onerror="this.remove()" /></div>
+              <span class="year">2025</span>
+              <div class="info glass">
+                <div class="info-row"><div><h3>Nebula AI</h3><p>Generative Görsel Seri</p></div><span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></div>
+                <ul class="tags" aria-label="Kullanılan teknolojiler"><li>Midjourney</li><li>Runway</li><li>Compositing</li></ul>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="proj proj--tall" data-reveal>
+          <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-cursor="İNCELE" aria-label="Atlas Mimarlık — Web Sitesi · Kurumsal projesini incele (yeni sekme)">
+            <div class="frame">
+              <div class="par" data-speed="8"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=78" alt="Atlas Mimarlık proje görseli" loading="lazy" decoding="async" onerror="this.remove()" /></div>
+              <span class="year">2025</span>
+              <div class="info glass">
+                <div class="info-row"><div><h3>Atlas Mimarlık</h3><p>Web Sitesi · Kurumsal</p></div><span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></div>
+                <ul class="tags" aria-label="Kullanılan teknolojiler"><li>Next.js</li><li>GSAP</li><li>Headless CMS</li></ul>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="proj proj--wide" data-reveal>
+          <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" data-cursor="İNCELE" aria-label="Chrono Atelier — Ürün Lansmanı projesini incele (yeni sekme)">
+            <div class="frame">
+              <div class="par" data-speed="-6"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1400&q=78" alt="Chrono Atelier proje görseli" loading="lazy" decoding="async" onerror="this.remove()" /></div>
+              <span class="year">2024</span>
+              <div class="info glass">
+                <div class="info-row"><div><h3>Chrono Atelier</h3><p>Ürün Lansmanı</p></div><span class="go"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></div>
+                <ul class="tags" aria-label="Kullanılan teknolojiler"><li>3D Render</li><li>Landing Page</li><li>Google Ads</li></ul>
+              </div>
+            </div>
+          </a>
+        </li></ul>
+    </div>
+  </section>
+
+  <!-- ============ PHILOSOPHY ============ -->
+  <section class="block" id="felsefe" aria-labelledby="felsefe-baslik">
+    <div class="blob" aria-hidden="true" style="left:50%;top:33%;width:520px;height:520px;margin-left:-260px;background:rgb(77 124 255 / .25)"></div>
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Hakkımızda / Felsefemiz</p>
+      <h2 class="sr-only" id="felsefe-baslik">Felsefemiz</h2>
+      <p class="manifesto" id="manifesto"><span class="w">Biz</span> <span class="w">trend</span> <span class="w">takip</span> <span class="w">etmeyiz;</span> <span class="w">markanızın</span> <span class="w">yarın</span> <span class="w">nasıl</span> <span class="w">hissettireceğini</span> <span class="w">bugün</span> <span class="w">tasarlarız.</span> <span class="w">Strateji,</span> <span class="w">estetik</span> <span class="w">ve</span> <span class="w">teknoloji</span> <span class="w">aynı</span> <span class="w">cümlenin</span> <span class="w">parçalarıdır.</span></p>
+      <div class="about">
+        <figure data-reveal>
+          <div class="founder">
+            <span class="mono" aria-hidden="true">AÜ</span>
+            <figcaption><strong>Abdullah Üçdağ</strong><span>Kurucu &amp; Kreatif Direktör</span></figcaption>
+          </div>
+          <blockquote class="quote">“İyi tasarım görülür; harika tasarım hissedilir.”</blockquote>
+        </figure>
+        <ol class="pillars">
+          <li data-reveal><small>01</small><h3>Önce Strateji</h3><p>Her piksel bir karara dayanır. Hedefi anlamadan çizmeye başlamayız.</p></li>
+          <li data-reveal style="--d:.08s"><small>02</small><h3>Cesur Estetik</h3><p>Minimal ama sessiz değil. Akılda kalan, kopyalanamayan bir görsel dil.</p></li>
+          <li data-reveal style="--d:.16s"><small>03</small><h3>Akıllı Üretim</h3><p>Yapay zekâyı bir kısayol değil, yaratıcılığın çarpanı olarak kullanırız.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="block" id="iletisim" aria-labelledby="iletisim-baslik">
+    <div class="blob" aria-hidden="true" style="left:25%;bottom:-160px;width:560px;height:560px;background:rgb(198 255 61 / .2)"></div>
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>İletişim</p>
+      <h2 class="giant" id="iletisim-baslik" data-reveal>Projeye<br /><span class="serif acid">Başlayalım.</span></h2>
+
+      <div class="contact">
+        <form class="glass" id="form" novalidate data-reveal aria-describedby="form-note">
+          <div class="row2">
+            <div class="field">
+              <input id="name" name="name" type="text" autocomplete="name" placeholder=" " aria-describedby="name-err" />
+              <label for="name">Adınız</label>
+              <p class="err" id="name-err"></p>
+            </div>
+            <div class="field">
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder=" " aria-describedby="email-err" />
+              <label for="email">E-posta</label>
+              <p class="err" id="email-err"></p>
+            </div>
+          </div>
+          <fieldset>
+            <legend>Neye ihtiyacınız var?</legend>
+            <div class="chips" data-multi>
+              <button class="chip" type="button" aria-pressed="false">Web Tasarım</button>
+              <button class="chip" type="button" aria-pressed="false">Reklam</button>
+              <button class="chip" type="button" aria-pressed="false">Grafik &amp; Marka</button>
+              <button class="chip" type="button" aria-pressed="false">AI Kreatif</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Tahmini bütçe</legend>
+            <div class="chips" data-single>
+              <button class="chip" type="button" aria-pressed="false">&lt; 50K ₺</button>
+              <button class="chip" type="button" aria-pressed="false">50–150K ₺</button>
+              <button class="chip" type="button" aria-pressed="false">150–300K ₺</button>
+              <button class="chip" type="button" aria-pressed="false">300K ₺ +</button>
+            </div>
+          </fieldset>
+          <div class="field" style="margin-top:32px">
+            <textarea id="message" name="message" rows="4" placeholder=" " aria-describedby="message-err"></textarea>
+            <label for="message">Projenizden bahsedin</label>
+            <p class="err" id="message-err"></p>
+          </div>
+          <div class="submit-row">
+            <button class="btn btn--solid" type="submit" id="submit" data-cursor="GÖNDER">Gönder <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></button>
+            <p id="form-note">Gönder, e-posta uygulamanızı hazır bir taslakla açar.</p>
+          </div>
+          <p class="sr-only" role="status" aria-live="polite" id="form-status"></p>
+        </form>
+
+        <aside class="side" data-reveal>
+          <div>
+            <h3>Doğrudan</h3>
+            <a class="mail draw" href="mailto:merhaba@ucdag.studio"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg> merhaba@ucdag.studio</a><br />
+            <a class="tel draw" href="tel:+902580000000"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg> +90 (258) 000 00 00</a>
+          </div>
+          <div>
+            <h3>Sosyal</h3>
+            <ul class="socials">
+              <li><a class="btn" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></li>
+              <li><a class="btn" href="https://www.behance.net/" target="_blank" rel="noopener noreferrer">Behance <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></li>
+              <li><a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></li>
+              <li><a class="btn" href="https://dribbble.com/" target="_blank" rel="noopener noreferrer">Dribbble <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Stüdyo</h3>
+            <address>Denizli, Türkiye<br /><span>Dünyanın her yerine uzaktan hizmet.</span></address>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <span class="brand">ÜÇDAĞ®</span>
+        <span>© <span id="year">2026</span> ÜÇDAĞ — Kreatif &amp; Dijital Ajans. Tüm hakları saklıdır.</span>
+        <a class="draw" href="#top">Başa dön <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg></a>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<!-- Lenis smooth scroll (optional: the page falls back to native smooth scrolling) -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script>
+/* =====================================================================
+   Liquid Sculpture engine — compiled from components/ui/liquid-sculpture-hero.tsx
+   (Sculpture Hero by guglielmogiannattasio.it)
+   ===================================================================== */
+function clamp(v, a, b) {
+    return Math.min(b, Math.max(a, v));
+}
+function hexToRgb(hex, fallback) {
+    if (typeof hex !== "string")
+        return fallback;
+    const s = hex.trim();
+    let m = s.match(/^#?([0-9a-f]{3})$/i);
+    if (m) {
+        const [r, g, b] = m[1].split("").map((c) => parseInt(c + c, 16) / 255);
+        return [r, g, b];
+    }
+    m = s.match(/^#?([0-9a-f]{6})([0-9a-f]{2})?$/i);
+    if (m) {
+        const n = parseInt(m[1], 16);
+        return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+    }
+    m = s.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+    if (m)
+        return [+m[1] / 255, +m[2] / 255, +m[3] / 255];
+    return fallback;
+}
+/* ── shaders ─────────────────────────────────────────────────────────── */
+const NOISE = `
+float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+float vnoise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*f*(f*(f*6.0-15.0)+10.0);
+  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }
+vec2 ambientField(vec2 uv, float t){
+  vec2 q = uv*vec2(3.2,1.7);
+  vec2 a = vec2(vnoise(q+vec2(t*0.11,0.0))-0.5, vnoise(q+vec2(5.2,t*0.08)+3.1)-0.5);
+  vec2 q2 = uv*vec2(7.5,4.0) + vec2(-t*0.19, t*0.13);
+  vec2 b = vec2(vnoise(q2+1.7)-0.5, vnoise(q2+9.3)-0.5);
+  return a + b*0.45;
+}
+`;
+/* energy of the material at a point: shared by image and particles so the
+   cross-fade is exactly complementary */
+const ENERGY = `
+float energyAt(vec2 rectPx, vec2 mouse, float radius, float presence, float wakeEnergy){
+  vec2 d = rectPx - mouse;
+  float f = exp(-dot(d,d)/(radius*radius))*presence;
+  return smoothstep(0.06, 0.5, f*1.15 + wakeEnergy*1.7);
+}
+`;
+const QUAD_VS = `#version 300 es
+layout(location=0) in vec2 aPos;
+out vec2 vUv;
+void main(){ vUv = aPos*0.5+0.5; gl_Position = vec4(aPos,0.0,1.0); }
+`;
+/* Flow map (cursor wake). RGBA8: velocity encoded around 128, energy in B. */
+const FLOW_FS = `#version 300 es
+precision highp float;
+in vec2 vUv;
+out vec4 o;
+uniform sampler2D uPrev;
+uniform vec2 uTexel;
+uniform vec2 uMouse;
+uniform vec2 uVel;
+uniform vec2 uSize;
+uniform float uRadius;
+uniform float uPresence;
+uniform float uDecay;
+vec2 decV(vec4 c){ return (c.rg*255.0-128.0)/127.0; }
+void main(){
+  vec2 v0 = decV(texture(uPrev, vUv));
+  vec2 uv = vUv - v0*uTexel*2.5;
+  vec4 c = texture(uPrev, uv)*0.52
+    + 0.12*(texture(uPrev, uv+vec2(uTexel.x,0.0)) + texture(uPrev, uv-vec2(uTexel.x,0.0))
+          + texture(uPrev, uv+vec2(0.0,uTexel.y)) + texture(uPrev, uv-vec2(0.0,uTexel.y)));
+  vec2 v = decV(c);
+  float p = c.b;
+  vec2 d = (vUv-uMouse)*uSize;
+  float f = exp(-dot(d,d)/(uRadius*uRadius))*uPresence;
+  float sp = clamp(length(uVel)*2.5, 0.0, 1.0);
+  v += uVel*f*0.22;
+  p = max(p, f*sp);
+  v *= uDecay;
+  p *= uDecay;
+  v = sign(v)*max(abs(v)-1.2/127.0, 0.0);
+  p = max(p-1.2/255.0, 0.0);
+  v = clamp(v, -1.0, 1.0);
+  o = vec4((v*127.0+128.0)/255.0, p, 1.0);
+}
+`;
+/* GPGPU step: state = (offset.xy, velocity.xy) in rect CSS px. */
+const SIM_FS = `#version 300 es
+precision highp float;
+out vec4 o;
+uniform sampler2D uState;
+uniform sampler2D uHome;
+uniform sampler2D uFlow;
+uniform vec2 uSize;
+uniform vec2 uMouse;
+uniform float uRadius;
+uniform float uPresence;
+uniform float uStrength;
+uniform float uSpread;
+uniform float uTurb;
+uniform float uReturn;
+uniform float uTime;
+uniform float uDt;
+uniform float uIntro;
+${NOISE}
+vec2 curl(vec2 p){
+  const float e = 0.35;
+  float a = vnoise(p+vec2(0.0,e)) - vnoise(p-vec2(0.0,e));
+  float b = vnoise(p+vec2(e,0.0)) - vnoise(p-vec2(e,0.0));
+  return vec2(a, -b)/(2.0*e);
+}
+void main(){
+  ivec2 ij = ivec2(gl_FragCoord.xy);
+  vec4 hm = texelFetch(uHome, ij, 0);
+  if(hm.w <= 0.0){ o = vec4(0.0); return; }
+  vec4 st = texelFetch(uState, ij, 0);
+  vec2 off = st.xy;
+  vec2 vel = st.zw;
+  float sd = hm.z;
+  float light = 0.45 + sd*1.1;
+
+  vec2 p = hm.xy*uSize + off;
+  vec4 fl = texture(uFlow, clamp(p/uSize, 0.0, 1.0));
+  vec2 wake = (fl.rg*255.0-128.0)/127.0;
+  float pr = fl.b;
+
+  vec2 toM = p - uMouse;
+  float r2 = dot(toM,toM);
+  float f = exp(-r2/(uRadius*uRadius))*uPresence;
+  vec2 n = toM*inversesqrt(r2+1.0);
+  float e = clamp(pr*2.0 + f, 0.0, 1.0);
+
+  vec2 acc = vec2(0.0);
+  // blown outward and swirled around the cursor
+  acc += n*f*1.25*uStrength*uSpread*light;
+  acc += vec2(-n.y, n.x)*f*1.45*uStrength*uSpread*(0.4+sd);
+  // carried by the liquid wake
+  acc += (wake*42.0*uSpread*light - vel)*e*0.08;
+  // curl-noise turbulence where the material is disturbed (and during the intro)
+  vec2 q = p*0.0095 + vec2(uTime*0.35, -uTime*0.2);
+  vec2 c = curl(q) + 0.5*curl(q*2.3 + 7.1);
+  acc += c*(e*1.2*uSpread + uIntro*1.5)*uTurb*light;
+  // elastic return home
+  float k = (0.006 + 0.02*uReturn)*(0.65+sd*0.7)*(1.0 - uIntro*0.75);
+  acc -= off*k;
+
+  vel += acc*uDt;
+  vel *= pow(mix(0.93, 0.955, e), uDt);
+  off += vel*uDt;
+  if(dot(off,off) < 0.0004 && dot(vel,vel) < 0.0004){ off = vec2(0.0); vel = vec2(0.0); }
+  o = vec4(off, vel);
+}
+`;
+/* Particles: one instanced quad per particle, a capsule stretched along velocity. */
+const PART_VS = `#version 300 es
+precision highp float;
+layout(location=0) in vec2 aCorner;
+uniform sampler2D uState;
+uniform sampler2D uHome;
+uniform sampler2D uCol;
+uniform sampler2D uFlow;
+uniform int uTexW;
+uniform vec4 uRect;
+uniform vec2 uRes;
+uniform vec2 uMouse;
+uniform float uRadius;
+uniform float uPresence;
+uniform float uDot;
+uniform float uTime;
+uniform float uAmbient;
+uniform float uStreak;
+uniform float uIntroVis;
+uniform float uRest;
+uniform vec3 uTint;
+out vec2 vLocal;
+out float vHalfLen;
+out float vR;
+out vec3 vCol;
+out float vA;
+${NOISE}
+${ENERGY}
+void main(){
+  int id = gl_InstanceID;
+  ivec2 ij = ivec2(id % uTexW, id / uTexW);
+  vec4 hm = texelFetch(uHome, ij, 0);
+  vec4 st = texelFetch(uState, ij, 0);
+  vec4 cl = texelFetch(uCol, ij, 0);
+
+  float wakeE = texture(uFlow, hm.xy).b;
+  float E = energyAt(hm.xy*uRect.zw, uMouse, uRadius, uPresence, wakeE);
+  float lift = smoothstep(0.35, 2.5, length(st.xy));
+  float a = max(max(E, lift), max(uRest, 1.0-uIntroVis));
+  if(a < 0.01 || hm.w <= 0.0){ gl_Position = vec4(2.0,2.0,2.0,1.0); return; }
+
+  vec2 base = uRect.xy + hm.xy*uRect.zw + st.xy;
+  base -= ambientField(hm.xy, uTime)*10.0*uAmbient;
+
+  vec2 v = st.zw;
+  float sp = length(v);
+  vec2 dir = sp > 0.001 ? v/sp : vec2(1.0,0.0);
+  float r = uDot*hm.w*0.5;
+  float len = min(sp*1.25, 18.0)*uStreak;
+  vec2 lc = aCorner*vec2(r + len*0.5 + 1.0, r + 1.0);
+  vec2 center = base - dir*len*0.5;
+  vec2 world = center + dir*lc.x + vec2(-dir.y, dir.x)*lc.y;
+
+  vec2 clip = world/uRes*2.0-1.0;
+  gl_Position = vec4(clip.x, -clip.y, 0.0, 1.0);
+  vLocal = lc;
+  vHalfLen = len*0.5;
+  vR = r;
+  vec3 col = cl.rgb*uTint;
+  // fast material catches the light, like liquid metal
+  float glint = smoothstep(2.0, 16.0, sp);
+  col = mix(col, min(col*1.18 + vec3(0.07,0.075,0.085), vec3(1.0)), glint*0.75);
+  vCol = col;
+  vA = a;
+}
+`;
+const PART_FS = `#version 300 es
+precision highp float;
+in vec2 vLocal;
+in float vHalfLen;
+in float vR;
+in vec3 vCol;
+in float vA;
+uniform float uDpr;
+out vec4 o;
+void main(){
+  vec2 q = vec2(max(abs(vLocal.x)-vHalfLen, 0.0), vLocal.y);
+  float d = length(q) - vR;
+  float a = clamp(0.5 - d*uDpr, 0.0, 1.0);
+  // comet tail: the trailing end thins out
+  float tail = vHalfLen > 0.0 ? clamp(0.5 - vLocal.x/(2.0*(vHalfLen+vR)), 0.0, 1.0) : 0.0;
+  a *= 1.0 - tail*0.55;
+  a *= vA;
+  if(a < 0.004) discard;
+  o = vec4(vCol*a, a);
+}
+`;
+/* Image pass: the crisp sculpture, gently lensed, fading out where the
+   material has turned liquid. */
+const IMAGE_FS = `#version 300 es
+precision highp float;
+out vec4 o;
+uniform sampler2D uImg;
+uniform sampler2D uFlow;
+uniform vec2 uRes;
+uniform float uDpr;
+uniform vec4 uRect;
+uniform vec3 uBg;
+uniform vec3 uImgBg;
+uniform vec2 uMouse;
+uniform float uPresence;
+uniform float uRadius;
+uniform float uStrength;
+uniform float uTime;
+uniform float uAmbient;
+uniform float uIntroVis;
+uniform float uRest;
+uniform float uAlphaMode;
+${NOISE}
+${ENERGY}
+void main(){
+  vec2 px = vec2(gl_FragCoord.x, uRes.y*uDpr - gl_FragCoord.y)/uDpr;
+  vec2 size = uRect.zw;
+  vec2 uv = (px-uRect.xy)/size;
+  if(uv.x < -0.05 || uv.x > 1.05 || uv.y < -0.12 || uv.y > 1.12){ o = vec4(0.0); return; }
+  vec4 fl = texture(uFlow, clamp(uv,0.0,1.0));
+  vec2 vel = (fl.rg*255.0-128.0)/127.0;
+  vec2 rp = uv*size;
+  vec2 toM = rp - uMouse;
+  float fall = exp(-dot(toM,toM)/(uRadius*uRadius))*uPresence;
+  vec2 disp = -toM*0.22*uStrength*fall - vel*10.0*uStrength;
+  disp += ambientField(uv, uTime)*10.0*uAmbient;
+  vec2 suv = uv + disp/size;
+  vec4 tx = texture(uImg, suv);
+  vec3 col = tx.rgb;
+  vec2 e = smoothstep(vec2(0.0), vec2(0.004,0.01), suv) * smoothstep(vec2(1.0), vec2(0.996,0.99), suv);
+  // cut-out images carry their own alpha; flat-background images are keyed by colour
+  float key = uAlphaMode > 0.5 ? tx.a : smoothstep(0.012, 0.05, length(col-uImgBg));
+  float k = key*e.x*e.y;
+  float E = energyAt(rp, uMouse, uRadius, uPresence, fl.b);
+  float show = (1.0 - max(E, uRest))*uIntroVis;
+  vec3 mat = uAlphaMode > 0.5 ? col : col*(uBg/max(uImgBg, vec3(0.001)));
+  // premultiplied: empty areas stay transparent so the page (and the backdrop word) shows through
+  float A = k*show;
+  o = vec4(mat*A, A);
+}
+`;
+function compile(gl, vs, fs) {
+    const make = (type, src) => {
+        const sh = gl.createShader(type);
+        gl.shaderSource(sh, src);
+        gl.compileShader(sh);
+        if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+            const log = gl.getShaderInfoLog(sh);
+            gl.deleteShader(sh);
+            throw new Error("Shader: " + log);
+        }
+        return sh;
+    };
+    const p = gl.createProgram();
+    const v = make(gl.VERTEX_SHADER, vs);
+    const f = make(gl.FRAGMENT_SHADER, fs);
+    gl.attachShader(p, v);
+    gl.attachShader(p, f);
+    gl.bindAttribLocation(p, 0, "aPos");
+    gl.linkProgram(p);
+    gl.deleteShader(v);
+    gl.deleteShader(f);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS))
+        throw new Error("Link: " + gl.getProgramInfoLog(p));
+    const u = {};
+    const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for (let i = 0; i < n; i++) {
+        const info = gl.getActiveUniform(p, i);
+        if (info)
+            u[info.name] = gl.getUniformLocation(p, info.name);
+    }
+    return { p, u };
+}
+/* ── engine ──────────────────────────────────────────────────────────── */
+const TEX_W = 1024;
+const SETTLE_FRAMES = 270;
+class LiquidEngine {
+    constructor(canvas, opts, onFail) {
+        this.lastImage = null;
+        /** Called once, after the first frame has actually been drawn. */
+        this.onFirstFrame = null;
+        this.lowPower = false;
+        this.stateFormat = { internal: 0, type: 0 };
+        this.imgTex = null;
+        this.flowTex = [];
+        this.flowFb = [];
+        this.flowW = 256;
+        this.flowH = 104;
+        this.flowIdx = 0;
+        this.flowDirty = false;
+        this.homeTex = null;
+        this.colTex = null;
+        this.stateTex = [];
+        this.stateFb = [];
+        this.stateIdx = 0;
+        this.texH = 1;
+        this.n = 0;
+        this.gridW = 1;
+        this.stateDirty = false;
+        this.alphaMode = false;
+        this.imgBg = [0.918, 0.914, 0.906];
+        this.flowing = 0;
+        this.aspect = 2.5;
+        this.rect = { x: 0, y: 0, w: 1, h: 1 };
+        this.cssW = 1;
+        this.cssH = 1;
+        this.target = { x: -9999, y: -9999 };
+        this.mouse = { x: -9999, y: -9999 };
+        this.prevMouse = { x: -9999, y: -9999 };
+        this.mvel = { x: 0, y: 0 };
+        this.presence = 0;
+        this.presenceTarget = 0;
+        this.burst = 0;
+        this.lastInput = -1e9;
+        this.settle = 1e9;
+        this.touchRelease = 0;
+        this.time = 0;
+        this.introT = 1;
+        this.raf = 0;
+        this.running = false;
+        this.last = 0;
+        this.skip = 0;
+        this.visible = true;
+        this.ready = false;
+        this.destroyed = false;
+        this.lost = false;
+        this.onLost = (e) => {
+            e.preventDefault();
+            this.lost = true;
+            this.stop();
+            this.onFail();
+        };
+        this.homeData = null;
+        this.frame = (now) => {
+            if (!this.running)
+                return;
+            const rawMs = now - this.last;
+            const dt = clamp(rawMs / 16.6667, 0.25, 3);
+            this.last = now;
+            const o = this.opts;
+            const ambientOn = o.ambient && !o.reducedMotion;
+            if (this.touchRelease && now > this.touchRelease) {
+                this.presenceTarget = 0;
+                this.touchRelease = 0;
+            }
+            const ease = 1 - Math.pow(1 - 0.22, dt);
+            this.mouse.x += (this.target.x - this.mouse.x) * ease;
+            this.mouse.y += (this.target.y - this.mouse.y) * ease;
+            const vx = (this.mouse.x - this.prevMouse.x) / dt;
+            const vy = (this.mouse.y - this.prevMouse.y) / dt;
+            this.prevMouse.x = this.mouse.x;
+            this.prevMouse.y = this.mouse.y;
+            this.mvel.x += (clamp(vx, -60, 60) - this.mvel.x) * 0.5;
+            this.mvel.y += (clamp(vy, -60, 60) - this.mvel.y) * 0.5;
+            const pk = this.presenceTarget > this.presence ? 0.1 : 0.035;
+            this.presence += (this.presenceTarget - this.presence) * (1 - Math.pow(1 - pk, dt));
+            if (this.presence < 0.001 && this.presenceTarget === 0)
+                this.presence = 0;
+            const fk = this.presenceTarget > this.flowing ? 0.05 : 0.018;
+            this.flowing += (this.presenceTarget - this.flowing) * (1 - Math.pow(1 - fk, dt));
+            if (this.flowing < 0.002 && this.presenceTarget === 0)
+                this.flowing = 0;
+            if (this.introT < 1)
+                this.introT = Math.min(1, this.introT + Math.min(rawMs, 100) / 3200);
+            const interacting = this.presence > 0.001 || this.burst > 0;
+            // settle is counted in simulated frames, so slow devices never snap mid-return
+            this.settle = interacting ? 0 : this.settle + dt;
+            const active = interacting || this.settle < SETTLE_FRAMES || this.introT < 1;
+            if (!active) {
+                if (this.flowDirty)
+                    this.clearFlow();
+                if (this.stateDirty)
+                    this.clearState();
+                if (!ambientOn) {
+                    this.draw();
+                    this.firstFrame();
+                    this.stop();
+                    return;
+                }
+                this.raf = requestAnimationFrame(this.frame);
+                if (this.skip++ % 2)
+                    return;
+                this.time += (dt * 2 * o.speed) / 60;
+                this.draw();
+                this.firstFrame();
+                return;
+            }
+            this.raf = requestAnimationFrame(this.frame);
+            // the field speeds up while the material is being stirred
+            this.time += (dt * o.speed * (1 + this.flowing * 1.6)) / 60;
+            this.stepFlow(dt);
+            this.stepSim(dt);
+            this.burst = Math.max(0, this.burst - 0.1 * dt);
+            this.draw();
+            this.firstFrame();
+        };
+        this.canvas = canvas;
+        this.opts = opts;
+        this.onFail = onFail;
+        // alpha: an unpresented canvas stays transparent, so the static image under it shows
+        const gl = canvas.getContext("webgl2", {
+            alpha: true,
+            antialias: false,
+            depth: false,
+            stencil: false,
+            premultipliedAlpha: true,
+            preserveDrawingBuffer: false,
+            powerPreference: "high-performance",
+        });
+        if (!gl)
+            throw new Error("WebGL2 unavailable");
+        this.gl = gl;
+        const nav = navigator;
+        this.lowPower =
+            (nav.hardwareConcurrency || 8) <= 4 ||
+                (nav.deviceMemory || 8) <= 4 ||
+                window.matchMedia("(pointer: coarse)").matches;
+        this.initGL();
+        canvas.addEventListener("webglcontextlost", this.onLost, false);
+    }
+    initGL() {
+        const gl = this.gl;
+        // float render targets: RGBA16F is enough (offsets in px, sub-pixel precision)
+        const full = gl.getExtension("EXT_color_buffer_float");
+        const half = full ? null : gl.getExtension("EXT_color_buffer_half_float");
+        if (!full && !half)
+            throw new Error("No float render targets");
+        this.stateFormat = { internal: gl.RGBA16F, type: gl.HALF_FLOAT };
+        this.pFlow = compile(gl, QUAD_VS, FLOW_FS);
+        this.pSim = compile(gl, QUAD_VS, SIM_FS);
+        this.pPart = compile(gl, PART_VS, PART_FS);
+        this.pImg = compile(gl, QUAD_VS, IMAGE_FS);
+        this.vao = gl.createVertexArray();
+        gl.bindVertexArray(this.vao);
+        this.quad = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.quad);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(0);
+        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+        for (let i = 0; i < 2; i++) {
+            const t = this.makeTex(gl.RGBA8, this.flowW, this.flowH, gl.RGBA, gl.UNSIGNED_BYTE, null, gl.LINEAR);
+            const fb = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+            this.flowTex.push(t);
+            this.flowFb.push(fb);
+        }
+        this.clearFlow();
+    }
+    makeTex(internal, w, h, format, type, data, filter) {
+        const gl = this.gl;
+        const t = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, t);
+        gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+        gl.texImage2D(gl.TEXTURE_2D, 0, internal, w, h, 0, format, type, data);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        return t;
+    }
+    clearFlow() {
+        const gl = this.gl;
+        for (const fb of this.flowFb) {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.viewport(0, 0, this.flowW, this.flowH);
+            gl.clearColor(128 / 255, 128 / 255, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+        }
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        this.flowDirty = false;
+    }
+    clearState() {
+        const gl = this.gl;
+        for (const fb of this.stateFb) {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.viewport(0, 0, TEX_W, this.texH);
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+        }
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        this.stateDirty = false;
+    }
+    setImage(img) {
+        if (this.destroyed || this.lost)
+            return;
+        const gl = this.gl;
+        this.lastImage = img;
+        this.aspect = img.naturalWidth / img.naturalHeight || 2.5;
+        this.flowH = Math.max(32, Math.round(this.flowW / this.aspect));
+        for (const t of this.flowTex) {
+            gl.bindTexture(gl.TEXTURE_2D, t);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, this.flowW, this.flowH, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        }
+        this.clearFlow();
+        if (this.imgTex)
+            gl.deleteTexture(this.imgTex);
+        this.imgTex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, this.imgTex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        this.buildParticles(img);
+        this.ready = true;
+        if (this.opts.intro && !this.opts.reducedMotion)
+            this.startIntro();
+        this.wake();
+    }
+    /** One particle per material pixel of a grid laid over the image. */
+    buildParticles(img) {
+        const gl = this.gl;
+        const baseGrid = this.lowPower ? 640 : 1000;
+        const gw = Math.round(baseGrid * Math.sqrt(clamp(this.opts.density, 0.15, 2)));
+        const gh = Math.max(1, Math.round(gw / this.aspect));
+        this.gridW = gw;
+        let data;
+        try {
+            const c = document.createElement("canvas");
+            c.width = gw;
+            c.height = gh;
+            const ctx = c.getContext("2d", { willReadFrequently: true });
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, gw, gh);
+            data = ctx.getImageData(0, 0, gw, gh).data;
+        }
+        catch {
+            throw new Error("Image is not CORS-readable");
+        }
+        // a cut-out (transparent) image is sampled by alpha, a flat one by colour distance
+        let transparent = 0;
+        for (let i = 3; i < data.length; i += 4 * 7)
+            if (data[i] < 250)
+                transparent++;
+        this.alphaMode = transparent > data.length / (4 * 7) / 20;
+        if (this.opts.imgBg)
+            this.imgBg = this.opts.imgBg;
+        else if (!this.alphaMode) {
+            // flat background: average the four corners
+            let r = 0, g = 0, b = 0, n = 0;
+            const pw = Math.max(2, Math.round(gw * 0.012));
+            for (const [cx, cy] of [[0, 0], [gw - pw, 0], [0, gh - pw], [gw - pw, gh - pw]]) {
+                for (let y = cy; y < cy + pw; y++)
+                    for (let x = cx; x < cx + pw; x++) {
+                        const i = (y * gw + x) * 4;
+                        r += data[i];
+                        g += data[i + 1];
+                        b += data[i + 2];
+                        n++;
+                    }
+            }
+            this.imgBg = [r / n / 255, g / n / 255, b / n / 255];
+        }
+        const home = [];
+        const col = [];
+        for (let y = 0; y < gh; y++) {
+            for (let x = 0; x < gw; x++) {
+                const i = (y * gw + x) * 4;
+                const r = data[i] / 255;
+                const g = data[i + 1] / 255;
+                const b = data[i + 2] / 255;
+                if (this.alphaMode) {
+                    const a = data[i + 3] / 255;
+                    if (a < 0.12)
+                        continue;
+                    if (a < 0.5 && Math.random() > a * 2)
+                        continue;
+                }
+                else {
+                    const dev = Math.hypot(r - this.imgBg[0], g - this.imgBg[1], b - this.imgBg[2]);
+                    if (dev < 0.03)
+                        continue;
+                    if (dev < 0.07 && Math.random() > (dev - 0.03) / 0.04)
+                        continue;
+                }
+                const jx = (Math.random() - 0.5) * 0.6;
+                const jy = (Math.random() - 0.5) * 0.6;
+                home.push((x + 0.5 + jx) / gw, (y + 0.5 + jy) / gh, Math.random(), 0.85 + Math.random() * 0.3);
+                col.push(data[i], data[i + 1], data[i + 2], 255);
+            }
+        }
+        const n = home.length / 4;
+        this.n = n;
+        this.texH = Math.max(1, Math.ceil(n / TEX_W));
+        const total = TEX_W * this.texH;
+        const homeArr = new Float32Array(total * 4);
+        homeArr.set(home);
+        const colArr = new Uint8Array(total * 4);
+        colArr.set(col);
+        for (const t of [this.homeTex, this.colTex, ...this.stateTex])
+            if (t)
+                gl.deleteTexture(t);
+        for (const f of this.stateFb)
+            gl.deleteFramebuffer(f);
+        this.stateTex = [];
+        this.stateFb = [];
+        this.homeTex = this.makeTex(gl.RGBA32F, TEX_W, this.texH, gl.RGBA, gl.FLOAT, homeArr, gl.NEAREST);
+        this.colTex = this.makeTex(gl.RGBA8, TEX_W, this.texH, gl.RGBA, gl.UNSIGNED_BYTE, colArr, gl.NEAREST);
+        for (let i = 0; i < 2; i++) {
+            const t = this.makeTex(this.stateFormat.internal, TEX_W, this.texH, gl.RGBA, this.stateFormat.type, null, gl.NEAREST);
+            const fb = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+            if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE)
+                throw new Error("Float FBO incomplete");
+            this.stateTex.push(t);
+            this.stateFb.push(fb);
+        }
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        this.homeData = homeArr;
+        this.clearState();
+    }
+    startIntro() {
+        const gl = this.gl;
+        const home = this.homeData;
+        if (!home)
+            return;
+        const w = this.rect.w > 10 ? this.rect.w : 1300;
+        const total = TEX_W * this.texH;
+        const st = new Float32Array(total * 4);
+        for (let i = 0; i < this.n; i++) {
+            const hx = home[i * 4] - 0.5;
+            const hy = home[i * 4 + 1] - 0.5;
+            const sd = home[i * 4 + 2];
+            const ang = (Math.random() - 0.5) * 0.9 + (hx > 0 ? 0 : Math.PI);
+            const dist = w * (0.04 + Math.random() * 0.14) * (0.5 + Math.abs(hx) * 1.4);
+            st[i * 4] = Math.cos(ang) * dist + hx * w * 0.25 * sd;
+            st[i * 4 + 1] = Math.sin(ang) * dist * 0.55 + hy * 120 * (Math.random() - 0.5);
+        }
+        gl.bindTexture(gl.TEXTURE_2D, this.stateTex[this.stateIdx]);
+        gl.texImage2D(gl.TEXTURE_2D, 0, this.stateFormat.internal, TEX_W, this.texH, 0, gl.RGBA, gl.FLOAT, st);
+        this.introT = 0;
+        this.stateDirty = true;
+    }
+    setOptions(o) {
+        const rebuild = (o.density !== undefined && o.density !== this.opts.density) ||
+            (o.imgBg !== undefined && String(o.imgBg) !== String(this.opts.imgBg));
+        this.opts = { ...this.opts, ...o };
+        if (rebuild && this.ready && this.lastImage) {
+            try {
+                this.buildParticles(this.lastImage);
+            }
+            catch {
+                this.onFail();
+            }
+        }
+        this.wake();
+    }
+    resize(cssW, cssH, rect) {
+        this.cssW = Math.max(1, cssW);
+        this.cssH = Math.max(1, cssH);
+        this.rect = rect;
+        let dpr = Math.min(window.devicePixelRatio || 1, this.lowPower ? 1.5 : 2);
+        const px = this.cssW * this.cssH * dpr * dpr;
+        if (px > 4.5e6)
+            dpr = Math.max(1, Math.sqrt(4.5e6 / (this.cssW * this.cssH)));
+        const w = Math.round(this.cssW * dpr);
+        const h = Math.round(this.cssH * dpr);
+        if (this.canvas.width !== w || this.canvas.height !== h) {
+            this.canvas.width = w;
+            this.canvas.height = h;
+        }
+        this.draw();
+    }
+    setVisible(v) {
+        this.visible = v;
+        if (v)
+            this.wake();
+        else
+            this.stop();
+    }
+    pointer(type, x, y, touch) {
+        if (!this.opts.interactive || this.lost)
+            return;
+        const now = performance.now();
+        if (type === "leave" || type === "up") {
+            if (touch)
+                this.touchRelease = now + 260;
+            else
+                this.presenceTarget = 0;
+            this.wake();
+            return;
+        }
+        if (this.mouse.x < -9000 || type === "down") {
+            this.mouse.x = this.prevMouse.x = x;
+            this.mouse.y = this.prevMouse.y = y;
+        }
+        this.target.x = x;
+        this.target.y = y;
+        this.presenceTarget = 1;
+        this.lastInput = now;
+        this.settle = 0;
+        if (type === "down") {
+            this.burst = 1;
+            this.touchRelease = 0;
+        }
+        this.wake();
+    }
+    wake() {
+        if (!this.ready || this.running || !this.visible || this.destroyed || this.lost) {
+            if (this.ready && !this.running)
+                this.draw();
+            return;
+        }
+        this.running = true;
+        this.last = performance.now();
+        this.raf = requestAnimationFrame(this.frame);
+    }
+    stop() {
+        this.running = false;
+        cancelAnimationFrame(this.raf);
+    }
+    radiusPx() {
+        return this.opts.radius * clamp(this.rect.w / 1400, 0.6, 1.25);
+    }
+    strength() {
+        return this.opts.strength * (this.opts.reducedMotion ? 0.5 : 1);
+    }
+    firstFrame() {
+        if (this.onFirstFrame) {
+            const cb = this.onFirstFrame;
+            this.onFirstFrame = null;
+            // one more frame so the compositor has presented the canvas
+            requestAnimationFrame(() => cb());
+        }
+    }
+    stepFlow(dt) {
+        const gl = this.gl;
+        const P = this.pFlow;
+        const dst = 1 - this.flowIdx;
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.flowFb[dst]);
+        gl.viewport(0, 0, this.flowW, this.flowH);
+        gl.disable(gl.BLEND);
+        gl.useProgram(P.p);
+        gl.bindVertexArray(this.vao);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
+        gl.uniform1i(P.u.uPrev, 0);
+        gl.uniform2f(P.u.uTexel, 1 / this.flowW, 1 / this.flowH);
+        const r = this.rect;
+        gl.uniform2f(P.u.uMouse, (this.mouse.x - r.x) / r.w, (this.mouse.y - r.y) / r.h);
+        gl.uniform2f(P.u.uVel, clamp(this.mvel.x / 40, -1, 1), clamp(this.mvel.y / 40, -1, 1));
+        gl.uniform2f(P.u.uSize, r.w, r.h);
+        gl.uniform1f(P.u.uRadius, this.radiusPx());
+        gl.uniform1f(P.u.uPresence, Math.max(this.presence, this.burst));
+        gl.uniform1f(P.u.uDecay, Math.pow(0.968, dt));
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        this.flowIdx = dst;
+        this.flowDirty = true;
+    }
+    stepSim(dt) {
+        if (!this.n)
+            return;
+        const gl = this.gl;
+        const P = this.pSim;
+        const o = this.opts;
+        const r = this.rect;
+        const dst = 1 - this.stateIdx;
+        const intro = o.reducedMotion || !o.intro ? 0 : Math.pow(1 - this.introT, 2);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.stateFb[dst]);
+        gl.viewport(0, 0, TEX_W, this.texH);
+        gl.disable(gl.BLEND);
+        gl.useProgram(P.p);
+        gl.bindVertexArray(this.vao);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.stateTex[this.stateIdx]);
+        gl.uniform1i(P.u.uState, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, this.homeTex);
+        gl.uniform1i(P.u.uHome, 1);
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
+        gl.uniform1i(P.u.uFlow, 2);
+        gl.uniform2f(P.u.uSize, r.w, r.h);
+        gl.uniform2f(P.u.uMouse, this.mouse.x - r.x, this.mouse.y - r.y);
+        gl.uniform1f(P.u.uRadius, this.radiusPx());
+        gl.uniform1f(P.u.uPresence, Math.max(this.presence, this.burst));
+        gl.uniform1f(P.u.uStrength, this.strength() * (1 + this.burst * 1.5));
+        gl.uniform1f(P.u.uSpread, clamp(o.spread, 0, 2));
+        gl.uniform1f(P.u.uTurb, clamp(o.turbulence, 0, 2) * (o.reducedMotion ? 0.3 : 1));
+        gl.uniform1f(P.u.uReturn, clamp(o.returnSpeed, 0, 2));
+        gl.uniform1f(P.u.uTime, this.time);
+        gl.uniform1f(P.u.uDt, dt);
+        gl.uniform1f(P.u.uIntro, intro);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        this.stateIdx = dst;
+        this.stateDirty = true;
+    }
+    draw() {
+        if (!this.ready || this.lost || this.destroyed)
+            return;
+        const gl = this.gl;
+        const o = this.opts;
+        const r = this.rect;
+        const rm = o.reducedMotion;
+        const introVis = rm || !o.intro ? 1 : Math.pow(this.introT, 2.2);
+        const base = o.ambient && !rm ? clamp(o.ambientIntensity, 0, 2) : 0;
+        const amb = base + this.flowing * 0.85 * clamp(o.liquid, 0, 2) * (rm ? 0.3 : 1);
+        const rest = o.restStyle === "particles" ? 1 : 0;
+        const [br, bg, bb] = o.bg;
+        const [ir, ig, ib] = this.imgBg;
+        const dpr = this.canvas.width / this.cssW;
+        const pres = Math.max(this.presence, this.burst);
+        const mx = this.mouse.x - r.x;
+        const my = this.mouse.y - r.y;
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+        gl.bindVertexArray(this.vao);
+        gl.disable(gl.BLEND);
+        const I = this.pImg;
+        gl.useProgram(I.p);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.imgTex);
+        gl.uniform1i(I.u.uImg, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
+        gl.uniform1i(I.u.uFlow, 1);
+        gl.uniform2f(I.u.uRes, this.cssW, this.cssH);
+        gl.uniform1f(I.u.uDpr, dpr);
+        gl.uniform4f(I.u.uRect, r.x, r.y, r.w, r.h);
+        gl.uniform3f(I.u.uBg, br, bg, bb);
+        gl.uniform3f(I.u.uImgBg, ir, ig, ib);
+        gl.uniform2f(I.u.uMouse, mx, my);
+        gl.uniform1f(I.u.uPresence, pres);
+        gl.uniform1f(I.u.uRadius, this.radiusPx());
+        gl.uniform1f(I.u.uStrength, this.strength());
+        gl.uniform1f(I.u.uTime, this.time);
+        gl.uniform1f(I.u.uAmbient, amb);
+        gl.uniform1f(I.u.uIntroVis, introVis);
+        gl.uniform1f(I.u.uRest, rest);
+        gl.uniform1f(I.u.uAlphaMode, this.alphaMode ? 1 : 0);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        // particles are invisible at rest in "image" mode: skip them entirely
+        if (!this.n || (!this.stateDirty && rest === 0 && introVis >= 1))
+            return;
+        const P = this.pPart;
+        gl.useProgram(P.p);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.stateTex[this.stateIdx]);
+        gl.uniform1i(P.u.uState, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, this.homeTex);
+        gl.uniform1i(P.u.uHome, 1);
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, this.colTex);
+        gl.uniform1i(P.u.uCol, 2);
+        gl.activeTexture(gl.TEXTURE3);
+        gl.bindTexture(gl.TEXTURE_2D, this.flowTex[this.flowIdx]);
+        gl.uniform1i(P.u.uFlow, 3);
+        gl.uniform1i(P.u.uTexW, TEX_W);
+        gl.uniform4f(P.u.uRect, r.x, r.y, r.w, r.h);
+        gl.uniform2f(P.u.uRes, this.cssW, this.cssH);
+        gl.uniform2f(P.u.uMouse, mx, my);
+        gl.uniform1f(P.u.uRadius, this.radiusPx());
+        gl.uniform1f(P.u.uPresence, pres);
+        const spacing = r.w / this.gridW;
+        gl.uniform1f(P.u.uDot, spacing * 1.45 * clamp(o.dotSize, 0.2, 3));
+        gl.uniform1f(P.u.uTime, this.time);
+        gl.uniform1f(P.u.uAmbient, amb);
+        gl.uniform1f(P.u.uStreak, (o.streaks ? 1 : 0) * (0.45 + 0.55 * introVis));
+        gl.uniform1f(P.u.uIntroVis, introVis);
+        gl.uniform1f(P.u.uRest, rest);
+        gl.uniform1f(P.u.uDpr, dpr);
+        if (this.alphaMode)
+            gl.uniform3f(P.u.uTint, 1, 1, 1);
+        else
+            gl.uniform3f(P.u.uTint, br / Math.max(ir, 0.001), bg / Math.max(ig, 0.001), bb / Math.max(ib, 0.001));
+        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, this.n);
+        gl.disable(gl.BLEND);
+    }
+    destroy() {
+        this.destroyed = true;
+        this.stop();
+        this.canvas.removeEventListener("webglcontextlost", this.onLost);
+        const gl = this.gl;
+        if (!this.lost) {
+            gl.deleteBuffer(this.quad);
+            gl.deleteVertexArray(this.vao);
+            for (const t of [...this.flowTex, ...this.stateTex, this.imgTex, this.homeTex, this.colTex])
+                if (t)
+                    gl.deleteTexture(t);
+            for (const f of [...this.flowFb, ...this.stateFb])
+                gl.deleteFramebuffer(f);
+            for (const p of [this.pFlow, this.pSim, this.pPart, this.pImg])
+                if (p)
+                    gl.deleteProgram(p.p);
+        }
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+    }
+}
+function computeRect(w, h, aspect, band, p) {
+    const bandH = Math.max(80, band.bottom - band.top);
+    let rw;
+    let maxH;
+    if (w >= 1024) {
+        rw = w * 1.02 * p.scale;
+        maxH = bandH * 1.1 * p.scale;
+    }
+    else if (w >= 640) {
+        rw = w * 1.3 * p.scale;
+        maxH = bandH * 1.15 * p.scale;
+    }
+    else if (aspect < 1.3) {
+        // portrait image for phones: fills the width, may tuck under the headline
+        rw = w * 1.0 * p.mobileScale;
+        maxH = bandH * 1.0 * p.mobileScale;
+    }
+    else {
+        rw = w * 1.9 * p.mobileScale;
+        maxH = bandH * 1.2 * p.mobileScale;
+    }
+    if (rw / aspect > maxH)
+        rw = maxH * aspect;
+    const rh = rw / aspect;
+    const cx = w * (0.5 + p.x / 100);
+    const cy = (band.top + band.bottom) / 2 + h * (p.y / 100);
+    return { x: cx - rw / 2, y: cy - rh / 2, w: rw, h: rh };
+}
+const CSS = `
+.sh-root{position:relative;width:100%;height:var(--sh-h);overflow:hidden;isolation:isolate;container-type:size;transition:background-color .6s ease,color .6s ease;
+  background:var(--sh-bg);color:var(--sh-fg);font-family:var(--sh-body);-webkit-font-smoothing:antialiased;
+  touch-action:pan-y;display:flex;flex-direction:column;box-sizing:border-box}
+.sh-root *,.sh-root *::before,.sh-root *::after{box-sizing:border-box}
+.sh-stage{position:absolute;inset:0;z-index:0;pointer-events:none}
+.sh-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .5s ease}
+.sh-fallback{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none;transition:opacity .5s ease}
+.sh-root[data-gl="on"] .sh-canvas{opacity:1}
+.sh-root[data-gl="on"] .sh-fallback{opacity:0}
+.sh-root[data-swap="1"] .sh-canvas{opacity:0;transition-duration:.25s}
+.sh-root[data-swap="1"] .sh-fallback{opacity:0;transition-duration:.25s}
+.sh-backdrop{position:absolute;left:50%;z-index:0;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;
+  font-family:var(--sh-head);font-weight:600;letter-spacing:-.06em;line-height:.8;color:color-mix(in srgb,var(--sh-fg) 5%,transparent)}
+.sh-nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:26px clamp(20px,3.2cqw,48px) 0}
+.sh-brand{font-family:var(--sh-head);font-weight:600;font-size:17px;letter-spacing:-.02em;color:inherit;text-decoration:none}
+.sh-links{display:flex;align-items:center;gap:clamp(18px,2.4cqw,36px);list-style:none;margin:0;padding:0}
+.sh-link{color:inherit;text-decoration:none;font-size:13.5px;letter-spacing:-.005em;opacity:.72;transition:opacity .2s}
+.sh-link:hover{opacity:1}
+.sh-theme{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border-radius:50%;cursor:pointer;color:inherit;background:transparent;
+  border:1px solid color-mix(in srgb,var(--sh-fg) 22%,transparent);transition:background .25s,color .25s}
+.sh-theme:hover{background:var(--sh-fg);color:var(--sh-bg)}
+.sh-theme:focus-visible{outline:2px solid var(--sh-fg);outline-offset:4px}
+.sh-navcta{color:inherit;text-decoration:none;font-size:13.5px;padding:8px 14px;border:1px solid color-mix(in srgb,var(--sh-fg) 22%,transparent);
+  border-radius:999px;transition:background .25s,color .25s}
+.sh-navcta:hover{background:var(--sh-fg);color:var(--sh-bg)}
+.sh-hint{position:absolute;z-index:1;transform:translate(-50%,0);display:flex;align-items:center;gap:10px;white-space:nowrap;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;pointer-events:none;transition:opacity .8s ease}
+.sh-hint::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:sh-pulse 2.4s ease-in-out infinite}
+.sh-root[data-touched="1"] .sh-hint{opacity:0}
+@keyframes sh-pulse{0%,100%{transform:scale(.6);opacity:.45}50%{transform:scale(1);opacity:1}}
+.sh-spacer{flex:1 1 auto;min-height:0}
+.sh-content{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:end;
+  gap:clamp(24px,4cqw,72px);padding:0 clamp(20px,3.2cqw,48px) clamp(28px,3.4cqw,52px)}
+.sh-eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.62;margin:0 0 clamp(14px,1.6cqw,22px);
+  display:flex;align-items:center;gap:12px}
+.sh-eyebrow::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+.sh-h1{font-family:var(--sh-head);font-weight:500;font-size:clamp(40px,min(6.6cqw,11.5cqh),124px);line-height:.92;letter-spacing:-.045em;margin:0;
+  text-wrap:balance}
+.sh-h1 .sh-line{display:block}
+.sh-accent{font-family:var(--sh-accent);font-style:italic;font-weight:400;letter-spacing:-.02em;color:var(--sh-acc)}
+.sh-aside{max-width:400px;justify-self:end;padding-bottom:.6em}
+.sh-body{font-size:clamp(15px,1.1cqw,17px);line-height:1.5;letter-spacing:-.01em;margin:0 0 26px;opacity:.78;text-wrap:pretty}
+.sh-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px}
+.sh-btn{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;background:var(--sh-fg);
+  color:var(--sh-bg);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:-.01em;transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.sh-btn:hover{transform:translateY(-1px)}
+.sh-btn svg,.sh-txt svg{transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.sh-btn:hover svg,.sh-txt:hover svg{transform:translateX(3px)}
+.sh-txt{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-size:14.5px;font-weight:500;
+  letter-spacing:-.01em;padding:4px 0;border-bottom:1px solid color-mix(in srgb,var(--sh-fg) 30%,transparent)}
+.sh-root a:focus-visible{outline:2px solid var(--sh-fg);outline-offset:4px}
+.sh-credit{position:absolute;z-index:2;right:clamp(20px,3.2cqw,48px);bottom:10px;font-size:10px;letter-spacing:.06em;
+  color:inherit;opacity:.38;text-decoration:none}
+.sh-credit:hover{opacity:.8}
+@container (max-width:1023px){
+  .sh-content{grid-template-columns:1fr;gap:28px}
+  .sh-aside{justify-self:start;max-width:520px;padding-bottom:0}
+  .sh-h1{font-size:clamp(40px,min(9.5cqw,9cqh),96px)}
+}
+@container (max-width:767px){
+  .sh-links li:not(.sh-keep){display:none}
+}
+@container (max-width:639px){
+  .sh-nav{padding-top:20px}
+  .sh-h1{font-size:clamp(36px,min(12.5cqw,7.2cqh),60px);line-height:.94}
+  .sh-body{font-size:15px;margin-bottom:20px}
+  .sh-eyebrow{font-size:11px}
+  .sh-ctas{gap:18px}
+  .sh-btn{height:48px}
+  .sh-content{padding-bottom:40px}
+  .sh-credit{right:auto;left:50%;transform:translateX(-50%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .sh-hint::before{animation:none}
+  .sh-canvas,.sh-fallback,.sh-btn,.sh-btn svg,.sh-txt svg{transition:none}
+}
+`;
+
+
+/* ===================================================================== */
+(function () {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  $("#year").textContent = new Date().getFullYear();
+
+  /* ---------------- Hero ---------------- */
+  const HERO = {
+    darkSrc: "https://cdn.21st.dev/assets/mirror/a1/a1fa387b6e417b26a25f317559c87cce4d241c1052c52a2b3bc2966b2aaf9b65.webp",
+    mobileDarkSrc: "https://cdn.21st.dev/assets/mirror/9a/9a82cb59be1bfde59855b79d7a565e487155a89f4d52eac74dcc10e267b2b6d1.webp",
+    bg: "#060708",
+  };
+  (function mountHero() {
+    const root = $("#hero");
+    const style = document.createElement("style");
+    style.textContent = CSS;
+    document.head.prepend(style);
+    Object.assign(root.style, {});
+    root.style.setProperty("--sh-bg", HERO.bg);
+    root.style.setProperty("--sh-fg", "#EDEFEA");
+    root.style.setProperty("--sh-acc", "#C6FF3D");
+    root.style.setProperty("--sh-head", "'Syne', system-ui, sans-serif");
+    root.style.setProperty("--sh-accent", "'Instrument Serif', 'Times New Roman', serif");
+    root.style.setProperty("--sh-body", "'Inter', system-ui, sans-serif");
+    root.style.setProperty("--sh-h", "100svh");
+
+    const stage = $(".sh-stage", root), img = $(".sh-fallback", root), hint = $(".sh-hint", root);
+    const nav = $(".sh-nav", root), content = $(".sh-content", root), backdrop = $(".sh-backdrop", root);
+    if (matchMedia("(hover: none), (pointer: coarse)").matches) hint.textContent = "Forma dokunun";
+    const layout = { scale: 1, mobileScale: 1, x: 0, y: 0 };
+    let aspect = 1983 / 793, mobile = null, engine = null, loadToken = 0;
+
+    const opts = (rm) => ({
+      interactive: true, strength: 1, radius: 220, density: 1, dotSize: 1, spread: 1, turbulence: 1, liquid: 1,
+      streaks: true, restStyle: "image", returnSpeed: 1, ambient: true, ambientIntensity: 0.8, speed: 1, intro: true,
+      reducedMotion: rm, bg: hexToRgb(HERO.bg, [0.02, 0.03, 0.03]), imgBg: null,
+    });
+
+    function relayout() {
+      const w = root.clientWidth, h = root.clientHeight, mob = w < 640;
+      if (mob !== mobile) { mobile = mob; load(mob ? HERO.mobileDarkSrc : HERO.darkSrc); }
+      const band = { top: nav.offsetTop + nav.offsetHeight + 8, bottom: content.offsetTop - 8 };
+      if (mob && aspect < 1.3) band.bottom += content.offsetHeight * 0.3;
+      const rect = computeRect(w, h, aspect, band, layout);
+      const chars = Math.max(1, backdrop.textContent.length);
+      backdrop.style.fontSize = Math.min((band.bottom - band.top) * 0.95, (w * 0.92) / (chars * 0.56)) + "px";
+      backdrop.style.top = (band.top + band.bottom) / 2 + "px";
+      Object.assign(img.style, { left: rect.x + "px", top: rect.y + "px", width: rect.w + "px", height: rect.h + "px" });
+      hint.style.display = mob && aspect < 1.3 ? "none" : "";
+      hint.style.left = clamp(rect.x + rect.w / 2, 80, w - 80) + "px";
+      hint.style.top = Math.min(rect.y + rect.h * 0.95, band.bottom - 20) + "px";
+      engine && engine.resize(w, h, rect);
+    }
+
+    function load(src) {
+      const token = ++loadToken;
+      img.src = src;
+      const swapping = root.dataset.gl === "on";
+      if (swapping) root.dataset.swap = "1";
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+      image.decoding = "async";
+      image.onload = () => {
+        if (token !== loadToken) return;
+        aspect = image.naturalWidth / image.naturalHeight || aspect;
+        relayout();
+        if (engine && root.dataset.gl !== "off") {
+          try {
+            engine.onFirstFrame = () => { if (token === loadToken) { root.dataset.gl = "on"; delete root.dataset.swap; } };
+            engine.setImage(image);
+            relayout();
+          } catch (e) { root.dataset.gl = "off"; }
+        } else delete root.dataset.swap;
+      };
+      image.onerror = () => { delete root.dataset.swap; };
+      setTimeout(() => { if (token === loadToken) image.src = src; }, swapping ? 280 : 0);
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "sh-canvas";
+    stage.appendChild(canvas);
+    try { engine = new LiquidEngine(canvas, opts(reduced.matches), () => { root.dataset.gl = "off"; }); }
+    catch (e) { root.dataset.gl = "off"; }
+
+    new ResizeObserver(relayout).observe(root);
+    new ResizeObserver(relayout).observe(content);
+    new IntersectionObserver((es) => es.forEach((e) => engine && engine.setVisible(e.isIntersecting && !document.hidden))).observe(root);
+    document.addEventListener("visibilitychange", () => engine && engine.setVisible(!document.hidden));
+    reduced.addEventListener("change", () => engine && engine.setOptions({ reducedMotion: reduced.matches }));
+    document.fonts && document.fonts.ready.then(relayout);
+
+    const pos = (e) => { const b = root.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+    const touched = () => { root.dataset.touched = "1"; };
+    root.addEventListener("pointermove", (e) => {
+      const t = e.pointerType === "touch";
+      if (t && e.buttons === 0 && e.pressure === 0) return;
+      const [x, y] = pos(e); engine && engine.pointer("move", x, y, t); touched();
+    }, { passive: true });
+    root.addEventListener("pointerdown", (e) => { const [x, y] = pos(e); engine && engine.pointer("down", x, y, e.pointerType === "touch"); touched(); }, { passive: true });
+    const up = (type) => (e) => { const [x, y] = pos(e); engine && engine.pointer(type, x, y, e.pointerType === "touch"); };
+    root.addEventListener("pointerup", up("up"), { passive: true });
+    root.addEventListener("pointercancel", up("up"), { passive: true });
+    root.addEventListener("pointerleave", up("leave"), { passive: true });
+    relayout();
+  })();
+
+  /* ---------------- Smooth scroll + anchors ---------------- */
+  let lenis = null;
+  window.addEventListener("load", () => {
+    if (reduced.matches || typeof Lenis === "undefined") return;
+    lenis = new Lenis({ lerp: 0.08, wheelMultiplier: 0.95, touchMultiplier: 1.4 });
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  });
+  document.addEventListener("click", (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const a = e.target.closest('a[href^="#"]');
+    const hash = a && a.getAttribute("href");
+    if (!hash || hash === "#") return;
+    const el = hash === "#top" ? document.body : document.querySelector(hash);
+    if (!el) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(hash === "#top" ? 0 : el, { duration: 1.6, easing: (t) => 1 - Math.pow(1 - t, 4) });
+    else el.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" });
+    history.replaceState(null, "", hash);
+  });
+
+  /* ---------------- Nav: glass on scroll + phone menu ---------------- */
+  const navEl = $("#nav"), menu = $("#menu"), openBtn = $("#menu-open");
+  const setMenu = (open) => {
+    menu.hidden = !open;
+    openBtn.setAttribute("aria-expanded", String(open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    lenis && (open ? lenis.stop() : lenis.start());
+    (open ? $("#menu-close") : openBtn).focus();
+  };
+  openBtn.addEventListener("click", () => setMenu(true));
+  $("#menu-close").addEventListener("click", () => setMenu(false));
+  $$("a", menu).forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) setMenu(false); });
+
+  /* ---------------- Cursor ---------------- */
+  if (fine) {
+    document.documentElement.classList.add("has-cursor");
+    const ring = $(".cursor-ring"), dot = $(".cursor-dot"), label = $("span", ring);
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; dot.style.translate = `${mx}px ${my}px`; }, { passive: true });
+    (function loop() {
+      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+      ring.style.translate = `${rx}px ${ry}px`;
+      requestAnimationFrame(loop);
+    })();
+    document.addEventListener("pointerover", (e) => {
+      const l = e.target.closest("[data-cursor]");
+      const link = e.target.closest("a, button, input, textarea, label");
+      ring.classList.toggle("label", !!l);
+      ring.classList.toggle("link", !l && !!link);
+      label.textContent = l ? l.dataset.cursor : "";
+    });
+    document.documentElement.addEventListener("pointerleave", () => document.documentElement.classList.remove("has-cursor"));
+    document.documentElement.addEventListener("pointerenter", () => document.documentElement.classList.add("has-cursor"));
+  }
+
+  /* ---------------- Card spotlight ---------------- */
+  $$(".card").forEach((c) => c.addEventListener("pointermove", (e) => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty("--mx", e.clientX - r.left + "px");
+    c.style.setProperty("--my", e.clientY - r.top + "px");
+  }));
+
+  /* ---------------- Reveal on scroll ---------------- */
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { rootMargin: "0px 0px -12% 0px" });
+  $$("[data-reveal]").forEach((el) => io.observe(el));
+
+  /* ---------------- Scroll-driven: nav, parallax, manifesto, hero fade ---------------- */
+  const pars = $$("[data-speed]"), words = $$("#manifesto .w"), manifesto = $("#manifesto"), heroContent = $("#hero .sh-content");
+  let ticking = false;
+  function onScroll() {
+    ticking = false;
+    const vh = innerHeight, y = scrollY;
+    navEl.classList.toggle("scrolled", y > 80);
+    if (reduced.matches) return;
+    for (const el of pars) {
+      const r = el.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) continue;
+      const p = (vh - r.top) / (vh + r.height); // 0 → 1 while crossing the viewport
+      const s = Number(el.dataset.speed) || 0;
+      el.style.transform = `translateY(${(-s + p * 2 * s).toFixed(2)}%)`;
+    }
+    const m = manifesto.getBoundingClientRect();
+    const prog = clamp((vh * 0.8 - m.top) / (m.height + vh * 0.35), 0, 1) * (words.length + 4);
+    words.forEach((w, i) => w.style.setProperty("--o", (0.14 + 0.86 * clamp(prog - i, 0, 1)).toFixed(2)));
+    const hp = clamp(y / vh, 0, 1);
+    heroContent.style.transform = `translateY(${-hp * 18}%)`;
+    heroContent.style.opacity = String(1 - hp * 0.8);
+  }
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  addEventListener("resize", onScroll);
+  onScroll();
+
+  /* ---------------- Contact form → pre-filled e-mail ---------------- */
+  $$(".chips").forEach((group) => group.addEventListener("click", (e) => {
+    const b = e.target.closest(".chip");
+    if (!b) return;
+    const on = b.getAttribute("aria-pressed") !== "true";
+    if (group.hasAttribute("data-single")) $$(".chip", group).forEach((c) => c.setAttribute("aria-pressed", "false"));
+    b.setAttribute("aria-pressed", String(on));
+  }));
+  const form = $("#form");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = (n) => form.elements[n].value.trim();
+    const errs = {
+      name: v("name") ? "" : "Adınızı yazın.",
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("email")) ? "" : "Geçerli bir e-posta adresi girin.",
+      message: v("message").length >= 10 ? "" : "Projenizden birkaç cümleyle bahsedin.",
+    };
+    let first = null;
+    for (const k in errs) {
+      $("#" + k + "-err").textContent = errs[k];
+      form.elements[k].setAttribute("aria-invalid", String(!!errs[k]));
+      if (errs[k] && !first) first = form.elements[k];
+    }
+    if (first) return first.focus();
+    const picked = (sel) => $$(sel + " .chip[aria-pressed=true]", form).map((c) => c.textContent);
+    const interests = picked("[data-multi]"), budget = picked("[data-single]")[0];
+    const body = [`Ad: ${v("name")}`, `E-posta: ${v("email")}`, interests.length ? `İlgi alanı: ${interests.join(", ")}` : "", budget ? `Bütçe: ${budget}` : ""]
+      .filter(Boolean).concat("", v("message")).join("\n");
+    location.href = `mailto:merhaba@ucdag.studio?subject=${encodeURIComponent("Yeni proje — " + v("name"))}&body=${encodeURIComponent(body)}`;
+    $("#submit").innerHTML = `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> E-posta uygulamanız açıldı`;
+    $("#form-status").textContent = "E-posta taslağınız hazırlandı.";
+  });
+})();
+</script>
+</body>
+</html>

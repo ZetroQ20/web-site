@@ -61,3 +61,7 @@ Abdullah Üçdağ'ın Denizli merkezli ajansı için koyu temalı (siyah + asit 
 **Düzenlenecekler:** `STUDIO.email` / telefon, `SOCIALS`, projelerin `href` ve görselleri (`PROJECTS`) şu an yer tutucu. Form henüz backend'e bağlı değil; ziyaretçinin e-posta uygulamasını hazır bir taslakla açar.
 
 shadcn yapısı: `components.json`, `lib/utils.ts` (`cn`), `components/ui/`. Yeni shadcn bileşenleri `npx shadcn@latest add <bileşen>` ile `components/ui/` altına iner.
+
+### Tek dosya sürümü: `ajans/index.html`
+
+Aynı ajans sitesinin saf HTML + CSS + vanilla JS hâli (framework yok, build gerekmez). Çift tıklayıp tarayıcıda açılabilir ya da herhangi bir statik hostinge (Netlify Drop, GitHub Pages…) olduğu gibi yüklenebilir. WebGL heykel motoru `components/ui/liquid-sculpture-hero.tsx`'ten derlenip dosyaya gömülüdür; Lenis CDN'den gelir, gelmezse sayfa yerel yumuşak kaydırmaya döner.
