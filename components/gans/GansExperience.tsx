@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring } from "motion/react";
 import { gsap, useGSAP, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import SmoothScroll from "../providers/SmoothScroll";
 import Cursor from "../Cursor";
 import GansHero from "./GansHero";
-import ScentNotes from "./ScentNotes";
+import NotesFilm from "./NotesFilm";
+import Manifesto from "./Manifesto";
 import Craft from "./Craft";
-import Reserve, { whatsappHref } from "./Reserve";
+import Reserve from "./Reserve";
 import { ArrowUpRight } from "../icons";
-import { GANS, GANS_OPTIONS, NOTE_TIERS, formatTry } from "@/lib/gans";
-import { SITE_CONFIG } from "@/lib/content";
+import { GANS, GANS_OPTIONS, NOTE_ACTS, formatTry, whatsappHref } from "@/lib/gans";
 
-const MARQUEE = NOTE_TIERS.flatMap((t) => t.notes.map((n) => n.name));
+const MARQUEE = NOTE_ACTS.flatMap((t) => t.notes.map((n) => n.name));
 
 function Marquee() {
   const row = [...MARQUEE, ...MARQUEE];
@@ -104,19 +103,20 @@ export default function GansExperience() {
 
   return (
     <SmoothScroll>
-      <div ref={root} className="gans-page min-h-screen bg-[#0d110a] text-bone">
+      <div ref={root} className="gans-page min-h-screen bg-[#070a05] text-bone">
         <Cursor />
         <div className="grain" aria-hidden />
         <ScrollChrome />
 
-        <header className="fixed inset-x-0 top-0 z-40 border-b border-gold/10 bg-[#0d110a]/70 backdrop-blur-md">
-          <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-10">
-            <Link href="/" className="group flex min-h-11 items-center gap-2 text-[0.65rem] uppercase tracking-[0.36em] text-bone/60 transition-colors hover:text-gold-light">
-              <span aria-hidden className="transition-transform duration-500 group-hover:-translate-x-1">←</span>
-              {SITE_CONFIG.name}
-            </Link>
-            <span className="font-display text-lg tracking-[0.4em] text-gold-light">{GANS.brand}</span>
-            <a href="#rezerve" className="flex min-h-11 items-center gap-1 text-[0.65rem] uppercase tracking-[0.36em] text-gold transition-colors hover:text-gold-light">
+        <header className="fixed inset-x-0 top-0 z-40 border-b border-gold/10 bg-[#070a05]/60 backdrop-blur-md">
+          <nav className="mx-auto grid max-w-7xl grid-cols-3 items-center px-4 py-4 sm:px-6 lg:px-10">
+            <a href="#notalar" className="flex min-h-11 items-center text-[0.62rem] uppercase tracking-[0.36em] text-bone/60 transition-colors hover:text-gold-light">
+              Notalar
+            </a>
+            <a href="#top" className="justify-self-center font-display text-xl tracking-[0.5em] text-gold-light" aria-label={`${GANS.brand} — başa dön`}>
+              {GANS.brand}
+            </a>
+            <a href="#rezerve" className="flex min-h-11 items-center gap-1 justify-self-end text-[0.62rem] uppercase tracking-[0.36em] text-gold transition-colors hover:text-gold-light">
               Rezerve
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
@@ -126,13 +126,17 @@ export default function GansExperience() {
         <main className="overflow-x-clip">
           <GansHero />
           <Marquee />
-          <ScentNotes />
+          <NotesFilm />
+          <Manifesto />
           <Craft />
           <Reserve />
         </main>
 
-        <footer className="border-t border-gold/10 px-4 pb-32 pt-12 text-center text-[0.65rem] uppercase tracking-[0.36em] text-bone/40">
-          {GANS.brand} · {GANS.name} — {SITE_CONFIG.full}
+        <footer className="border-t border-gold/10 px-4 pb-32 pt-14 text-center">
+          <p className="font-display text-2xl tracking-[0.5em] text-gold-light">{GANS.brand}</p>
+          <p className="mt-3 text-[0.6rem] uppercase tracking-[0.4em] text-bone/40">
+            {GANS.name} · {GANS.type} · © {new Date().getFullYear()}
+          </p>
         </footer>
       </div>
     </SmoothScroll>

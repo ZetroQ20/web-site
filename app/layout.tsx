@@ -10,7 +10,6 @@ import "@fontsource-variable/manrope";
 import "@fontsource/great-vibes/latin-400.css";
 import "@fontsource/great-vibes/latin-ext-400.css";
 import "./globals.css";
-import JsonLd from "@/components/JsonLd";
 import { HERO_IMAGE, SITE_CONFIG } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -55,7 +54,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tr">
       <body>
-        <JsonLd />
         {children}
       </body>
     </html>

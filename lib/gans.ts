@@ -1,57 +1,79 @@
 // GANS · Garden Whisper — single source of truth for the product page copy, notes and prices.
 
+/** Original studio shot (cream background) — used for the close-up crops. */
 export const GANS_IMAGE = "/products/gans-garden-whisper.webp";
+/** Background-free cut-outs, composited into the night-garden scenes. */
+export const GANS_BOTTLE = { src: "/products/gans-bottle.webp", w: 289, h: 793 };
+export const GANS_BOX = { src: "/products/gans-box.webp", w: 293, h: 787 };
 
 export const GANS = {
   brand: "GANS",
   name: "Garden Whisper",
   type: "Çubuklu Oda Kokusu",
   volume: "100 ml",
-  // TODO: numaralı seri adedini ve fiyatları gerçek değerlerle güncelleyin.
+  // TODO: GANS'ın kendi WhatsApp hattını yazın (ülke kodu ile, + ve boşluk olmadan).
+  whatsapp: "905523693699",
+  // TODO: numaralı seri adedini gerçek değerle güncelleyin.
   edition: { number: "0127", of: "1000" },
   // TODO: teslimat koşullarını gerçek hizmetle doğrulayın.
-  delivery: "Kişisel teslimat · Denizli içi aynı gün · Türkiye geneli sigortalı kargo",
-  tagline: "Bir bahçenin sabaha karşı fısıldadığı koku.",
+  delivery: "Kişiye özel teslimat · Türkiye geneli sigortalı kargo",
+  tagline: "Bir bahçenin gece fısıldadığı koku.",
   intro:
     "Çiyle ıslanmış yapraklar, ılık bir taş duvar, uzaklardan gelen beyaz çiçek. Garden Whisper, odanıza bir bahçenin en sessiz anını taşır.",
 };
 
-export type Note = { name: string; detail: string };
-export type NoteTier = { id: string; label: string; time: string; mood: string; notes: Note[] };
+export type IngredientKind = "bergamot" | "leaf" | "mandarin" | "tea" | "jasmine" | "sage" | "vetiver" | "cedar" | "musk";
+export type Note = { name: string; origin: string; kind: IngredientKind };
+export type NoteAct = {
+  id: string;
+  act: string;
+  label: string;
+  title: string;
+  mood: string;
+  /** Light colour washing over the scene during this act. */
+  light: string;
+  notes: Note[];
+};
 
 // TODO: koku notalarını ürünün gerçek formülüyle doğrulayın.
-export const NOTE_TIERS: NoteTier[] = [
+export const NOTE_ACTS: NoteAct[] = [
   {
     id: "top",
+    act: "I",
     label: "Üst Notalar",
-    time: "İlk an",
-    mood: "Parlak, serin ve yeşil — kapı açıldığında karşılayan ilk nefes.",
+    title: "Şafak",
+    mood: "Serin, parlak ve yeşil. Kapı açıldığında karşılayan ilk nefes.",
+    light: "rgb(150 190 110 / 0.55)",
     notes: [
-      { name: "Bergamot", detail: "Calabria" },
-      { name: "İncir Yaprağı", detail: "Ege" },
-      { name: "Yeşil Mandalina", detail: "Sicilya" },
+      { name: "Bergamot", origin: "Calabria", kind: "bergamot" },
+      { name: "İncir Yaprağı", origin: "Ege", kind: "leaf" },
+      { name: "Yeşil Mandalina", origin: "Sicilya", kind: "mandarin" },
     ],
   },
   {
     id: "heart",
+    act: "II",
     label: "Kalp Notaları",
-    time: "Saatler boyu",
-    mood: "Yumuşak ve çiçeksi — odanın karakterini belirleyen zarif kalp.",
+    title: "Ay ışığı",
+    mood: "Yumuşak ve çiçeksi. Odanın karakterini belirleyen zarif kalp.",
+    light: "rgb(235 230 210 / 0.45)",
     notes: [
-      { name: "Beyaz Çay", detail: "Darjeeling" },
-      { name: "Yasemin Sambac", detail: "Hindistan" },
-      { name: "Adaçayı", detail: "Toros" },
+      { name: "Beyaz Çay", origin: "Darjeeling", kind: "tea" },
+      { name: "Yasemin Sambac", origin: "Hindistan", kind: "jasmine" },
+      { name: "Adaçayı", origin: "Toros", kind: "sage" },
     ],
   },
   {
     id: "base",
+    act: "III",
     label: "Dip Notalar",
-    time: "Haftalarca",
-    mood: "Sıcak ve topraksı — kumaşa, ahşaba ve hafızaya sinen iz.",
+    title: "Toprak",
+    mood: "Sıcak ve derin. Kumaşa, ahşaba ve hafızaya sinen iz.",
+    light: "rgb(214 150 70 / 0.55)",
     notes: [
-      { name: "Vetiver", detail: "Haiti" },
-      { name: "Atlas Sediri", detail: "Fas" },
-      { name: "Beyaz Misk", detail: "" },
+      { name: "Vetiver", origin: "Haiti", kind: "vetiver" },
+      { name: "Atlas Sediri", origin: "Fas", kind: "cedar" },
+      { name: "Beyaz Misk", origin: "", kind: "musk" },
     ],
   },
 ];
@@ -81,6 +103,8 @@ export const CRAFT = [
   },
 ] as const;
 
+export const MANIFESTO = "Gerçek lüks bağırmaz. Bir odaya girdiğinizde sessizce kendini hissettirir.";
+
 export const RITUAL = [
   { step: "01", title: "Aç", text: "Şişenin ağzını açın; altın başlığı yerine oturtun." },
   { step: "02", title: "Yerleştir", text: "Siyah çubukları şişeye yerleştirip birkaç dakika emmelerini bekleyin." },
@@ -91,7 +115,7 @@ export type GansOption = { id: string; label: string; detail: string; price: num
 
 // TODO: fiyatları gerçek satış fiyatlarıyla değiştirin.
 export const GANS_OPTIONS: GansOption[] = [
-  { id: "signature", label: "Signature", detail: "100 ml şişe · 8 siyah çubuk · varak kutu", price: 4200 },
+  { id: "signature", label: "Signature", detail: "100 ml şişe · siyah çubuklar · varak kutu", price: 4200 },
   {
     id: "coffret",
     label: "Coffret Privé",
@@ -102,9 +126,15 @@ export const GANS_OPTIONS: GansOption[] = [
 
 export const formatTry = (n: number) => `₺${n.toLocaleString("tr-TR")}`;
 
+export const whatsappHref = (optionLabel: string) =>
+  `https://wa.me/${GANS.whatsapp}?text=${encodeURIComponent(
+    `Merhaba, ${GANS.brand} ${GANS.name} (${optionLabel}) için bir şişe rezerve etmek istiyorum.`
+  )}`;
+
+// TODO: teknik bilgileri doğrulayın.
 export const GANS_SPECS = [
   { k: "Hacim", v: "100 ml" },
-  { k: "Çubuk", v: "8 adet · siyah rattan" },
+  { k: "Çubuk", v: "Siyah rattan" },
   { k: "Süre", v: "≈ 10–12 hafta" },
   { k: "Alan", v: "20–30 m²" },
 ];

@@ -65,7 +65,7 @@ export default function Craft() {
   );
 
   return (
-    <section ref={root} id="zanaat" className="relative border-y border-gold/10 bg-[linear-gradient(180deg,#0d110a,#121a0d_50%,#0d110a)]">
+    <section ref={root} id="zanaat" className="relative border-y border-gold/10 bg-[linear-gradient(180deg,#070a05,#121a0d_50%,#070a05)]">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-24 sm:px-6 md:grid-cols-2 md:gap-20 md:py-32 lg:px-10">
         <div className="hidden md:block">
           <div className="sticky top-[12vh] h-[76vh]">

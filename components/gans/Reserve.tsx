@@ -3,15 +3,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Magnetic from "../Magnetic";
-import Botanical from "./Botanical";
 import { WhatsApp } from "../icons";
-import { GANS, GANS_OPTIONS, GANS_SPECS, RITUAL, formatTry } from "@/lib/gans";
-import { SITE_CONFIG } from "@/lib/content";
-
-export const whatsappHref = (optionLabel: string) =>
-  `https://wa.me/${SITE_CONFIG.whatsapp}?text=${encodeURIComponent(
-    `Merhaba, ${GANS.brand} ${GANS.name} (${optionLabel}) için bir şişe rezerve etmek istiyorum.`
-  )}`;
+import { GANS, GANS_BOTTLE, GANS_BOX, GANS_OPTIONS, GANS_SPECS, RITUAL, formatTry, whatsappHref } from "@/lib/gans";
 
 export default function Reserve() {
   const [optionId, setOptionId] = useState(GANS_OPTIONS[0].id);
@@ -27,7 +20,7 @@ export default function Reserve() {
         <p className="reveal text-center text-[0.7rem] uppercase tracking-[0.42em] text-gold">Ritüel</p>
         <ol className="mt-12 grid gap-px overflow-hidden rounded-[2px] border border-gold/15 bg-gold/15 md:grid-cols-3">
           {RITUAL.map((r) => (
-            <li key={r.step} className="reveal bg-[#0d110a] px-8 py-10">
+            <li key={r.step} className="reveal bg-[#070a05] px-8 py-10">
               <span className="font-display text-sm text-gold">{r.step}</span>
               <h3 className="mt-4 font-serif text-2xl">{r.title}</h3>
               <p className="mt-3 text-[0.95rem] leading-7 text-bone/65">{r.text}</p>
@@ -40,7 +33,13 @@ export default function Reserve() {
       <div className="relative mx-auto mt-28 max-w-3xl px-4 sm:px-6">
         <div className="reveal relative overflow-hidden rounded-[2px] border border-gold/30 bg-[linear-gradient(160deg,#3d4a2a,#232c18_55%,#151c0f)] px-6 py-14 text-center shadow-[0_50px_120px_-40px_rgb(0_0_0/0.9)] sm:px-14">
           <div aria-hidden className="pointer-events-none absolute inset-3 border border-gold/20" />
-          <Botanical className="bot-static mx-auto h-24 w-12 text-gold/80" strokeClassName="" />
+          <div aria-hidden className="relative mx-auto -mt-2 flex h-56 items-end justify-center gap-0 md:h-72">
+            <div className="absolute bottom-0 h-1/2 w-2/3 rounded-full bg-[radial-gradient(closest-side,rgb(228_207_166/0.35),transparent)] blur-xl" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={GANS_BOTTLE.src} alt="" loading="lazy" className="product-glow relative z-[1] h-full w-auto" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={GANS_BOX.src} alt="" loading="lazy" className="product-glow relative -ml-6 mb-2 h-[92%] w-auto brightness-90" />
+          </div>
 
           <p className="mt-6 text-[0.65rem] uppercase tracking-[0.5em] text-gold/80">Nº {GANS.edition.number} / {GANS.edition.of}</p>
           <h2 className="mt-4 font-display text-5xl tracking-[0.12em] text-gold-gradient md:text-6xl">{GANS.brand}</h2>

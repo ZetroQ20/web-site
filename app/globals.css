@@ -419,3 +419,83 @@ html.ritual-open body {
   color-scheme: dark;
   min-height: 3.6rem;
 }
+
+/* ---------- GANS night-garden scene ---------- */
+.beam {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 70vw;
+  height: 140%;
+  transform: translateX(-30%) rotate(14deg);
+  transform-origin: top center;
+  background: linear-gradient(180deg, rgb(243 227 195 / 0.22), rgb(197 168 128 / 0.08) 45%, transparent 75%);
+  clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  animation: beam-breathe 9s ease-in-out infinite alternate;
+}
+.beam--soft {
+  width: 40vw;
+  transform: translateX(-80%) rotate(-10deg);
+  opacity: 0.6;
+  animation-duration: 13s;
+  animation-direction: alternate-reverse;
+}
+.fog {
+  position: absolute;
+  left: -30%;
+  width: 160%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(170 185 150 / 0.16), transparent);
+  filter: blur(30px);
+  will-change: transform;
+}
+.fog--a { bottom: -12%; animation: fog-drift 38s ease-in-out infinite alternate; }
+.fog--b { bottom: 8%; height: 30%; opacity: 0.7; animation: fog-drift 52s ease-in-out infinite alternate-reverse; }
+.fog--c { top: 10%; height: 25%; opacity: 0.35; animation: fog-drift 64s ease-in-out infinite alternate; }
+
+/* rim light + contact shadow on the cut-out product */
+.product-glow {
+  filter: drop-shadow(0 0 1px rgb(243 227 195 / 0.35)) drop-shadow(0 30px 40px rgb(0 0 0 / 0.65));
+}
+.product-reflection {
+  transform: scaleY(-1);
+  opacity: 0.22;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 32%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 32%);
+  filter: blur(1.5px);
+}
+
+@keyframes beam-breathe {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+@keyframes fog-drift {
+  from { transform: translate3d(-6%, 0, 0) scale(1); }
+  to { transform: translate3d(8%, -4%, 0) scale(1.1); }
+}
+@keyframes float-y {
+  from { transform: translate3d(0, -10px, 0) rotate(var(--r0, 0deg)); }
+  to { transform: translate3d(0, 10px, 0) rotate(var(--r1, 6deg)); }
+}
+.float-y {
+  animation: float-y var(--dur, 7s) ease-in-out infinite alternate;
+}
+
+@media (hover: none), (max-width: 767px) {
+  .beam { filter: none; opacity: 0.7; animation: none; }
+  .fog { filter: none; animation-duration: 80s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .beam, .fog, .float-y { animation: none !important; }
+}
+
+/* Safety net: if scripts never run, the opening curtain still lifts. GSAP's inline styles win when they do. */
+.hero-curtain {
+  animation: curtain-fallback 0.01s 3.5s forwards;
+}
+@keyframes curtain-fallback {
+  to { opacity: 0; visibility: hidden; }
+}
