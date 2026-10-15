@@ -42,3 +42,22 @@ npm run build && npm start
 - `prefers-reduced-motion` açık olan ziyaretçilerde smooth scroll, kart pin'leme ve sahne efektleri devre dışı kalır; görseller son hâlleriyle gösterilir.
 
 > Not: Kök dizindeki `index.html`, önceki “Maison de Beauté — Aura Salon” statik sayfasıdır ve Next.js uygulamasından bağımsızdır.
+
+---
+
+# ÜÇDAĞ — Kreatif & Dijital Ajans (`/ajans`)
+
+Abdullah Üçdağ'ın Denizli merkezli ajansı için koyu temalı (siyah + asit yeşili / elektrik mavisi) tek sayfa. Salon sitesi `/`'de aynen duruyor; ajans sitesi kendi root layout'u ile `/ajans` rotasında.
+
+| Dosya | Görev |
+| --- | --- |
+| `app/(salon)/…` | Mevcut salon sitesi (yalnızca route group'a taşındı, URL'ler aynı) |
+| `app/(ajans)/layout.tsx`, `ajans.css` | Ajansın root layout'u, Syne + Inter + Instrument Serif fontları, Tailwind tema token'ları |
+| `lib/ajans-content.ts` | **Tüm metinler, hizmetler, projeler, e-posta / sosyal linkler** — düzenlenecek tek dosya |
+| `components/ui/liquid-sculpture-hero.tsx` | WebGL2 sıvı parçacık heykel hero (shadcn `components/ui`); WebGL2 yoksa statik görsel |
+| `components/ajans/AgencySite.tsx` | Sayfa iskeleti: Lenis smooth scroll, `#anchor` yönlendirme, GSAP giriş / reveal / paralaks |
+| `components/ajans/*` | Neon imleç, cam navbar + mobil menü, hizmet kartları, asimetrik portfolyo, felsefe, iletişim formu |
+
+**Düzenlenecekler:** `STUDIO.email` / telefon, `SOCIALS`, projelerin `href` ve görselleri (`PROJECTS`) şu an yer tutucu. Form henüz backend'e bağlı değil; ziyaretçinin e-posta uygulamasını hazır bir taslakla açar.
+
+shadcn yapısı: `components.json`, `lib/utils.ts` (`cn`), `components/ui/`. Yeni shadcn bileşenleri `npx shadcn@latest add <bileşen>` ile `components/ui/` altına iner.

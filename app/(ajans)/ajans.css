@@ -1,0 +1,331 @@
+@import "tailwindcss";
+
+/* Üçdağ Studio — dark-first palette with acid-green + electric-blue accents */
+@theme {
+  --color-void: #060708;
+  --color-carbon: #0d0f11;
+  --color-graphite: #16191c;
+  --color-ink: #edefea;
+  --color-mist: #a3a9a2;
+  --color-acid: #c6ff3d;
+  --color-volt: #4d7cff;
+
+  --font-display: "Syne Variable", "Syne", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Times New Roman", serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-swift: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html {
+  background: var(--color-void);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-void);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-void);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-acid);
+  outline-offset: 4px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Native cursor hidden only once the custom one is mounted on a fine pointer */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* ---------- Hero (SculptureHero) overrides ---------- */
+.ajans-hero .sh-brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.ajans-hero .sh-h1 {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.ajans-hero .sh-accent {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.ajans-hero .sh-btn {
+  background: var(--color-acid);
+  color: var(--color-void);
+  font-weight: 600;
+  box-shadow: 0 0 0 0 rgb(198 255 61 / 0);
+  transition:
+    transform 0.3s var(--ease-expo),
+    box-shadow 0.3s var(--ease-expo);
+}
+.ajans-hero .sh-btn:hover {
+  box-shadow: 0 10px 40px -8px rgb(198 255 61 / 0.55);
+}
+.ajans-hero .sh-txt:hover {
+  border-bottom-color: var(--color-acid);
+}
+.ajans-hero .sh-navcta:hover {
+  background: var(--color-acid);
+  border-color: var(--color-acid);
+  color: var(--color-void);
+}
+/* The page's fixed glass bar replaces the hero's own nav. The hero nav keeps its
+   box (the sculpture is laid out below it) but is hidden from sight and focus. */
+.ajans-hero .sh-nav {
+  visibility: hidden;
+}
+
+/* ---------- Glass ---------- */
+@utility glass {
+  background: linear-gradient(140deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.02));
+  border: 1px solid rgb(255 255 255 / 0.09);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Custom component classes live in a layer so Tailwind utilities (hidden, w-full, …) can override them */
+@layer components {
+/* Spotlight that follows the pointer inside a card (--mx / --my set from JS) */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(198 255 61 / 0.75),
+    rgb(77 124 255 / 0.35) 40%,
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-expo);
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgb(198 255 61 / 0.08), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-expo);
+}
+.spotlight:hover::before,
+.spotlight:hover::after,
+.spotlight:focus-within::before {
+  opacity: 1;
+}
+
+/* ---------- Fill buttons: a colour wipe rises from below on hover ---------- */
+.btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0 1.6rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(237 239 234 / 0.22);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  transition:
+    color 0.45s var(--ease-expo),
+    border-color 0.45s var(--ease-expo);
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-acid);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.45s var(--ease-expo);
+}
+.btn-fill:hover,
+.btn-fill:focus-visible {
+  color: var(--color-void);
+  border-color: var(--color-acid);
+}
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before {
+  transform: translateY(0);
+}
+.btn-fill svg {
+  transition: transform 0.45s var(--ease-expo);
+}
+.btn-fill:hover svg {
+  transform: translate(2px, -2px) rotate(0deg);
+}
+.btn-fill--solid {
+  background: var(--color-acid);
+  color: var(--color-void);
+  border-color: var(--color-acid);
+}
+.btn-fill--solid::before {
+  background: var(--color-ink);
+}
+
+/* Underline that draws in from the left */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s var(--ease-expo);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ---------- Ambient neon light ---------- */
+.neon-blob {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(90px);
+  opacity: 0.55;
+  animation: blob-drift 22s ease-in-out infinite alternate;
+}
+@keyframes blob-drift {
+  to {
+    transform: translate3d(8%, -10%, 0) scale(1.15);
+  }
+}
+
+/* Outline display text */
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(237 239 234 / 0.35);
+}
+
+/* ---------- Marquee ---------- */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+}
+
+/* ---------- Fine grain ---------- */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+/* Floating-label inputs */
+.field {
+  position: relative;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(237 239 234 / 0.18);
+  padding: 1.6rem 0 0.7rem;
+  font-size: 1.05rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.3s var(--ease-expo);
+  resize: none;
+}
+.field label {
+  position: absolute;
+  left: 0;
+  top: 1.6rem;
+  font-size: 1.05rem;
+  color: var(--color-mist);
+  pointer-events: none;
+  transform-origin: left top;
+  transition:
+    transform 0.35s var(--ease-expo),
+    color 0.35s var(--ease-expo);
+}
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--color-acid);
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-1.35rem) scale(0.78);
+  color: var(--color-acid);
+}
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+}
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .neon-blob {
+    animation: none;
+  }
+  .btn-fill,
+  .btn-fill::before,
+  .spotlight::before,
+  .spotlight::after,
+  .link-draw {
+    transition: none;
+  }
+}
