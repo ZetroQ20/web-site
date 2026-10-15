@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 // Bundled from npm (Fontsource) so builds never depend on fonts.googleapis.com;
 // latin-ext subsets cover Ü, Ç, Ğ, Ş, İ.
-import "@fontsource-variable/geist";
+import "@fontsource-variable/manrope";
+import "@fontsource/instrument-serif/latin-400.css";
+import "@fontsource/instrument-serif/latin-ext-400.css";
 import "@fontsource/instrument-serif/latin-400-italic.css";
 import "@fontsource/instrument-serif/latin-ext-400-italic.css";
 import "./ajans.css";
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/ajans" },
   openGraph: {
-    title: `${STUDIO.name} — Markanızı geleceğe taşıyoruz`,
+    title: `${STUDIO.name} — Kreatif vizyonun sınırında`,
     description: "Denizli'den global kalitede web, reklam, grafik ve AI kreatif.",
     locale: "tr_TR",
     type: "website",
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EBE9E5",
+  themeColor: "#050505",
   width: "device-width",
   initialScale: 1,
 };

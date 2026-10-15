@@ -47,21 +47,27 @@ npm run build && npm start
 
 # ÜÇDAĞ — Kreatif & Dijital Ajans (`/ajans`)
 
-Abdullah Üçdağ'ın Denizli merkezli ajansı için açık, editoryal temalı (krem zemin, siyah yazı, italik serif vurgu) tek sayfa. Salon sitesi `/`'de aynen duruyor; ajans sitesi kendi root layout'u ile `/ajans` rotasında.
+Abdullah Üçdağ'ın Denizli merkezli ajansı için "Cinematic Dark Luxury" tek sayfa: `#050505` zemin, hareketli film greni, sıcak ışık sızıntıları, Instrument Serif başlıklar + Manrope gövde. Salon sitesi `/`'de aynen duruyor; ajans sitesi kendi root layout'u ile `/ajans` rotasında.
 
 | Dosya | Görev |
 | --- | --- |
-| `app/(salon)/…` | Mevcut salon sitesi (yalnızca route group'a taşındı, URL'ler aynı) |
-| `app/(ajans)/layout.tsx`, `ajans.css` | Ajansın root layout'u, Geist + Instrument Serif fontları, Tailwind tema token'ları |
-| `lib/ajans-content.ts` | **Tüm metinler, hizmetler, projeler, e-posta / sosyal linkler** — düzenlenecek tek dosya |
-| `components/ui/liquid-sculpture-hero.tsx` | WebGL2 sıvı parçacık heykel hero (shadcn `components/ui`); WebGL2 yoksa statik görsel |
-| `components/ajans/AgencySite.tsx` | Sayfa iskeleti: Lenis smooth scroll, `#anchor` yönlendirme, GSAP giriş / reveal / paralaks |
-| `components/ajans/*` | Neon imleç, cam navbar + mobil menü, hizmet kartları, asimetrik portfolyo, felsefe, iletişim formu |
+| `lib/ajans-content.ts` | **Tüm metinler, hizmetler, projeler, e-posta / sosyal linkler, stüdyo ritmi verisi** — düzenlenecek tek dosya |
+| `app/(ajans)/layout.tsx`, `ajans.css` | Root layout, fontlar, tema token'ları (shadcn `--color-*` değişkenleri dahil), gren / duman / buton stilleri |
+| `components/ui/liquid-sculpture-hero.tsx` | WebGL2 sıvı parçacık heykel hero |
+| `components/ui/contribution-skyline.tsx` | Isı haritasından 3B silüete dönüşen aktivite grafiği (Türkçe için eklenen `labels` prop'u dışında orijinal) |
+| `components/ajans/AgencySite.tsx` | Sayfa iskeleti ve GSAP koreografisi: maskeli başlıklar, reveal, parallax, manifesto ışıklanması, hızla eğilen bant |
+| `components/ajans/Preloader.tsx` | Açılış perdesi (harfler + 000→100 sayaç) |
+| `components/ajans/Cursor.tsx` | `mix-blend-difference` imleç; `data-cursor="ETİKET"` ile büyüyüp yazı taşır |
+| `components/ajans/SiteNav.tsx` | Difference navbar, manyetik linkler, aşağı kaydırınca gizlenir, mobil tam ekran menü |
+| `components/ajans/Services.tsx` | Editoryal hizmet listesi + imleci takip eden görsel önizleme |
+| `components/ajans/Work.tsx` | Üst üste binen asimetrik portfolyo, çerçeve içi parallax |
+| `components/ajans/Rhythm.tsx` | Stüdyo ritmi (ContributionSkyline) |
+| `components/ajans/Finale.tsx` | Dev "Let's Talk." + manyetik yuvarlak buton + minimal footer |
 
-**Düzenlenecekler:** `STUDIO.email` / telefon, `SOCIALS`, projelerin `href` ve görselleri (`PROJECTS`) şu an yer tutucu. Form henüz backend'e bağlı değil; ziyaretçinin e-posta uygulamasını hazır bir taslakla açar.
-
-shadcn yapısı: `components.json`, `lib/utils.ts` (`cn`), `components/ui/`. Yeni shadcn bileşenleri `npx shadcn@latest add <bileşen>` ile `components/ui/` altına iner.
+**Düzenlenecekler:** `STUDIO.email`, `SOCIALS`, projelerin `href` ve görselleri (`PROJECTS`) yer tutucu. `ACTIVITY.data` boşken Skyline **örnek veri** gösterir ("Örnek veri" etiketiyle); yayından önce gerçek günlük sayılarla doldurun.
 
 ### Tek dosya sürümü: `ajans/index.html`
 
-Aynı ajans sitesinin saf HTML + CSS + vanilla JS hâli (framework yok, build gerekmez). Çift tıklayıp tarayıcıda açılabilir ya da herhangi bir statik hostinge (Netlify Drop, GitHub Pages…) olduğu gibi yüklenebilir. WebGL heykel motoru `components/ui/liquid-sculpture-hero.tsx`'ten derlenip dosyaya gömülüdür; Lenis CDN'den gelir, gelmezse sayfa yerel yumuşak kaydırmaya döner.
+`npm run build:standalone` ile üretilir: Next'in prerender ettiği `/ajans` HTML'i + derlenmiş CSS (fontlar gömülü) + `scripts/standalone/behaviour.js` (aynı hareketlerin vanilla JS hâli; GSAP, Lenis ve React 18 CDN'den). Çift tıklayıp açılabilir veya herhangi bir statik hostinge yüklenebilir. Siteyi değiştirdikten sonra bu komutu yeniden çalıştırın; dosyayı elle düzenlemeyin.
+
+shadcn yapısı: `components.json`, `lib/utils.ts` (`cn`), `components/ui/`.
