@@ -40,7 +40,7 @@ export default function SiteNav() {
             scrolled ? "glass shadow-[0_10px_40px_-12px_rgba(0,0,0,0.7)]" : "border border-transparent"
           )}
         >
-          <a href="#top" className="font-display text-lg font-bold tracking-wide" aria-label={`${STUDIO.name} — başa dön`}>
+          <a href="#top" className="font-display text-lg font-medium tracking-wide" aria-label={`${STUDIO.name} — başa dön`}>
             {STUDIO.mark}
           </a>
           <ul className="hidden items-center gap-8 md:flex">
@@ -76,10 +76,10 @@ export default function SiteNav() {
         aria-modal="true"
         aria-label="Menü"
         hidden={!open}
-        className="fixed inset-0 z-[150] flex flex-col bg-void/95 px-6 pb-10 pt-6 backdrop-blur-xl md:hidden"
+        className="fixed inset-0 z-[150] flex flex-col bg-paper/95 px-6 pb-10 pt-6 backdrop-blur-xl md:hidden"
       >
         <div className="flex items-center justify-between">
-          <span className="font-display text-lg font-bold">{STUDIO.mark}</span>
+          <span className="font-display text-lg font-medium">{STUDIO.mark}</span>
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -95,9 +95,9 @@ export default function SiteNav() {
               <a
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="flex items-baseline gap-4 py-2 font-display text-5xl font-bold tracking-tight"
+                className="flex items-baseline gap-4 py-2 font-display text-5xl font-medium tracking-[-0.04em]"
               >
-                <span className="text-sm font-normal text-acid">0{i + 1}</span>
+                <span className="text-sm font-normal text-mist">0{i + 1}</span>
                 {l.label}
               </a>
             </li>

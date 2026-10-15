@@ -19,9 +19,9 @@ export default function Work() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
             <p data-reveal className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-mist">
-              <span className="h-px w-8 bg-acid" /> Seçilmiş İşler
+              <span className="h-px w-8 bg-ink/50" /> Seçilmiş İşler
             </p>
-            <h2 id="isler-baslik" data-reveal className="font-display text-[clamp(2.6rem,7vw,6.5rem)] font-bold leading-[0.92] tracking-tight">
+            <h2 id="isler-baslik" data-reveal className="font-display text-[clamp(2.6rem,7vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.04em]">
               İz bırakan <br />
               <span className="text-stroke">projeler</span>
             </h2>
@@ -42,7 +42,7 @@ export default function Work() {
                 aria-label={`${p.name} — ${p.category} projesini incele (yeni sekme)`}
                 className="group block"
               >
-                <div className={cn("relative overflow-hidden rounded-[24px] bg-carbon", SPAN[p.layout].split(" ").slice(1).join(" "))}>
+                <div className={cn("relative overflow-hidden rounded-[24px] bg-stone", SPAN[p.layout].split(" ").slice(1).join(" "))}>
                   {/* the inner layer drifts at its own speed for parallax depth */}
                   <div data-speed={p.speed} className="absolute -inset-y-[12%] inset-x-0">
                     <Photo
@@ -52,15 +52,15 @@ export default function Work() {
                       className="h-full w-full object-cover transition-transform duration-[1.2s] ease-expo group-hover:scale-[1.06]"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-void/90 via-void/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/30 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   {/* Hover / focus panel: name + technologies */}
                   <div className="absolute inset-x-4 bottom-4 translate-y-2 rounded-2xl glass p-5 opacity-0 transition-all duration-500 ease-expo group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 max-md:translate-y-0 max-md:opacity-100">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <h3 className="font-display text-2xl font-bold tracking-tight">{p.name}</h3>
+                        <h3 className="font-display text-2xl font-medium tracking-[-0.04em]">{p.name}</h3>
                         <p className="mt-1 text-sm text-mist">{p.category}</p>
                       </div>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-acid text-void">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ink text-paper">
                         <ArrowUpRight size={18} aria-hidden />
                       </span>
                     </div>
@@ -72,7 +72,7 @@ export default function Work() {
                       ))}
                     </ul>
                   </div>
-                  <span className="absolute left-5 top-5 rounded-full bg-void/60 px-3 py-1 text-xs text-ink/80 backdrop-blur">{p.year}</span>
+                  <span className="absolute left-5 top-5 rounded-full bg-paper/75 px-3 py-1 text-xs text-ink backdrop-blur">{p.year}</span>
                 </div>
               </a>
             </li>

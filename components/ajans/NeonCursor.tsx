@@ -5,7 +5,7 @@ import { gsap, isFinePointer } from "@/lib/gsap";
 
 /**
  * Neon ring + dot cursor. Links and buttons grow the ring; anything with
- * `data-cursor="LABEL"` turns it into a filled acid disc carrying the label.
+ * `data-cursor="LABEL"` turns it into a filled ink disc carrying the label.
  */
 export default function NeonCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
@@ -40,8 +40,8 @@ export default function NeonCursor() {
       gsap.to(ring, {
         width: size,
         height: size,
-        backgroundColor: next === "label" ? "rgba(198,255,61,0.95)" : next === "link" ? "rgba(198,255,61,0.08)" : "rgba(198,255,61,0)",
-        borderColor: next === "idle" ? "rgba(237,239,234,0.45)" : "rgba(198,255,61,0.9)",
+        backgroundColor: next === "label" ? "rgba(21,21,20,0.92)" : next === "link" ? "rgba(21,21,20,0.06)" : "rgba(21,21,20,0)",
+        borderColor: next === "idle" ? "rgba(21,21,20,0.35)" : "rgba(21,21,20,0.85)",
         duration: 0.45,
         ease: "expo.out",
       });
@@ -89,10 +89,10 @@ export default function NeonCursor() {
       <div
         ref={ringRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-ink/45"
+        className="pointer-events-none fixed left-0 top-0 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-ink/35"
       >
         <span
-          className={`select-none font-display text-[11px] font-bold uppercase tracking-[0.18em] text-void transition-opacity duration-200 ${
+          className={`select-none font-sans text-[11px] font-medium uppercase tracking-[0.16em] text-paper transition-opacity duration-200 ${
             label ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -102,7 +102,7 @@ export default function NeonCursor() {
       <div
         ref={dotRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[201] h-1.5 w-1.5 rounded-full bg-acid shadow-[0_0_12px_2px_rgba(198,255,61,0.7)]"
+        className="pointer-events-none fixed left-0 top-0 z-[201] h-1.5 w-1.5 rounded-full bg-ink"
       />
     </>
   );

@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 // Bundled from npm (Fontsource) so builds never depend on fonts.googleapis.com;
 // latin-ext subsets cover Ü, Ç, Ğ, Ş, İ.
-import "@fontsource-variable/syne";
-import "@fontsource-variable/inter";
+import "@fontsource-variable/geist";
 import "@fontsource/instrument-serif/latin-400-italic.css";
 import "@fontsource/instrument-serif/latin-ext-400-italic.css";
 import "./ajans.css";
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060708",
+  themeColor: "#EBE9E5",
   width: "device-width",
   initialScale: 1,
 };

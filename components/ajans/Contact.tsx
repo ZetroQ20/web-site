@@ -49,23 +49,22 @@ export default function Contact() {
   const chip = (active: boolean) =>
     cn(
       "min-h-11 rounded-full border px-4 text-sm transition-colors duration-200",
-      active ? "border-acid bg-acid text-void" : "border-ink/20 text-ink/85 hover:border-ink/50"
+      active ? "border-ink bg-ink text-paper" : "border-ink/20 text-ink/85 hover:border-ink/50"
     );
 
   return (
     <section id="iletisim" aria-labelledby="iletisim-baslik" className="relative overflow-hidden px-5 pb-10 pt-28 sm:px-8 md:pt-40">
-      <div aria-hidden className="neon-blob -bottom-40 left-1/4 h-[560px] w-[560px] bg-acid/20" />
       <div className="relative mx-auto max-w-[1400px]">
         <p data-reveal className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-mist">
-          <span className="h-px w-8 bg-acid" /> İletişim
+          <span className="h-px w-8 bg-ink/50" /> İletişim
         </p>
         <h2
           id="iletisim-baslik"
           data-reveal
-          className="font-display text-[clamp(3.4rem,12.5vw,13rem)] font-extrabold leading-[0.86] tracking-[-0.045em]"
+          className="font-display text-[clamp(3.4rem,12.5vw,13rem)] font-medium leading-[0.86] tracking-[-0.045em]"
         >
           Projeye <br />
-          <span className="font-serif font-normal italic tracking-[-0.02em] text-acid">Başlayalım.</span>
+          <span className="font-serif font-normal italic tracking-[-0.02em]">Başlayalım.</span>
         </h2>
 
         <div className="mt-20 grid gap-16 md:grid-cols-12">
@@ -74,12 +73,12 @@ export default function Contact() {
               <div className="field">
                 <input id="name" name="name" type="text" autoComplete="name" placeholder=" " aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-err" : undefined} />
                 <label htmlFor="name">Adınız</label>
-                {errors.name && <p id="name-err" className="mt-2 text-sm text-[#ff7a7a]">{errors.name}</p>}
+                {errors.name && <p id="name-err" className="mt-2 text-sm text-[#b42318]">{errors.name}</p>}
               </div>
               <div className="field">
                 <input id="email" name="email" type="email" autoComplete="email" inputMode="email" placeholder=" " aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-err" : undefined} />
                 <label htmlFor="email">E-posta</label>
-                {errors.email && <p id="email-err" className="mt-2 text-sm text-[#ff7a7a]">{errors.email}</p>}
+                {errors.email && <p id="email-err" className="mt-2 text-sm text-[#b42318]">{errors.email}</p>}
               </div>
             </div>
 
@@ -108,7 +107,7 @@ export default function Contact() {
             <div className="field mt-8">
               <textarea id="message" name="message" rows={4} placeholder=" " aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-err" : undefined} />
               <label htmlFor="message">Projenizden bahsedin</label>
-              {errors.message && <p id="message-err" className="mt-2 text-sm text-[#ff7a7a]">{errors.message}</p>}
+              {errors.message && <p id="message-err" className="mt-2 text-sm text-[#b42318]">{errors.message}</p>}
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-5">
@@ -129,11 +128,11 @@ export default function Contact() {
           <aside data-reveal className="flex flex-col gap-10 md:col-span-4 md:col-start-9">
             <div>
               <h3 className="text-sm uppercase tracking-[0.2em] text-mist">Doğrudan</h3>
-              <a href={`mailto:${STUDIO.email}`} className="link-draw mt-4 inline-flex items-center gap-3 font-display text-2xl font-bold">
-                <Mail size={22} className="text-acid" aria-hidden /> {STUDIO.email}
+              <a href={`mailto:${STUDIO.email}`} className="link-draw mt-4 inline-flex items-center gap-3 font-display text-2xl font-medium">
+                <Mail size={22} className="text-mist" aria-hidden /> {STUDIO.email}
               </a>
               <a href={STUDIO.phoneHref} className="link-draw mt-3 inline-flex items-center gap-3 text-lg text-ink/85">
-                <Phone size={18} className="text-acid" aria-hidden /> {STUDIO.phoneDisplay}
+                <Phone size={18} className="text-mist" aria-hidden /> {STUDIO.phoneDisplay}
               </a>
             </div>
             <div>
@@ -160,7 +159,7 @@ export default function Contact() {
         </div>
 
         <footer className="mt-28 flex flex-col gap-6 border-t border-ink/10 pt-8 text-sm text-mist md:flex-row md:items-center md:justify-between">
-          <span className="font-display text-base font-bold text-ink">{STUDIO.mark}</span>
+          <span className="font-display text-base font-medium text-ink">{STUDIO.mark}</span>
           <span>
             © {new Date().getFullYear()} {STUDIO.name} — {STUDIO.tagline}. Tüm hakları saklıdır.
           </span>

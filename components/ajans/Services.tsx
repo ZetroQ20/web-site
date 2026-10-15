@@ -22,17 +22,15 @@ function track(e: PointerEvent<HTMLElement>) {
 export default function Services() {
   return (
     <section id="hizmetler" aria-labelledby="hizmetler-baslik" className="relative overflow-hidden px-5 py-28 sm:px-8 md:py-40">
-      <div aria-hidden className="neon-blob -left-40 top-24 h-[420px] w-[420px] bg-volt/40" />
-      <div aria-hidden className="neon-blob -right-32 bottom-10 h-[380px] w-[380px] bg-acid/25 [animation-delay:-8s]" />
 
       <div className="relative mx-auto max-w-[1400px]">
         <div className="grid gap-10 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <p data-reveal className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-mist">
-              <span className="h-px w-8 bg-acid" /> Hizmetlerimiz
+              <span className="h-px w-8 bg-ink/50" /> Hizmetlerimiz
             </p>
-            <h2 id="hizmetler-baslik" data-reveal className="font-display text-[clamp(2.6rem,6vw,5.5rem)] font-bold leading-[0.95] tracking-tight">
-              Fikirden etkiye, <span className="font-serif font-normal italic text-acid">tek stüdyo.</span>
+            <h2 id="hizmetler-baslik" data-reveal className="font-display text-[clamp(2.6rem,6vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em]">
+              Fikirden etkiye, <span className="font-serif font-normal italic">tek stüdyo.</span>
             </h2>
           </div>
           <p data-reveal className="max-w-md text-lg leading-relaxed text-mist md:col-span-4 md:col-start-9">
@@ -51,12 +49,12 @@ export default function Services() {
                   className="glass spotlight group flex h-full min-h-[340px] flex-col rounded-[28px] p-7 transition-transform duration-500 ease-expo hover:-translate-y-1 sm:p-9"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="grid h-14 w-14 place-items-center rounded-2xl border border-ink/10 bg-ink/[0.04] text-acid transition-colors duration-300 group-hover:bg-acid group-hover:text-void">
+                    <span className="grid h-14 w-14 place-items-center rounded-2xl border border-ink/10 bg-ink/[0.04] text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-paper">
                       <Icon size={24} strokeWidth={1.6} aria-hidden />
                     </span>
                     <span className="font-display text-sm text-mist">{s.no}</span>
                   </div>
-                  <h3 className="mt-auto pt-14 font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-bold leading-tight tracking-tight">
+                  <h3 className="mt-auto pt-14 font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-medium leading-tight tracking-[-0.04em]">
                     {s.title}
                   </h3>
                   <p className="mt-3 max-w-md leading-relaxed text-mist">{s.body}</p>

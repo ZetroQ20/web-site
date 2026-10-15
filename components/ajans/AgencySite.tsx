@@ -103,10 +103,9 @@ export default function AgencySite() {
     <SmoothScroll>
       <AnchorScroll />
       <NeonCursor />
-      <div className="grain" aria-hidden />
       <a
         href="#icerik"
-        className="sr-only z-[300] rounded-full bg-acid px-4 py-2 text-void focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-[300] rounded-full bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         İçeriğe geç
       </a>
@@ -115,21 +114,19 @@ export default function AgencySite() {
         <main className="overflow-x-clip">
           <SculptureHero
             className="ajans-hero"
-            theme="dark"
+            theme="light"
             themeToggle={false}
-            darkBackground="#060708"
-            textColor="#EDEFEA"
-            accentColor="#C6FF3D"
-            headingFont="'Syne Variable', 'Syne', system-ui, sans-serif"
+            background="#EBE9E5"
+            headingFont="'Geist Variable', 'Geist', 'Helvetica Neue', Arial, sans-serif"
             accentFont="'Instrument Serif', 'Times New Roman', serif"
-            bodyFont="'Inter Variable', 'Inter', system-ui, sans-serif"
+            bodyFont="'Geist Variable', 'Geist', 'Helvetica Neue', Arial, sans-serif"
             loadFonts={false}
             brand={STUDIO.mark}
             navLinks={NAV}
             navCta={{ label: "Projeye Başla", href: "#iletisim" }}
             eyebrow={`${STUDIO.city} — ${STUDIO.tagline}`}
             headline={"Markanızı\ngeleceğe taşıyoruz."}
-            headlineAccent="geleceğe"
+            headlineAccent="geleceğe taşıyoruz."
             body="Web tasarım, reklam, grafik ve yapay zekâ destekli görsel içerikte global kalite. Cesur fikirleri ölçülebilir sonuçlara dönüştürüyoruz."
             primaryCta={{ label: "Projelerimiz", href: "#isler" }}
             secondaryCta={{ label: "Bizimle İletişime Geçin", href: "#iletisim" }}
@@ -138,7 +135,7 @@ export default function AgencySite() {
             imageAlt="Parçacıklardan oluşan, imleçle sıvılaşan soyut metalik heykel"
             backdropText="üçdağ"
             ambient
-            ambientIntensity={0.8}
+            ambientIntensity={0.6}
             intro
           />
           <div id="icerik" />

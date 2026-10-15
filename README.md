@@ -47,12 +47,12 @@ npm run build && npm start
 
 # ÜÇDAĞ — Kreatif & Dijital Ajans (`/ajans`)
 
-Abdullah Üçdağ'ın Denizli merkezli ajansı için koyu temalı (siyah + asit yeşili / elektrik mavisi) tek sayfa. Salon sitesi `/`'de aynen duruyor; ajans sitesi kendi root layout'u ile `/ajans` rotasında.
+Abdullah Üçdağ'ın Denizli merkezli ajansı için açık, editoryal temalı (krem zemin, siyah yazı, italik serif vurgu) tek sayfa. Salon sitesi `/`'de aynen duruyor; ajans sitesi kendi root layout'u ile `/ajans` rotasında.
 
 | Dosya | Görev |
 | --- | --- |
 | `app/(salon)/…` | Mevcut salon sitesi (yalnızca route group'a taşındı, URL'ler aynı) |
-| `app/(ajans)/layout.tsx`, `ajans.css` | Ajansın root layout'u, Syne + Inter + Instrument Serif fontları, Tailwind tema token'ları |
+| `app/(ajans)/layout.tsx`, `ajans.css` | Ajansın root layout'u, Geist + Instrument Serif fontları, Tailwind tema token'ları |
 | `lib/ajans-content.ts` | **Tüm metinler, hizmetler, projeler, e-posta / sosyal linkler** — düzenlenecek tek dosya |
 | `components/ui/liquid-sculpture-hero.tsx` | WebGL2 sıvı parçacık heykel hero (shadcn `components/ui`); WebGL2 yoksa statik görsel |
 | `components/ajans/AgencySite.tsx` | Sayfa iskeleti: Lenis smooth scroll, `#anchor` yönlendirme, GSAP giriş / reveal / paralaks |
