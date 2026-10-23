@@ -106,9 +106,17 @@ exam-relevant point, written as English–Turkish sentence pairs.
    python3 .claude/skills/bilingual-lecture-notes/scripts/build_notes.py <name>-notes.md --pdf      # -> .docx + .pdf
    ```
 
-   The script uses pandoc, adds table borders, header shading and compact
-   spacing. Render one page of the PDF (or convert the docx) to PNG and look
+   The script uses pandoc, then applies the house layout: A4, Calibri,
+   navy headings (H1 underlined), the `title:` front-matter as a running
+   header, page numbers (x / y), zebra tables with navy header rows that
+   repeat across pages, and centred figures kept with their captions.
+   Always start the notes with a `title:` front-matter block. Render one page of the PDF (or convert the docx) to PNG and look
    at it to confirm tables and bold/normal formatting came out right.
+4b. **Long decks (60+ slides).** Work in chunks of ~20 slides: extract,
+   view that chunk's contact sheets, write that part of the notes, then
+   move on — never write from memory of slides viewed long ago. Keep a
+   running checklist of slide numbers covered so none is skipped, and re-run
+   the step-3 comparison over the whole deck at the end.
 5. **Deliver** the .docx (and .pdf) to the user; put generated files in the
    scratchpad or a folder the user names — do not commit them to this repo
    unless asked.
