@@ -21,6 +21,7 @@ from pathlib import Path
 
 from PIL import Image
 
+BOX = r"\d+(?:\.\d+)?(?:,\d+(?:\.\d+)?){3}"
 FIG = re.compile(r"^FIG:([^|]+)\|([\d.]+)\|(.+?)\|(.+)$", re.M)
 SCALE = 200 / 72
 
@@ -31,7 +32,7 @@ def crop(pdf, notes):
     out = notes.parent / "img"
     out.mkdir(exist_ok=True)
     specs = [spec[0] for spec in FIG.findall(notes.read_text())]
-    regions = {(int(pg), box) for spec in specs for pg, box in re.findall(r"p(\d+)@([\d.,]+)", spec)}
+    regions = {(int(pg), box) for spec in specs for pg, box in re.findall(r"p(\d+)@(" + BOX + ")", spec)}
     pages = sorted({int(p) for spec in specs for p in re.findall(r"p(\d+)(?!\d|@)", spec)})
     with pdfplumber.open(pdf) as doc:
         for pg in pages:
@@ -71,7 +72,7 @@ def expand(notes, skip):
 
     def row(m):
         files = []
-        for pg, box in re.findall(r"p(\d+)(?:@([\d.,]+))?", m.group(1)):
+        for pg, box in re.findall(r"p(\d+)(?:@(" + BOX + "))?", m.group(1)):
             if box:
                 files.append(str(notes.parent / f"img/r{int(pg):02d}_{box.replace(',', '-')}.jpg"))
             else:
