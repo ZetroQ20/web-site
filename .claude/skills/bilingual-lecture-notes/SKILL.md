@@ -67,6 +67,9 @@ exam-relevant point, written as English–Turkish sentence pairs.
 
 ## Compression rules (compact, but nothing important lost)
 
+- **Tables and charts that exist only as pictures** (cut-off tables,
+  timelines, colour-code tables) are read at 200+ dpi and typed out as real
+  tables, with the picture kept as a figure.
 - **Slide content only.** Add nothing the slides do not say: no textbook
   definitions, no "in practice" explanations, no corrected formulas, no
   inferred anatomy. If a slide looks wrong or two slides conflict, keep both
@@ -103,7 +106,17 @@ exam-relevant point, written as English–Turkish sentence pairs.
    split or merge cells.
 2. **Write** the notes in Markdown following the rules above
    (`<name>-notes.md`), section by section in slide order.
-2b. **Images (when asked).** Get each content image's bbox with
+2b. **Images — use `scripts/figures.py`.** While writing, put a placeholder
+   line where a slide's images belong:
+   `FIG:p34,p35|3.3|**Moon face (slide 53).**|Ay yüz (slayt 53).`
+   (`pNN` = PDF page, number = max height in cm). Then
+   `figures.py crop <slides.pdf> <notes.md>` crops every content image into
+   `img/` and writes `img/_sheet.png`; look at the sheet, and
+   `figures.py expand <notes.md> --skip p32_2,...` drops arrows/title bars and
+   writes the image rows (sized to fit the page width). Images that bleed off
+   the slide top or sit on a full-slide background are skipped by `crop` —
+   compare the sheet with the slide contact sheets and crop those by hand.
+   Manual method, for reference: Get each content image's bbox with
    `pdfplumber` (`page.images`, skip the logo and title-bar images), render
    the page with `pdftoppm -r 200` and crop the bbox (scale 200/72). Trim
    any slide text that bleeds into a crop, save as JPEG (max 1100 px), and
@@ -115,7 +128,11 @@ exam-relevant point, written as English–Turkish sentence pairs.
    `*__Arm length (slide 28).__* Kol uzunluğu (slayt 28).`
    Keep `img/` next to the notes file — the build script resolves image
    paths relative to it.
-3. **Check** before building — compare against **rendered images of every
+3. **Run `scripts/check_notes.py <slides.md> <notes.md>`** — it lists slide
+   words missing from the notes (re-read those slides), English words in the
+   notes absent from the slide text (each must come from an image, header
+   or caption, else delete it), format errors, and gaps in the footer slide
+   numbers (tell the user the deck is incomplete). Then **check** by eye — compare against **rendered images of every
    slide** (a `montage` contact sheet of 6 slides per image), not only the
    extracted text: cut-off values, tables and labels often exist only in
    pictures.
