@@ -170,3 +170,21 @@ exam-relevant point, written as English–Turkish sentence pairs.
 5. **Deliver** the .docx (and .pdf) to the user; put generated files in the
    scratchpad or a folder the user names — do not commit them to this repo
    unless asked.
+
+## Standing preferences (from the user)
+
+- Ask nothing before starting: when slides arrive, run the whole workflow
+  and deliver PDF + DOCX with the colour theme, images and typed-out tables.
+- Report in the final reply: missing slide numbers (deck incomplete),
+  handwritten lecturer notes found on slides (e.g. "memorize table" – put
+  them in a 📌 Remember box), and any slide-vs-slide inconsistencies (keep
+  both, add a *Note / Not* line, suggest asking the lecturer).
+- Never add content beyond the slides; translations, captions and table
+  headers are the only additions.
+- Homework / case solutions only when asked: solve with the slides' own
+  methods, mark anything not on the slides (reference values, assumptions)
+  in italics, deliver as page images (PNG) if the user asks for photos, and
+  do not change the notes.
+- Keep improving: when a deck exposes a gap in the scripts, fix the script
+  and record the rule here.
+
