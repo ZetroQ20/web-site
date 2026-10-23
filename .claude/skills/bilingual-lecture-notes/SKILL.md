@@ -44,6 +44,11 @@ exam-relevant point, written as English–Turkish sentence pairs.
 
 ## Compression rules (compact, but nothing important lost)
 
+- **Slide content only.** Add nothing the slides do not say: no textbook
+  definitions, no "in practice" explanations, no corrected formulas, no
+  inferred anatomy. If a slide looks wrong or two slides conflict, keep both
+  as written and add one clearly labelled *Note / Not* line.
+
 - Keep: definitions, rules/laws, formulas, numbered steps, comparisons,
   classifications, advantages/disadvantages, examples that illustrate a
   rule, anything the lecturer marked as important (bold, colour, "note",
