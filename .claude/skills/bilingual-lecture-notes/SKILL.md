@@ -38,7 +38,9 @@ exam-relevant point, written as English–Turkish sentence pairs.
    slides visually — they have no text layer.
 5. **Figures/diagrams** that carry content are described in one or two
    sentence pairs (what it shows, the key takeaway). Decorative images are
-   ignored.
+   ignored. If the user wants pictures, include the slide images too (see
+   step 2b); text-only figures (tables, cut-off charts) are also typed out
+   as tables so nothing lives only in a picture.
 
 ## Compression rules (compact, but nothing important lost)
 
@@ -73,7 +75,22 @@ exam-relevant point, written as English–Turkish sentence pairs.
    split or merge cells.
 2. **Write** the notes in Markdown following the rules above
    (`<name>-notes.md`), section by section in slide order.
-3. **Check** before building:
+2b. **Images (when asked).** Get each content image's bbox with
+   `pdfplumber` (`page.images`, skip the logo and title-bar images), render
+   the page with `pdftoppm -r 200` and crop the bbox (scale 200/72). Trim
+   any slide text that bleeds into a crop, save as JPEG (max 1100 px), and
+   look at a contact sheet (`montage`) of all crops before using them.
+   Place each image directly under the text of the slide it came from, with
+   images from the same slide side by side and a sized height:
+   `![](img/s28_1.jpg){height=4.5cm} ![](img/s28_2.jpg){height=4.5cm}`,
+   followed by a caption pair naming the slide:
+   `*__Arm length (slide 28).__* Kol uzunluğu (slayt 28).`
+   Keep `img/` next to the notes file — the build script resolves image
+   paths relative to it.
+3. **Check** before building — compare against **rendered images of every
+   slide** (a `montage` contact sheet of 6 slides per image), not only the
+   extracted text: cut-off values, tables and labels often exist only in
+   pictures.
    - every slide table appears as a table with the same shape;
    - no English sentence is missing its Turkish pair, no Turkish sentence is bold;
    - definitions/formulas from the slides are all present.

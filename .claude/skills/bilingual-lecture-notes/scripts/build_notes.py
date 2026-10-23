@@ -58,7 +58,8 @@ def main():
         sys.exit("usage: build_notes.py <notes.md> [--pdf]")
     md = Path(args[0])
     out = md.with_suffix(".docx")
-    subprocess.run(["pandoc", str(md), "-f", "markdown+pipe_tables", "-o", str(out)], check=True)
+    subprocess.run(["pandoc", str(md), "-f", "markdown+pipe_tables", f"--resource-path={md.parent}", "-o", str(out)],
+                   check=True)
     polish(out)
     print(out)
     if "--pdf" in sys.argv:
