@@ -17,4 +17,9 @@ before starting the work; the user should not have to name it.
   guidance, and add the `motion` package (import from `motion/react`) only
   when a change genuinely needs it.
 
+- **bilingual-lecture-notes** — the user sends lecture slides (PDF/PPTX/images)
+  and wants compact notes: each English sentence bold, followed by its
+  Turkish translation in normal weight, tables kept as tables, delivered as
+  .docx (and PDF on request). Not part of the website; don't commit the notes.
+
 When a task touches both design and animation, use both skills.
