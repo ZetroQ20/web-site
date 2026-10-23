@@ -42,28 +42,35 @@ exam-relevant point, written as English–Turkish sentence pairs.
    step 2b); text-only figures (tables, cut-off charts) are also typed out
    as tables so nothing lives only in a picture.
 
-6. **Colour for what the slides emphasise.** Mark key phrases in dark red
-   with `[phrase]{custom-style="Key"}` — inside the bold English and on the
-   matching Turkish words, so the English stays bold and the Turkish stays
-   normal weight:
+6. **Colour by meaning (house theme).** Mark phrases with a span style —
+   inside the bold English and on the matching Turkish words, so English
+   stays bold and Turkish stays normal weight:
+
+   | Span | Colour | Use for |
+   |---|---|---|
+   | `[..]{custom-style="Key"}` | red | cut-off values, thresholds, numbers to memorise, the slide's red/bold emphasis |
+   | `[..]{custom-style="Def"}` | green | the term being defined in a definition |
+   | `[..]{custom-style="Warn"}` | orange | mistakes, "never / avoid / not" rules |
+   | `[..]{custom-style="Formula"}` | purple | a formula written in prose (formulas in backticks are purple automatically) |
 
    ```markdown
-   **BMI is [not appropriate for athletes]{custom-style="Key"}.** BKİ [sporcular için uygun değildir]{custom-style="Key"}.
+   **[Anthropometry]{custom-style="Def"} is the science of …** [Antropometri]{custom-style="Def"}, … bilimidir.
+   **BMI is [not appropriate for athletes]{custom-style="Warn"}.** BKİ [sporcular için uygun değildir]{custom-style="Warn"}.
    ```
 
-   Use it for what the slide itself emphasises (red/coloured text, bold
-   words, warning or "!" boxes, highlighted call-outs) and for cut-off
-   values, classification thresholds and core definitions. Keep it sparse —
-   a phrase, not a whole paragraph; if everything is red nothing is. A
-   slide's highlighted call-out box becomes a boxed paragraph:
+   Keep it sparse — a phrase, not a paragraph. Slide call-out boxes become
+   typed boxes, chosen by the slide's own label:
 
    ```markdown
-   ::: {custom-style="Important"}
-   **English sentence.** Türkçe cümle.
-   :::
+   ::: {custom-style="Tip"}        <!-- 💡 green: tip, clinical tip, key point, in practice -->
+   ::: {custom-style="Warning"}    <!-- ⚠️ orange: watch out, avoid, caution, common errors -->
+   ::: {custom-style="Remember"}   <!-- 📌 blue: remember, note, key message, definitions to learn -->
    ```
 
-   Colour never adds content: it only marks text that is already there.
+   Each top-level `#` section automatically gets its own colour (headings,
+   rule, table header; pastel zebra rows), so split the notes into `#`
+   sections by topic. Colour never adds content: it only marks text that is
+   already there.
 
 ## Compression rules (compact, but nothing important lost)
 
