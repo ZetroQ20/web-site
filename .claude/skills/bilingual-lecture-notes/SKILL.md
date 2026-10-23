@@ -31,8 +31,11 @@ exam-relevant point, written as English–Turkish sentence pairs.
    - Body cells: short terms/values as `**English** (Türkçe)`; full sentences
      as `**English.** Türkçe.`; numbers, formulas, units, code unchanged.
    - Merged cells: repeat the value in each row so the table stays rectangular.
-4. **Formulas, code, units, abbreviations** stay as they are (code in
-   backticks / fenced blocks; formulas in plain text or `$...$`).
+4. **Formulas, code, units, abbreviations** stay as they are. Write formulas
+   as plain Unicode text in backticks, e.g. `` `BMI = kg / m²` ``,
+   `` `(0.98 × CC) − 81.69` `` (use ×, −, ², π). Never use LaTeX `$...$`:
+   the PDF conversion silently drops equations. Read formula images on the
+   slides visually — they have no text layer.
 5. **Figures/diagrams** that carry content are described in one or two
    sentence pairs (what it shows, the key takeaway). Decorative images are
    ignored.
