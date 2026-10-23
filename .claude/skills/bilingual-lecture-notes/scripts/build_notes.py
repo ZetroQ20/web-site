@@ -14,6 +14,7 @@ from docx.shared import Cm, Pt, RGBColor
 
 
 NAVY, BLUE, GREY, LINE, ZEBRA = "1F3864", "2E74B5", "595959", "BFBFBF", "F2F6FC"
+KEY, KEY_FILL = "C00000", "FDECEA"  # slide emphasis: dark red text, pale red box
 FONT = "Calibri"  # LibreOffice renders it with the metric-compatible Carlito
 
 
@@ -136,6 +137,25 @@ def style_figures(doc):
                     r.font.color.rgb = RGBColor.from_string(GREY)
 
 
+def style_emphasis(doc):
+    """Colour the custom styles the notes use for slide emphasis: Key (phrase) and Important (box)."""
+    styles = {s.name: s for s in doc.styles}
+    if "Key" in styles:
+        styles["Key"].font.color.rgb = RGBColor.from_string(KEY)
+    if "Important" in styles:
+        st = styles["Important"]
+        set_font(st, 10.5, "262626")
+        st.paragraph_format.space_before = Pt(6)
+        st.paragraph_format.space_after = Pt(6)
+        st.paragraph_format.left_indent = Cm(0.3)
+        p_pr = st.element.get_or_add_pPr()
+        borders = el("w:pBdr")
+        for edge in ("top", "left", "bottom", "right"):
+            borders.append(el(f"w:{edge}", val="single", sz="6" if edge != "left" else "24", space="4", color=KEY))
+        p_pr.append(borders)
+        p_pr.append(el("w:shd", val="clear", color="auto", fill=KEY_FILL))
+
+
 def polish(docx_path, title):
     doc = Document(docx_path)
     style_document(doc)
@@ -143,6 +163,7 @@ def polish(docx_path, title):
     for table in doc.tables:
         style_table(table)
     style_figures(doc)
+    style_emphasis(doc)
     doc.save(docx_path)
 
 

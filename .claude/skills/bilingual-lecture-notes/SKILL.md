@@ -42,6 +42,29 @@ exam-relevant point, written as English–Turkish sentence pairs.
    step 2b); text-only figures (tables, cut-off charts) are also typed out
    as tables so nothing lives only in a picture.
 
+6. **Colour for what the slides emphasise.** Mark key phrases in dark red
+   with `[phrase]{custom-style="Key"}` — inside the bold English and on the
+   matching Turkish words, so the English stays bold and the Turkish stays
+   normal weight:
+
+   ```markdown
+   **BMI is [not appropriate for athletes]{custom-style="Key"}.** BKİ [sporcular için uygun değildir]{custom-style="Key"}.
+   ```
+
+   Use it for what the slide itself emphasises (red/coloured text, bold
+   words, warning or "!" boxes, highlighted call-outs) and for cut-off
+   values, classification thresholds and core definitions. Keep it sparse —
+   a phrase, not a whole paragraph; if everything is red nothing is. A
+   slide's highlighted call-out box becomes a boxed paragraph:
+
+   ```markdown
+   ::: {custom-style="Important"}
+   **English sentence.** Türkçe cümle.
+   :::
+   ```
+
+   Colour never adds content: it only marks text that is already there.
+
 ## Compression rules (compact, but nothing important lost)
 
 - **Slide content only.** Add nothing the slides do not say: no textbook
