@@ -60,7 +60,10 @@ def main(slides_path, notes_path):
         digits = [ln.strip() for ln in text.splitlines() if re.fullmatch(r"\d{1,3}", ln.strip())]
         if digits:
             nums.append(int(digits[-1]))
-    if nums:
+    rising = sum(b > a for a, b in zip(nums, nums[1:]))
+    if nums and rising < 0.8 * (len(nums) - 1):
+        print("== No reliable footer slide numbering (numbers do not rise page by page): check completeness by eye ==")
+    elif nums:
         gaps = sorted(set(range(min(nums), max(nums) + 1)) - set(nums))
         print(f"== Footer slide numbers {min(nums)}–{max(nums)}; missing: {gaps or 'none'} ==")
 

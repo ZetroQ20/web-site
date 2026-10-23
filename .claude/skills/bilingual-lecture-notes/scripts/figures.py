@@ -4,6 +4,8 @@
 Placeholder syntax (one line, blank line before and after):
     FIG:p34,p35|3.3|**English caption (slide 53).**|Türkçe açıklama (slayt 53).
   pNN       PDF page(s) whose content images go on this row, left→right, top→bottom
+  pNN@x0,y0,x1,y1   a region of page NN in PDF points (960×540 for 16:9 slides) — use it for
+            vector charts/diagrams, which are not embedded images
   3.3       max image height in cm (shrunk automatically so the row fits 16.5 cm)
 
 Usage:
@@ -28,7 +30,9 @@ def crop(pdf, notes):
 
     out = notes.parent / "img"
     out.mkdir(exist_ok=True)
-    pages = sorted({int(p) for spec in FIG.findall(notes.read_text()) for p in re.findall(r"p(\d+)", spec[0])})
+    specs = [spec[0] for spec in FIG.findall(notes.read_text())]
+    regions = {(int(pg), box) for spec in specs for pg, box in re.findall(r"p(\d+)@([\d.,]+)", spec)}
+    pages = sorted({int(p) for spec in specs for p in re.findall(r"p(\d+)(?!\d|@)", spec)})
     with pdfplumber.open(pdf) as doc:
         for pg in pages:
             page = doc.pages[pg - 1]
@@ -47,7 +51,16 @@ def crop(pdf, notes):
                 c.thumbnail((1100, 1100))
                 c.save(out / f"p{pg:02d}_{j}.jpg", quality=88)
             Path(f"{base}.png").unlink()
-    files = sorted(glob.glob(str(out / "p*.jpg")))
+    for pg, box in regions:
+        base = out / f"_page{pg:02d}"
+        subprocess.run(["pdftoppm", "-r", "200", "-png", "-singlefile", "-f", str(pg), "-l", str(pg), str(pdf), str(base)],
+                       check=True)
+        x0, y0, x1, y1 = (float(v) * SCALE for v in box.split(","))
+        c = Image.open(f"{base}.png").crop((int(x0), int(y0), int(x1), int(y1))).convert("RGB")
+        c.thumbnail((1400, 1400))
+        c.save(out / f"r{pg:02d}_{box.replace(',', '-')}.jpg", quality=90)
+        Path(f"{base}.png").unlink()
+    files = sorted(glob.glob(str(out / "[pr]*.jpg")))
     subprocess.run(["montage", "-label", "%t", *files, "-tile", "9x", "-geometry", "150x120+3+3", "-pointsize", "10",
                     str(out / "_sheet.png")], check=True)
     print(f"{len(files)} crops -> {out}/_sheet.png")
@@ -58,8 +71,12 @@ def expand(notes, skip):
 
     def row(m):
         files = []
-        for pg in re.findall(r"p(\d+)", m.group(1)):
-            files += sorted(f for f in glob.glob(str(notes.parent / f"img/p{int(pg):02d}_*.jpg")) if Path(f).stem not in skip)
+        for pg, box in re.findall(r"p(\d+)(?:@([\d.,]+))?", m.group(1)):
+            if box:
+                files.append(str(notes.parent / f"img/r{int(pg):02d}_{box.replace(',', '-')}.jpg"))
+            else:
+                files += sorted(f for f in glob.glob(str(notes.parent / f"img/p{int(pg):02d}_*.jpg"))
+                                if Path(f).stem not in skip)
         if not files:
             sys.exit(f"no images for {m.group(0)}")
         ratios = [Image.open(f).width / Image.open(f).height for f in files]

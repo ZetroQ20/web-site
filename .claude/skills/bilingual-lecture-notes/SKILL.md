@@ -109,7 +109,10 @@ exam-relevant point, written as English–Turkish sentence pairs.
 2b. **Images — use `scripts/figures.py`.** While writing, put a placeholder
    line where a slide's images belong:
    `FIG:p34,p35|3.3|**Moon face (slide 53).**|Ay yüz (slayt 53).`
-   (`pNN` = PDF page, number = max height in cm). Then
+   (`pNN` = PDF page, number = max height in cm). Charts, timelines and
+   diagrams drawn as vectors are not embedded images: crop a page region
+   with `pNN@x0,y0,x1,y1` in PDF points (`pdfinfo` gives the page size;
+   a 50-dpi contact-sheet pixel × 1.44 = points). Then
    `figures.py crop <slides.pdf> <notes.md>` crops every content image into
    `img/` and writes `img/_sheet.png`; look at the sheet, and
    `figures.py expand <notes.md> --skip p32_2,...` drops arrows/title bars and
