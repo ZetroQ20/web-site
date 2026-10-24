@@ -194,6 +194,12 @@ exam-relevant point, written as English–Turkish sentence pairs.
 - Inside `Remember`/`Tip`/`Warning` boxes don't type 📌/💡/⚠️ yourself (the
   box adds it) and don't use ★ (it renders as empty boxes in bold text);
   write "marked with 3 stars" instead.
+- Reading comfort (asked for from Week 2 on): open each `#` section with a
+  one-sentence "Focus / Odak" `Tip` box naming that section's slide topics;
+  turn look-alike terms (hunger/appetite/satiety, leptin/ghrelin, the five
+  tastes, hormone–organ lists) into side-by-side comparison tables; mark the
+  lecturer's exam hints ("exam question", "N questions here") with 🎓 in the
+  heading and a Remember box. Structure only — no new facts.
 - Keep improving: when a deck exposes a gap in the scripts, fix the script
   and record the rule here.
 
