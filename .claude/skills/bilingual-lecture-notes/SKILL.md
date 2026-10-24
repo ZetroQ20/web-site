@@ -192,8 +192,12 @@ exam-relevant point, written as English–Turkish sentence pairs.
   handwritten "definition", "difference", arrows or keywords get a 📌
   Remember box next to that content and ★ in the heading.
 - Inside `Remember`/`Tip`/`Warning` boxes don't type 📌/💡/⚠️ yourself (the
-  box adds it) and don't use ★ (it renders as empty boxes in bold text);
-  write "marked with 3 stars" instead.
+  box adds it). Never use ★ anywhere in body text or boxes (Calibri has no
+  glyph, it renders as empty boxes); use the ⭐ emoji for starred items.
+- Slides sometimes hide text under white shapes (bullets present in the
+  text layer but invisible on the render). Include that text and tell the
+  user which slides had it; quiz questions whose answers are hidden or not
+  circled stay unmarked — never fill in an answer yourself.
 - Reading comfort (asked for from Week 2 on): open each `#` section with a
   one-sentence "Focus / Odak" `Tip` box naming that section's slide topics;
   turn look-alike terms (hunger/appetite/satiety, leptin/ghrelin, the five
