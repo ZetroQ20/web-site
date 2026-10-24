@@ -185,6 +185,15 @@ exam-relevant point, written as English–Turkish sentence pairs.
   methods, mark anything not on the slides (reference values, assumptions)
   in italics, deliver as page images (PNG) if the user asks for photos, and
   do not change the notes.
+- End-of-deck quiz / "What to take home" / review questions always go at
+  the end of the notes as their own `#` section, with the lecturer's circled
+  or marked answers shown (✅ in a question table + an answer-key line).
+- Lecturer annotations are high priority: starred (★) slides/lines, and
+  handwritten "definition", "difference", arrows or keywords get a 📌
+  Remember box next to that content and ★ in the heading.
+- Inside `Remember`/`Tip`/`Warning` boxes don't type 📌/💡/⚠️ yourself (the
+  box adds it) and don't use ★ (it renders as empty boxes in bold text);
+  write "marked with 3 stars" instead.
 - Keep improving: when a deck exposes a gap in the scripts, fix the script
   and record the rule here.
 
