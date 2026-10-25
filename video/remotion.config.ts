@@ -1,0 +1,23 @@
+/**
+ * Note: When using the Node.JS APIs, the config file
+ * doesn't apply. Instead, pass options directly to the APIs.
+ *
+ * All configuration options: https://remotion.dev/docs/config
+ */
+
+import { Config } from "@remotion/cli/config";
+
+Config.setRspack(true);
+Config.setVideoImageFormat("jpeg");
+Config.setJpegQuality(95);
+Config.setOverwriteOutput(true);
+Config.setDefaultPremountInSeconds(2);
+
+// Three.js and the shader need a real WebGL context in headless Chromium.
+// "angle" uses the GPU; on machines without one, pass --gl=swangle
+// (`npm run render:cpu`), which runs the same WebGL on the CPU.
+Config.setChromiumOpenGlRenderer("angle");
+
+// Fine grain and thin neon lines need a low CRF to survive compression.
+Config.setCodec("h264");
+Config.setCrf(14);
