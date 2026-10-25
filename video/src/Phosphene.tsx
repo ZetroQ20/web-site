@@ -13,9 +13,11 @@ export const Phosphene: React.FC = () => {
         width={width}
         height={height}
         dpr={1}
+        // The shader writes linear colour; R3F's default sRGB output encodes
+        // it for display. (Its `linear` flag would skip that and crush the
+        // darks.)
         gl={{antialias: false, alpha: false, preserveDrawingBuffer: true}}
         flat
-        linear
       >
         <ShaderPlane />
         <PostFx />

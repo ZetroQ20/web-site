@@ -28,6 +28,24 @@ const scramble = (text: string, progress: number, seed: number) => {
     .join('');
 };
 
+/**
+ * The tagline's last words never settle: a few glyphs keep glitching,
+ * re-rolled every few frames (PLEASE KEEP YOUR 1\ Z +%S!).
+ */
+const glitchTail = (head: string, tail: string, frame: number) => {
+  const tick = Math.floor(frame / 4);
+  const glitched = [...tail]
+    .map((ch, i) => {
+      if (ch === ' ') return ch;
+      const h = Math.abs(Math.sin((i + 1) * 91.7 + tick * 12.9898) * 43758.5453) % 1;
+      return h < 0.55 ? GLITCH[Math.floor(h * 1000) % GLITCH.length] : ch;
+    })
+    .join('');
+  return `${head} ${glitched}`;
+};
+
+const GLITCH = '1\\Z+%S!/#7<>';
+
 const pad = (n: number) => String(n).padStart(2, '0');
 
 const timecode = (frame: number, fps: number) => {
@@ -47,10 +65,10 @@ const Corner: React.FC<{x: 'left' | 'right'; y: 'top' | 'bottom'}> = ({x, y}) =>
   <div
     style={{
       position: 'absolute',
-      [x]: 44,
-      [y]: 40,
-      width: 26,
-      height: 26,
+      [x]: 22,
+      [y]: 22,
+      width: 22,
+      height: 22,
       [`border${y === 'top' ? 'Top' : 'Bottom'}`]: '1.5px solid rgba(255,255,255,0.6)',
       [`border${x === 'left' ? 'Left' : 'Right'}`]: '1.5px solid rgba(255,255,255,0.6)',
     }}
@@ -72,7 +90,6 @@ export const Hud: React.FC = () => {
 
   const chapter = chapterAt(t);
   const index = numberedChapters.findIndex((c) => c.id === chapter.id);
-  const next = numberedChapters[index + 1];
   const sinceCut = frame - Math.round(chapter.start * fps);
   const resolve = interpolate(sinceCut, [0, 16], [0, 1], clamp);
 
@@ -88,7 +105,7 @@ export const Hud: React.FC = () => {
       name="HUD"
       style={{
         fontFamily,
-        color: 'rgba(255,255,255,0.88)',
+        color: 'rgba(255,255,255,0.86)',
         textShadow: glassText,
         textTransform: 'uppercase',
         opacity: visible,
@@ -100,19 +117,19 @@ export const Hud: React.FC = () => {
       <Corner x="left" y="bottom" />
       <Corner x="right" y="bottom" />
 
-      <Interactive.Div name="Title block" style={{position: 'absolute', left: 84, top: 72, lineHeight: 1.35}}>
-        <div style={{fontSize: 26, fontWeight: 700, letterSpacing: '0.2em'}}>Phosphene</div>
-        <div style={{fontSize: 15, letterSpacing: '0.24em', opacity: 0.6}}>Motion reel — MMXXVI</div>
+      <Interactive.Div name="Title block" style={{position: 'absolute', left: 40, top: 44, lineHeight: 1.45}}>
+        <div style={{fontSize: 17, fontWeight: 700, letterSpacing: '0.26em'}}>Phosphene</div>
+        <div style={{fontSize: 12, letterSpacing: '0.26em', opacity: 0.5}}>Motion reel — MMXXVI</div>
       </Interactive.Div>
 
       <Interactive.Div
         name="Chapter block"
-        style={{position: 'absolute', right: 84, top: 72, lineHeight: 1.35, textAlign: 'right'}}
+        style={{position: 'absolute', right: 40, top: 44, lineHeight: 1.45, textAlign: 'right'}}
       >
-        <div style={{fontSize: 15, letterSpacing: '0.24em', opacity: 0.6}}>
+        <div style={{fontSize: 12, letterSpacing: '0.26em', opacity: 0.5}}>
           {pad(index + 1)} / {pad(HUD_TOTAL)}
         </div>
-        <div style={{fontSize: 26, fontWeight: 700, letterSpacing: '0.2em'}}>
+        <div style={{fontSize: 17, fontWeight: 700, letterSpacing: '0.26em'}}>
           {scramble(chapter.id, resolve, index + 1)}
         </div>
       </Interactive.Div>
@@ -123,33 +140,32 @@ export const Hud: React.FC = () => {
           position: 'absolute',
           left: 0,
           right: 0,
-          bottom: 150,
+          bottom: 96,
           textAlign: 'center',
-          fontSize: 20,
-          letterSpacing: '0.62em',
-          opacity: Math.min(taglineVisible, 1),
+          fontSize: 15,
+          letterSpacing: '0.6em',
+          opacity: 0.55 * Math.min(taglineVisible, 1),
         }}
       >
-        Please keep your eyes open
+        {glitchTail('PLEASE KEEP YOUR', 'EYES OPEN', frame)}
       </Interactive.Div>
 
-      <Interactive.Div name="Timecode" style={{position: 'absolute', left: 84, bottom: 76, lineHeight: 1.5}}>
-        <div style={{fontSize: 17, letterSpacing: '0.16em'}}>{timecode(frame, fps)}</div>
-        <div style={{fontSize: 13, letterSpacing: '0.22em', opacity: 0.55}}>
-          <span style={{color: '#ff4d7a', opacity: Math.floor(t * 2) % 2 === 0 ? 1 : 0.25}}>●</span> Rec · 60 fps ·
-          1920×1080
+      <Interactive.Div name="Timecode" style={{position: 'absolute', left: 40, bottom: 40, lineHeight: 1.5}}>
+        <div style={{fontSize: 12, letterSpacing: '0.2em', opacity: 0.7}}>{timecode(frame, fps)}</div>
+        <div style={{fontSize: 10, letterSpacing: '0.24em', opacity: 0.4}}>
+          <span style={{color: '#ff4d7a', opacity: Math.floor(t * 2) % 2 === 0 ? 1 : 0.25}}>●</span> Rec · 60 fps
         </div>
       </Interactive.Div>
 
       <Interactive.Div
         name="Next chapter"
-        style={{position: 'absolute', right: 84, bottom: 76, lineHeight: 1.5, textAlign: 'right'}}
+        style={{position: 'absolute', right: 40, bottom: 40, lineHeight: 1.5, textAlign: 'right'}}
       >
-        <div style={{fontSize: 13, letterSpacing: '0.22em', opacity: 0.55}}>Next</div>
-        <div style={{fontSize: 17, fontWeight: 700, letterSpacing: '0.2em'}}>{next ? next.id : '— —'}</div>
+        <div style={{fontSize: 10, letterSpacing: '0.3em', opacity: 0.45}}>■ ■ ■</div>
+        <div style={{fontSize: 12, letterSpacing: '0.3em', opacity: 0.7}}>Claude</div>
       </Interactive.Div>
 
-      <div style={{position: 'absolute', left: 84, right: 84, bottom: 52, height: 12}}>
+      <div style={{position: 'absolute', left: 40, right: 40, bottom: 22, height: 12, opacity: 0.8}}>
         <div style={{position: 'absolute', left: 0, right: 0, top: 6, height: 1, background: 'rgba(255,255,255,0.22)'}} />
         <div
           style={{

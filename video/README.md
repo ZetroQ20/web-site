@@ -46,10 +46,12 @@ the render at an installed Chromium, for example
 - **`src/ShaderPlane.tsx`**: draws the shader on a full-screen quad inside
   `<ThreeCanvas>`. Its uniforms come from `useCurrentFrame()`, so every frame
   is deterministic.
-- **`src/PostFx.tsx`**: the post chain: bloom, chromatic aberration that
-  spikes at every cut, vignette, and an ACES tonemap. A faint film grain lives
-  in the shader, because postprocessing's Noise effect runs on wall-clock
-  time.
+- **`src/PostFx.tsx`**: the post chain: a soft bloom, chromatic aberration
+  that spikes at every cut, and a light vignette. There is no tonemap pass:
+  the eye's colours are display sRGB values sampled from the reference, and
+  the later chapters apply an ACES curve inside the shader. A faint film grain
+  lives in the shader too, because postprocessing's Noise effect runs on
+  wall-clock time.
 - **`src/Hud.tsx`**: the HTML overlay: title, chapter counter with a scramble
   on each cut, tagline, running timecode, next-chapter label and progress bar.
   It boots with a CRT flicker once the eye has opened.

@@ -18,6 +18,9 @@ Config.setDefaultPremountInSeconds(2);
 // (`npm run render:cpu`), which runs the same WebGL on the CPU.
 Config.setChromiumOpenGlRenderer("angle");
 
+// The shader is large; software WebGL can take a while to compile it.
+Config.setDelayRenderTimeoutInMilliseconds(180000);
+
 // Fine grain and thin neon lines need a low CRF to survive compression.
 Config.setCodec("h264");
 Config.setCrf(14);

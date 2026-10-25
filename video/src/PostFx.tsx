@@ -5,8 +5,6 @@ import {
   EffectComposer,
   EffectPass,
   RenderPass,
-  ToneMappingEffect,
-  ToneMappingMode,
   VignetteEffect,
 } from 'postprocessing';
 import {useEffect, useMemo} from 'react';
@@ -31,18 +29,17 @@ export const PostFx: React.FC = () => {
     const composer = new EffectComposer(gl, {frameBufferType: HalfFloatType, multisampling: 0});
     const bloom = new BloomEffect({
       mipmapBlur: true,
-      intensity: 0.95,
-      luminanceThreshold: 0.75,
+      intensity: 0.55,
+      luminanceThreshold: 0.7,
       luminanceSmoothing: 0.3,
-      radius: 0.72,
+      radius: 0.6,
     });
     const aberration = new ChromaticAberrationEffect({radialModulation: true, modulationOffset: 0.12});
-    const vignette = new VignetteEffect({offset: 0.32, darkness: 0.42});
-    const toneMapping = new ToneMappingEffect({mode: ToneMappingMode.ACES_FILMIC});
+    const vignette = new VignetteEffect({offset: 0.4, darkness: 0.3});
     composer.addPass(new RenderPass(scene, camera));
     // Chromatic aberration samples its input, so it needs its own pass.
     composer.addPass(new EffectPass(camera, bloom));
-    composer.addPass(new EffectPass(camera, aberration, vignette, toneMapping));
+    composer.addPass(new EffectPass(camera, aberration, vignette));
     return {composer, aberration};
   }, [gl, scene, camera]);
 

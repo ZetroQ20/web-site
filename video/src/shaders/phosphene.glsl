@@ -1,7 +1,8 @@
 // PHOSPHENE — motion reel (10 s cut).
 // One full-screen fragment shader, Shadertoy style (iTime in seconds).
-// It writes linear HDR colour; bloom, chromatic aberration, vignette and the
-// ACES tonemap happen in the post chain (src/PostFx.tsx).
+// It writes linear colour. The eye chapters are display-referred (colours
+// sampled from the reference); later chapters go through an ACES curve here.
+// Bloom, chromatic aberration and vignette happen in src/PostFx.tsx.
 //
 // Chapter start times T_* are prepended by scripts/build-shader.mjs from
 // src/timeline.json, so the HUD and the picture share one timeline.
@@ -18,11 +19,11 @@
 #define DEBUG_MODE 0 // 0 final, 1 chapter id colours
 
 // ---- Art controls -----------------------------------------------------------
-const float EYE_HALF_WIDTH = 1.03;  // eye tip-to-centre distance (screen height = 2)
-const float EYE_HALF_HEIGHT = 0.46; // fully open lid height
+const float EYE_HALF_WIDTH = 1.07;  // eye tip-to-centre distance (screen height = 2)
+const float EYE_HALF_HEIGHT = 0.485; // fully open lid height
 const float IRIS_RADIUS = 0.445;
-const float PUPIL_RATIO = 0.36;     // pupil radius / iris radius before it dilates
-const float CONTOURS = 22.0;        // fine lines around the eye
+const float PUPIL_RATIO = 0.37;     // pupil radius / iris radius before it dilates
+const float CONTOURS = 15.0;        // fine lines around the eye
 const float EXPOSURE = 1.0;
 const float GRAIN = 0.03;           // a whisper of film grain to stop banding
 const float FLASH = 2.4;            // white flash strength at hard cuts
@@ -60,7 +61,7 @@ vec3 reelPalette(float t) {
 
 vec3 maroonBackground(vec2 uv) {
     float r = length(uv * vec2(0.62, 1.0));
-    return mix(hex(30.0, 13.0, 24.0), hex(9.0, 4.0, 8.0), smoothstep(0.0, 1.5, r));
+    return mix(hex(24.0, 10.0, 19.0), hex(13.0, 4.0, 13.0), smoothstep(0.3, 1.5, r));
 }
 
 // Almond eye with its tips on the x axis. sdVesica points along y, so the
@@ -78,11 +79,13 @@ vec3 signalScene(vec2 uv, float t) {
     float ax = abs(uv.x);
     float dx = max(max(0.075 - ax, ax - 0.235), 0.0);
     float d = length(vec2(dx, uv.y));
-    col += hex(236.0, 222.0, 210.0) * 0.5 * stroke(d, 0.0014, 0.005, px);
+    col = max(col, hex(150.0, 136.0, 140.0) * stroke(d, 0.0014, 0.004, px));
     return col;
 }
 
 // ---- IRIS / PUPIL -------------------------------------------------------------
+// Colours in this section are display sRGB values sampled from clean stills
+// of the reference. The eye is not tonemapped, so they land on screen as is.
 
 // Lid opening: a slit that holds for half a second, then snaps open.
 float eyeOpen(float lt) {
@@ -104,28 +107,28 @@ vec2 gaze(float t) {
 // Horizontal light spill when the line ignites.
 vec3 ignitionStreaks(vec2 uv, float amount) {
     float ax = abs(uv.x);
-    vec3 col = hex(255.0, 238.0, 225.0) * 2.0 * exp(-abs(uv.y) / 0.0035) * exp(-ax * 0.5);
+    vec3 col = hex(240.0, 226.0, 222.0) * 1.6 * exp(-abs(uv.y) / 0.0035) * exp(-ax * 0.5);
     for (int i = 1; i <= 12; i++) {
         float fi = float(i);
         float y = 0.032 * pow(fi, 1.3);
         float h = hash11(fi * 7.31);
         float line = exp(-abs(abs(uv.y) - y) / (0.0016 + 0.0016 * h)) * (0.5 + 0.5 * sin(uv.x * (3.0 + 4.0 * h) + fi));
-        col += mix(hex(200.0, 70.0, 110.0), hex(90.0, 120.0, 200.0), h) * 0.45 * exp(-fi * 0.15) * line;
+        col += mix(hex(150.0, 60.0, 100.0), hex(80.0, 90.0, 150.0), h) * 0.35 * exp(-fi * 0.15) * line;
     }
-    col += hex(120.0, 30.0, 70.0) * 0.25 * exp(-abs(uv.y) / 0.2);
+    col += hex(90.0, 30.0, 60.0) * 0.2 * exp(-abs(uv.y) / 0.2);
     return col * amount;
 }
 
-// Cream at the lid, through teal and gold, to copper, red and maroon.
-vec3 contourColor(float k, float cool) {
+// Muted rose-grey at the lid, deepening to plum and maroon outwards. During
+// the dive the inner lines turn teal-grey and gold-grey.
+vec3 contourColor(float k, float cool, float i) {
     vec3 c;
-    if (k < 0.12) c = mix(hex(236.0, 222.0, 206.0), hex(90.0, 190.0, 178.0), k / 0.12);
-    else if (k < 0.26) c = mix(hex(90.0, 190.0, 178.0), hex(222.0, 176.0, 116.0), (k - 0.12) / 0.14);
-    else if (k < 0.42) c = mix(hex(222.0, 176.0, 116.0), hex(204.0, 104.0, 66.0), (k - 0.26) / 0.16);
-    else if (k < 0.62) c = mix(hex(204.0, 104.0, 66.0), hex(166.0, 40.0, 66.0), (k - 0.42) / 0.2);
-    else c = mix(hex(166.0, 40.0, 66.0), hex(70.0, 16.0, 40.0), (k - 0.62) / 0.38);
-    // During the dive the inner lines warm up and the teal ones brighten.
-    return mix(c, mix(c, hex(110.0, 214.0, 200.0), step(0.5, fract(k * 7.0))), cool * (1.0 - k) * 0.6);
+    if (k < 0.2) c = mix(hex(140.0, 112.0, 118.0), hex(122.0, 76.0, 98.0), k / 0.2);
+    else if (k < 0.5) c = mix(hex(122.0, 76.0, 98.0), hex(98.0, 40.0, 74.0), (k - 0.2) / 0.3);
+    else c = mix(hex(98.0, 40.0, 74.0), hex(60.0, 16.0, 46.0), (k - 0.5) / 0.5);
+    float pick = mod(i, 3.0);
+    vec3 diveC = pick < 1.0 ? hex(110.0, 126.0, 132.0) : (pick < 2.0 ? hex(156.0, 132.0, 106.0) : hex(150.0, 122.0, 122.0));
+    return mix(c, diveC * mix(1.15, 0.7, k), cool * (1.0 - smoothstep(0.35, 0.8, k)));
 }
 
 vec3 eyeContours(vec2 p, float open, float lt, float cool, float pix) {
@@ -136,11 +139,11 @@ vec3 eyeContours(vec2 p, float open, float lt, float cool, float pix) {
         float breathe = 1.0 + 0.006 * sin(lt * 1.7 + fi * 0.9);
         // Lines bunch up near the lid and spread outwards; the tips run off
         // screen before the tops do, so every contour stays an almond.
-        float sx = (1.0 + 1.5 * pow(k, 1.3)) * breathe;
-        float sy = (1.0 + 2.1 * pow(k, 1.45)) * breathe;
+        float sx = (1.06 + 1.45 * pow(k, 1.3)) * breathe;
+        float sy = (1.12 + 2.0 * pow(k, 1.45)) * breathe;
         float d = sdEyeShape(p, EYE_HALF_WIDTH * sx, EYE_HALF_HEIGHT * sy * open);
-        float gain = mix(0.7, 0.22, k) * (1.0 + 0.9 * cool);
-        col += contourColor(k, cool) * gain * stroke(d, 0.0011, 0.004, pix);
+        float line = 1.0 - smoothstep(0.0008, 0.0008 + 1.5 * pix, abs(d));
+        col = max(col, contourColor(k, cool, fi) * mix(0.42, 0.62, cool) * (line + 0.18 * exp(-abs(d) / 0.004)));
     }
     return col;
 }
@@ -155,11 +158,11 @@ vec3 chainCell(vec2 c, float pc, float odd) {
     float eye = sdEyeShape(c, 0.27, 0.12);
     float iris = sdCircle(c, 0.055);
 
-    vec3 strand = mix(hex(196.0, 46.0, 76.0), hex(222.0, 170.0, 104.0), odd);
-    vec3 col = strand * 1.1 * (stroke(s1, 0.014, 0.02, pc) + stroke(s2, 0.014, 0.02, pc));
-    col = mix(col, hex(52.0, 22.0, 36.0), 1.0 - smoothstep(-pc, pc, eye));
-    col += mix(hex(226.0, 190.0, 120.0), hex(120.0, 206.0, 196.0), odd) * 1.2 * stroke(eye, 0.012, 0.018, pc);
-    col = mix(col, hex(100.0, 200.0, 210.0) * 1.3, 1.0 - smoothstep(-pc, pc, iris));
+    vec3 strand = mix(hex(170.0, 44.0, 70.0), hex(196.0, 150.0, 96.0), odd);
+    vec3 col = strand * 0.7 * (stroke(s1, 0.011, 0.014, pc) + stroke(s2, 0.011, 0.014, pc));
+    col = mix(col, hex(60.0, 24.0, 36.0), 1.0 - smoothstep(-pc, pc, eye));
+    col += mix(hex(200.0, 168.0, 110.0), hex(110.0, 180.0, 176.0), odd) * 0.65 * stroke(eye, 0.01, 0.014, pc);
+    col = mix(col, hex(96.0, 176.0, 186.0), 1.0 - smoothstep(-pc, pc, iris));
     return col;
 }
 
@@ -178,16 +181,38 @@ vec3 pupilOrnament(vec2 q, float t, float pix) {
     vec2 c = vec2(fa * TAU / (N * H), fract(u) - 0.5);
     float pc = pix / (r * H);
 
-    vec3 col = mix(hex(86.0, 30.0, 44.0), hex(66.0, 22.0, 38.0), odd);
+    vec3 col = mix(hex(70.0, 30.0, 38.0), hex(58.0, 24.0, 34.0), odd);
     col += chainCell(c, pc, odd);
 
-    // Glossy dark sphere in the middle swallows the rings that would alias.
+    // Glossy plum sphere in the middle swallows the rings that would alias.
     float core = 0.3;
     col *= smoothstep(core * 0.8, core * 1.25, r);
     float z = sqrt(max(1.0 - (r / core) * (r / core), 0.0));
-    vec3 sphere = hex(70.0, 40.0, 80.0) * (0.4 + 0.8 * z) + hex(255.0, 240.0, 255.0) * 1.4 * pow(max(dot(normalize(vec3(q / core, z + 1e-4)), normalize(vec3(-0.4, 0.5, 0.8))), 0.0), 30.0);
+    vec3 n = normalize(vec3(q / core, z + 1e-4));
+    vec3 sphere = hex(96.0, 66.0, 104.0) * (0.35 + 0.75 * z) + hex(255.0, 240.0, 255.0) * 0.9 * pow(max(dot(n, normalize(vec3(-0.4, 0.5, 0.8))), 0.0), 30.0);
     col = mix(col, sphere, 1.0 - smoothstep(core - pix * 2.0, core, r));
     return col;
+}
+
+// Radial colour of the iris, sampled from the reference (sRGB, decoded):
+// dark brown pupil, pale peach, a white-ish seam, pale teal, lavender, a
+// plum limbus. x is the reference's normalised radius.
+vec3 irisRamp(float x) {
+    const int N = 13;
+    const float P[13] = float[13](0.0, 0.3, 0.37, 0.395, 0.47, 0.56, 0.6, 0.65, 0.72, 0.8, 0.86, 0.92, 1.0);
+    const vec3 C[13] = vec3[13](
+        vec3(53.0, 36.0, 40.0), vec3(71.0, 49.0, 51.0), vec3(110.0, 72.0, 70.0), vec3(222.0, 172.0, 138.0),
+        vec3(250.0, 206.0, 166.0), vec3(255.0, 212.0, 186.0), vec3(230.0, 226.0, 226.0), vec3(190.0, 230.0, 234.0),
+        vec3(172.0, 212.0, 218.0), vec3(170.0, 204.0, 212.0), vec3(186.0, 178.0, 206.0), vec3(188.0, 140.0, 202.0),
+        vec3(92.0, 58.0, 104.0));
+    vec3 c = C[N - 1];
+    for (int i = 0; i < N - 1; i++) {
+        if (x >= P[i] && x < P[i + 1]) {
+            c = mix(C[i], C[i + 1], smoothstep(P[i], P[i + 1], x));
+            break;
+        }
+    }
+    return srgbToLinear(c / 255.0);
 }
 
 // q is in iris units (|q| = 1 at the limbus).
@@ -196,70 +221,70 @@ vec3 irisColor(vec2 q, float t, float pupilR, float ornament, float pix, out flo
     vec2 dir = q / max(r, 1e-5);
     float a = atan(q.y, q.x + 1e-6);
 
-    // Band edges wander a little so peach, teal and lavender bleed together.
-    float wob = fbm(vec3(dir * 4.0, r * 2.0 + 7.0), 3, 2.0, 0.5);
-    float rr = r + 0.05 * wob;
-    vec3 peachIn = hex(246.0, 178.0, 126.0);
-    vec3 peach = hex(255.0, 220.0, 190.0);
-    vec3 teal = hex(176.0, 236.0, 230.0);
-    vec3 lav = hex(206.0, 160.0, 232.0);
-    vec3 plum = hex(136.0, 76.0, 178.0);
-    vec3 col = mix(peachIn, peach, smoothstep(pupilR, pupilR + 0.12, rr));
-    col = mix(col, teal, smoothstep(0.56, 0.64, rr));
-    col = mix(col, lav, smoothstep(0.8, 0.87, rr));
-    col = mix(col, plum, smoothstep(0.93, 1.0, rr));
+    // Map the radius so the pupil edge lands on the reference's 0.37, and let
+    // the band edges wander so peach, teal and lavender bleed together.
+    float x = r < pupilR ? r / pupilR * 0.37 : 0.37 + (r - pupilR) / (1.0 - pupilR) * 0.63;
+    x += 0.07 * fbm(vec3(dir * 2.5, r * 1.5 + 7.0), 3, 2.0, 0.5) * smoothstep(pupilR + 0.05, pupilR + 0.14, r);
+    vec3 col = irisRamp(x);
 
-    // Fibres: fine hairlines that all swirl the same way (the strand phase
-    // grows with angle and radius), dark lines over lighter streaks, faded
-    // out where they would get finer than a couple of pixels.
-    float warp = 0.5 * fbm(vec3(dir * 3.0, r * 2.0), 2, 2.0, 0.5);
-    float s1 = a * 120.0 / TAU + r * 34.0 + warp * 3.0;
-    float s2 = a * 47.0 / TAU + r * 13.3 + warp * 1.2 + 0.3;
-    float foot1 = (120.0 / TAU / max(r, 0.2) + 34.0) * pix;
-    float foot2 = (47.0 / TAU / max(r, 0.2) + 13.3) * pix;
-    float along = fbm(vec3(dir * 18.0, r * 3.0 + s1 * 0.05), 2, 2.0, 0.5);
-    float hair1 = pow(abs(sin(PI * s1)), 6.0) * (1.0 - smoothstep(0.18, 0.45, foot1)) * (0.6 + 0.6 * along);
-    float hair2 = pow(abs(sin(PI * s2)), 4.0) * (1.0 - smoothstep(0.18, 0.45, foot2));
-    col = mix(col, col * 1.3 + 0.04, 0.7 * hair2);
-    col *= 1.0 - 0.6 * hair1 * smoothstep(PUPIL_RATIO * 0.9, PUPIL_RATIO + 0.1, r);
+    // Fibres: soft, broad bundles of hair that curl clockwise as they leave
+    // the pupil (nearly radial in the peach, about 50 deg in the teal),
+    // pushed around by a slow flow field so they wave like feathers. Thin
+    // dark partings separate the bundles, and a sparse second layer adds
+    // stray dark hairs. Detail fades where it would alias.
+    float flow = 1.8 * fbm(vec3(dir * 1.6, r * 2.2 + 1.0), 3, 2.0, 0.5);
+    float twist = -14.0 * pow(r, 2.5);
+    const float N = 62.0;
+    float phase = a * N / TAU + twist + flow;
+    float id = floor(phase);
+    float f = fract(phase);
+    float bundle = (0.55 + 0.45 * smoothstep(0.0, 0.35, f) * smoothstep(1.0, 0.65, f)) * (0.8 + 0.4 * hash11(mod(id, N) + 17.0));
+    bundle *= 0.9 + 0.2 * sin(TAU * phase * 2.0 + 4.0 * fbm(vec3(dir * 5.0, r * 6.0), 2, 2.0, 0.5));
+    const float NH = 150.0;
+    float hairPhase = a * NH / TAU + twist * NH / N + flow * 2.4 + 2.0 * fbm(vec3(dir * 4.0, r * 4.0), 2, 2.0, 0.5);
+    float hair = pow(abs(cos(PI * hairPhase)), 30.0) * smoothstep(0.15, 0.45, fbm(vec3(dir * 7.0, r * 3.0 + 3.0), 2, 2.0, 0.5));
+    float foot = (N / TAU / max(r, 0.2) + 35.0 * pow(r, 1.5)) * pix;
+    float footH = (NH / TAU / max(r, 0.2) + 85.0 * pow(r, 1.5)) * pix;
+    float inBand = smoothstep(pupilR + 0.005, pupilR + 0.04, r);
+    float contrast = mix(0.6, 1.0, smoothstep(0.45, 0.9, r));
+    float shade = 1.0 + contrast * (bundle - 0.88);
+    col *= mix(1.0, shade, (1.0 - smoothstep(0.3, 0.6, foot)) * inBand);
+    col *= 1.0 - 0.3 * hair * (1.0 - smoothstep(0.2, 0.45, footH)) * inBand;
 
-    // Two dark wavy rings, like a collarette.
-    float w1 = abs(r - 0.9 - 0.014 * sin(a * 9.0 + 1.0)) - 0.004;
-    float w2 = abs(r - 0.7 - 0.012 * sin(a * 11.0 - 2.0)) - 0.003;
-    col = mix(col, hex(90.0, 50.0, 130.0), 0.4 * (1.0 - smoothstep(0.0, 2.0 * pix, w1)));
-    col = mix(col, hex(90.0, 70.0, 130.0), 0.18 * (1.0 - smoothstep(0.0, 2.0 * pix, w2)));
-
-    // Soft shading: a touch darker towards the limbus, rose rim at the edge.
-    col *= mix(1.0, 0.72, smoothstep(0.7, 1.0, r));
-    col *= 1.05;
-    col += hex(200.0, 70.0, 140.0) * 0.9 * exp(-abs(r - 0.995) / 0.008);
+    // A dark wavy collarette ring in the lavender.
+    float w1 = abs(r - 0.92 - 0.016 * sin(a * 9.0 + 1.0)) - 0.004;
+    float w2 = abs(r - 0.8 - 0.02 * sin(a * 7.0 - 2.0 + 2.0 * fbm(vec3(dir * 2.0, 5.0), 2, 2.0, 0.5))) - 0.003;
+    col = mix(col, hex(84.0, 50.0, 116.0), 0.55 * (1.0 - smoothstep(0.0, 2.0 * pix, w1)));
+    col = mix(col, hex(80.0, 70.0, 120.0), 0.4 * (1.0 - smoothstep(0.0, 2.0 * pix, w2)));
 
     float pd = r - pupilR;
-    vec3 pupil = mix(hex(92.0, 44.0, 50.0), hex(56.0, 22.0, 30.0), smoothstep(0.0, pupilR, r));
-    if (ornament > 0.0) pupil = mix(pupil, pupilOrnament(q / pupilR, t, pix / pupilR), ornament);
-    col = mix(col, pupil, 1.0 - smoothstep(-pix * 1.5, pix * 1.5, pd));
-    col *= 1.0 - 0.35 * exp(-max(pd, 0.0) / 0.02) * step(0.0, pd);
+    if (ornament > 0.0) {
+        vec3 orn = pupilOrnament(q / pupilR, t, pix / pupilR);
+        col = mix(col, orn, ornament * (1.0 - smoothstep(-pix * 1.5, pix * 1.5, pd)));
+    }
 
-    // Catchlights: a ring up-left and a dot down-right, both on the cornea;
-    // the camera passes through the cornea early in the dive.
+    // Catchlights: a thin ring up-left and a dot down-right, both on the
+    // cornea; the camera passes through the cornea early in the dive.
     float glint = 1.0 - smoothstep(4.55, 4.75, t);
-    float ring = abs(length(q - vec2(-0.45, 0.45)) - 0.165) - 0.006;
-    col += hex(255.0, 255.0, 255.0) * 2.4 * glint * (1.0 - smoothstep(0.0, 1.5 * pix, ring));
-    col += hex(255.0, 255.0, 255.0) * 0.35 * glint * exp(-max(ring, 0.0) / 0.03);
-    float dot1 = length(q - vec2(0.48, -0.38)) - 0.028;
-    col += hex(255.0, 255.0, 255.0) * 2.0 * glint * (1.0 - smoothstep(-pix, pix * 2.0, dot1));
+    float ring = abs(length(q - vec2(-0.48, 0.49)) - 0.2) - 0.006;
+    col += vec3(1.0) * 0.9 * glint * (1.0 - smoothstep(0.0, 1.5 * pix, ring));
+    col += vec3(1.0) * 0.12 * glint * exp(-max(ring, 0.0) / 0.03);
+    float dot1 = length(q - vec2(0.44, -0.35)) - 0.026;
+    col += vec3(1.0) * 0.8 * glint * (1.0 - smoothstep(-pix, pix * 2.0, dot1));
 
     mask = 1.0 - smoothstep(1.0 - pix, 1.0 + pix, r);
     return col;
 }
 
-// Camera dive into the pupil: still, then an accelerating push that keeps
-// creeping once the ornament fills the frame.
+// Camera dive into the pupil: still, a slow push, then an accelerating dive
+// that keeps creeping once the ornament fills the frame.
 float diveZoom(float t) {
+    // A slow push-in while the ornament blooms, then the dive proper.
+    float creep = 1.0 + 0.17 * smoothstep(3.9, 4.45, t);
     float x = t - 4.45;
-    if (x <= 0.0) return 1.0;
-    if (x <= 0.55) return exp(4.6 * pow(x, 1.7));
-    return exp(1.67 + 0.35 * (x - 0.55));
+    if (x <= 0.0) return creep;
+    if (x <= 0.55) return creep * exp(4.6 * pow(x, 1.7));
+    return creep * exp(1.67 + 0.35 * (x - 0.55));
 }
 
 vec3 eyeScene(vec2 uv, float t) {
@@ -275,18 +300,22 @@ vec3 eyeScene(vec2 uv, float t) {
     float lid = sdEyeShape(p, EYE_HALF_WIDTH, EYE_HALF_HEIGHT * open);
 
     vec3 col = maroonBackground(uv);
-    col += hex(120.0, 30.0, 60.0) * 0.18 * exp(-max(lid, 0.0) / 0.35) * smoothstep(0.03, 0.4, open);
+    // A dusky lift just outside the lid.
+    col += hex(64.0, 40.0, 52.0) * exp(-max(lid, 0.0) / 0.02) * smoothstep(0.03, 0.4, open);
     // Contours spring out of the line ahead of the lid, as flat lenses.
     float contourOpen = mix(0.02, 0.24, smoothstep(0.0, 0.25, lt)) + 0.76 * (open - 0.07) / 0.93 * step(0.07, open);
-    col += eyeContours(p, max(contourOpen, open), lt, cool, pix);
+    col = max(col, eyeContours(p, max(contourOpen, open), lt, cool, pix));
     col += ignitionStreaks(uv, (1.0 - smoothstep(0.35, 1.0, lt)) * smoothstep(0.0, 0.04, lt));
 
     float inside = 1.0 - smoothstep(-pix, pix, lid);
     vec2 ip = p - g;
     float il = length(ip) / IRIS_RADIUS;
-    vec3 interior = mix(hex(30.0, 26.0, 54.0), hex(12.0, 10.0, 26.0), smoothstep(0.1, 1.0, abs(p.x)));
-    interior += hex(80.0, 72.0, 116.0) * 0.6 * exp(-max(il - 1.0, 0.0) * 2.5);
-    interior += hex(50.0, 160.0, 180.0) * 0.7 * exp(-max(il - 1.0, 0.0) * 12.0);
+    // Near-black at the corners, dusky violet towards the iris, then a
+    // teal-blue glow hugging the limbus.
+    vec3 interior = mix(hex(40.0, 31.0, 54.0), hex(4.0, 2.0, 12.0), smoothstep(1.05, 2.3, il));
+    interior *= mix(0.6, 1.0, smoothstep(0.0, 0.06, -lid));
+    interior = mix(interior, hex(46.0, 44.0, 76.0), exp(-max(il - 1.0, 0.0) * 9.0));
+    interior = mix(interior, hex(44.0, 76.0, 112.0), exp(-max(il - 1.0, 0.0) * 28.0));
 
     float ornament = smoothstep(3.95, 4.3, t);
     float pupilR = mix(PUPIL_RATIO, 0.44, smoothstep(3.95, 4.35, t)) * (1.0 + 0.03 * sin(t * 2.3));
@@ -294,10 +323,13 @@ vec3 eyeScene(vec2 uv, float t) {
     vec3 iris = irisColor(ip / IRIS_RADIUS, t, pupilR, ornament, pix / IRIS_RADIUS, irisMask);
     interior = mix(interior, iris, irisMask);
     // The lid casts a soft shadow over the top of the iris.
-    interior *= mix(0.65, 1.0, smoothstep(0.0, 0.08, -lid));
+    interior *= mix(0.7, 1.0, smoothstep(0.0, 0.07, -lid));
 
     col = mix(col, interior, inside);
-    col += hex(238.0, 224.0, 208.0) * 1.5 * stroke(lid, 0.0028, 0.012, pix);
+    // The lid line: a muted cream, brighter while diving.
+    vec3 rimCol = mix(hex(196.0, 182.0, 180.0), hex(222.0, 214.0, 222.0), cool);
+    col = mix(col, rimCol, 1.0 - smoothstep(0.0034, 0.0034 + 1.5 * pix, abs(lid)));
+    col += rimCol * 0.12 * exp(-abs(lid) / 0.006);
     return col;
 }
 
@@ -486,9 +518,11 @@ vec3 mercuryScene(vec2 uv, float t) {
 vec3 chapter(int id, vec2 uv, float t) {
     if (id == 0) return signalScene(uv, t);
     if (id <= 2) return eyeScene(uv, t); // IRIS and PUPIL are one continuous shot
-    if (id == 3) return echoScene(uv, t);
-    if (id == 4) return vortexScene(uv, t);
-    return mercuryScene(uv, t);
+    // Later chapters were graded through a filmic curve; the eye is
+    // display-referred and skips it.
+    if (id == 3) return tonemapACES(echoScene(uv, t) * 1.67);
+    if (id == 4) return tonemapACES(vortexScene(uv, t) * 1.67);
+    return tonemapACES(mercuryScene(uv, t) * 1.67);
 }
 
 float chapterStart(int id) {
