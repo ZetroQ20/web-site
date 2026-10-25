@@ -8,8 +8,6 @@
  *   node render.cjs --from 7 --to 9    render a section
  *   node render.cjs --sub 1 --fps 30   quick preview
  *
- * Footage is re-encoded all-intra (-g 1) so every seek lands on a keyframe; the page
- * loads it as a blob URL and awaits 'seeked' before drawing each frame.
  * If assets/audio.mp3 exists, tools/audio.py builds the mix and it is muxed in.
  */
 'use strict';
@@ -42,18 +40,6 @@ function run(cmd, args) {
   if (r.status !== 0) throw new Error(`${cmd} failed`);
 }
 
-function prepareFootage() {
-  const src = path.join(ROOT, 'assets/monitor.mp4');
-  const dst = path.join(ROOT, 'assets/monitor.intra.webm');
-  if (!fs.existsSync(src)) { console.warn('no assets/monitor.mp4 — the wall will be black'); return; }
-  if (fs.existsSync(dst) && fs.statSync(dst).mtimeMs >= fs.statSync(src).mtimeMs) return;
-  console.log('re-encoding footage all-intra (VP9, -g 1)…');
-  // Playwright's Chromium has no H.264, so the intra copy is VP9.
-  run('ffmpeg', ['-v', 'error', '-y', '-i', src, '-an',
-    '-vf', "scale='min(2560,iw)':-2",
-    '-c:v', 'libvpx-vp9', '-g', '1', '-keyint_min', '1', '-crf', '18', '-b:v', '0',
-    '-deadline', 'good', '-cpu-used', '4', '-row-mt', '1', dst]);
-}
 
 function serve() {
   const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.woff2': 'font/woff2', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webm': 'video/webm', '.mp4': 'video/mp4', '.json': 'application/json' };
@@ -123,7 +109,6 @@ async function video(page) {
 }
 
 (async () => {
-  prepareFootage();
   const { server, browser, page } = await openPage();
   try {
     if (STILLS) {

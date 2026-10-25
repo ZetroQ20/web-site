@@ -25,14 +25,15 @@ body{font-family:Geist,sans-serif;-webkit-font-smoothing:antialiased;text-render
 .paper{background:#F4F2EE}
 img{display:block;user-select:none}
 .cover{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
+.row{display:flex;align-items:center;justify-content:center}
 
 /* liquid glass: clone + displacement (see paintGlass) */
-.glass{position:absolute;overflow:hidden;isolation:isolate;box-shadow:0 18px 44px rgba(0,0,0,.16),0 2px 6px rgba(0,0,0,.08)}
+.glass{position:absolute;overflow:hidden;isolation:isolate;box-shadow:0 18px 44px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.08)}
 .g-src{position:absolute;left:0;top:0;width:100%;height:100%}
 .g-src>*{position:absolute!important;left:0!important;top:0!important;transform-origin:0 0!important}
-.g-tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 46%,rgba(255,255,255,.08))}
+.g-tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 46%,rgba(255,255,255,.1))}
 .g-rim{position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.22),inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(255,255,255,.18),inset 0 0 0 .5px rgba(0,0,0,.18)}
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(255,255,255,.25),inset 1px 0 0 rgba(255,255,255,.2),inset -1px 0 0 rgba(255,255,255,.2),inset 0 0 0 .5px rgba(0,0,0,.15)}
 .g-content{position:absolute;inset:0}
 
 #iris,#cursor{position:absolute;left:0;top:0;pointer-events:none}
@@ -46,8 +47,8 @@ svg{overflow:visible}
   <svg id="iris" width="1440" height="1440" viewBox="0 0 1440 1440"></svg>
   <div id="cursor">
     <svg id="ring" class="a" width="60" height="60" viewBox="-30 -30 60 60" style="left:-27px;top:-28px">
-      <circle r="24" fill="none" stroke="rgba(11,11,11,.18)" stroke-width="3"/>
-      <circle id="ringArc" r="24" fill="none" stroke="#F4F2EE" stroke-width="3" stroke-linecap="round" transform="rotate(-90)" pathLength="1" stroke-dasharray="1 1"/>
+      <circle r="24" fill="none" stroke="rgba(11,11,11,.22)" stroke-width="3"/>
+      <circle id="ringArc" r="24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" transform="rotate(-90)" pathLength="1" stroke-dasharray="1 1"/>
     </svg>
     <svg width="26" height="32" viewBox="0 0 26 32"><path d="M3 2 L3 25 L9.2 19.3 L13.3 28.4 L17.3 26.6 L13.3 17.7 L21.4 17.7 Z" fill="#0B0B0B" stroke="#FFFFFF" stroke-width="1.7" stroke-linejoin="round"/></svg>
   </div>
@@ -65,20 +66,18 @@ svg{overflow:visible}
 <script type="application/json" id="cues">
 [
  {"t":0.50,"sfx":"rubber-stretch"},{"t":1.00,"sfx":"soft-pop"},{"t":1.50,"sfx":"bubble"},{"t":2.00,"sfx":"tick"},
- {"t":2.50,"sfx":"keys"},{"t":3.00,"sfx":"shutter-close"},{"t":3.50,"sfx":"shutter-open"},{"t":4.00,"sfx":"swish"},
- {"t":4.50,"sfx":"swish"},{"t":5.00,"sfx":"pop-chain"},{"t":5.50,"sfx":"pop"},{"t":6.00,"sfx":"whoosh-short"},
- {"t":6.50,"sfx":"tick"},{"t":7.00,"sfx":"click"},{"t":7.00,"sfx":"riser","align":"end","end":8.0},
- {"t":8.50,"sfx":"whoosh-soft"},{"t":9.00,"sfx":"tick"},{"t":9.50,"sfx":"glass-pop"},{"t":10.00,"sfx":"click"},
- {"t":10.50,"sfx":"glass-tap"},{"t":11.00,"sfx":"detent"},{"t":11.50,"sfx":"detent"},{"t":12.00,"sfx":"detent"},
- {"t":12.50,"sfx":"whoosh-up"},{"t":13.00,"sfx":"bubble"},{"t":13.50,"sfx":"swell"},{"t":14.00,"sfx":"swipe"},
- {"t":14.50,"sfx":"pop"},{"t":14.72,"sfx":"tap"},{"t":15.00,"sfx":"whoosh"},{"t":15.50,"sfx":"stretch"},
- {"t":16.00,"sfx":"drip"},{"t":16.50,"sfx":"swell"},{"t":17.00,"sfx":"blind"},{"t":17.50,"sfx":"press-hum"},
- {"t":18.00,"sfx":"pickup"},{"t":18.25,"sfx":"whoosh-short"},{"t":18.50,"sfx":"thunk"},{"t":19.00,"sfx":"morph"},
- {"t":19.50,"sfx":"tick"},{"t":19.60,"sfx":"tick"},{"t":19.70,"sfx":"tick"},{"t":19.80,"sfx":"tick"},
- {"t":20.00,"sfx":"click"},{"t":20.25,"sfx":"check"},{"t":20.50,"sfx":"whirr"},{"t":21.00,"sfx":"counter"},
- {"t":21.50,"sfx":"success"},{"t":22.00,"sfx":"sub-swoosh"},{"t":23.00,"sfx":"reverse-whoosh"},{"t":23.50,"sfx":"scroll"},
- {"t":24.00,"sfx":"click"},{"t":24.50,"sfx":"shutter-close"},{"t":24.75,"sfx":"shutter-open"},{"t":25.00,"sfx":"shutter-close"},
- {"t":25.50,"sfx":"reverse-suck"},{"t":26.00,"sfx":"pop"}
+ {"t":2.50,"sfx":"keys"},{"t":3.00,"sfx":"shutter-close"},{"t":3.50,"sfx":"shutter-open"},{"t":4.00,"sfx":"pop-chain"},
+ {"t":4.50,"sfx":"pop-chain"},{"t":5.00,"sfx":"tick"},{"t":5.50,"sfx":"tick"},{"t":6.00,"sfx":"swish"},
+ {"t":6.50,"sfx":"pop"},{"t":7.00,"sfx":"click"},{"t":7.00,"sfx":"riser","align":"end","end":8.0},
+ {"t":8.50,"sfx":"glass-pop"},{"t":9.00,"sfx":"click"},{"t":9.50,"sfx":"glass-tap"},{"t":9.75,"sfx":"detent"},
+ {"t":10.00,"sfx":"detent"},{"t":10.50,"sfx":"whoosh-up"},{"t":11.00,"sfx":"bubble"},{"t":11.50,"sfx":"sub-swoosh"},
+ {"t":12.00,"sfx":"chime"},{"t":12.50,"sfx":"glass-pop"},{"t":13.00,"sfx":"tap"},{"t":13.50,"sfx":"whoosh"},
+ {"t":14.00,"sfx":"stretch"},{"t":14.50,"sfx":"drip"},{"t":15.00,"sfx":"blind"},{"t":15.50,"sfx":"pickup"},
+ {"t":16.00,"sfx":"thunk"},{"t":16.50,"sfx":"swish"},{"t":17.00,"sfx":"click"},{"t":17.50,"sfx":"pop-chain"},
+ {"t":18.00,"sfx":"click"},{"t":18.50,"sfx":"click"},{"t":19.00,"sfx":"tick"},{"t":19.50,"sfx":"click"},
+ {"t":20.00,"sfx":"check"},{"t":20.50,"sfx":"printer"},{"t":21.00,"sfx":"whoosh-short"},{"t":21.50,"sfx":"success"},
+ {"t":22.00,"sfx":"sub-swoosh"},{"t":22.75,"sfx":"reverse-whoosh"},{"t":23.05,"sfx":"shutter-open"},{"t":23.50,"sfx":"room-tone"},
+ {"t":25.00,"sfx":"shutter-close"},{"t":25.30,"sfx":"reverse-suck"},{"t":26.00,"sfx":"pop"}
 ]
 </script>
 
@@ -92,16 +91,14 @@ svg{overflow:visible}
 const W = 1440, C = 720, BPM = 120, SPB = 60 / BPM, BEATS = 54, DUR = BEATS * SPB;
 const B = n => (n - 1) * SPB;                    // time of beat n (1-based)
 const PAPER = '#F4F2EE', INK = '#0B0B0B', MUTED = '#8A867E';
-const WORD = 'abdullah üçdağ';
-const ASSET = {
-  villaDay: 'assets/villa-day.jpg', villaGold: 'assets/villa-night.jpg', beauty: 'assets/beauty-mobile.jpg',
-  dashboard: 'assets/dashboard.jpg', ui: [1, 2, 3, 4, 5, 6].map(i => `assets/ui-${i}.jpg`),
-  footage: 'assets/monitor.intra.webm',          // all-intra re-encode of monitor.mp4 (render.mjs makes it)
+const WORD = 'abdullah üçdağ', TAGLINE = 'from screen to wall.';
+const A = {                                       // assets (film/assets/)
+  door: 'assets/door.jpg', archDay: 'assets/arch-day.jpg', archGold: 'assets/arch-golden.jpg',
+  crescent: 'assets/crescent.jpg', print: 'assets/print.jpg', wall: 'assets/wall.jpg',
+  grid: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => `assets/grid-${i}.jpg`),
 };
-// Screen corners of the blank monitor in SOURCE footage pixels (TL, TR, BR, BL).
-// Re-measure these after you drop in the real Pexels clip.
-const SCREEN_SRC = [[550, 325], [1370, 325], [1370, 675], [550, 675]];
-const FOOT = { zoom: 1, panX: 0, panY: 0 };      // cover-fit, then zoom/pan in frame px
+// Picture-frame geometry inside wall.jpg (frame outer, mat, picture window), frame px.
+const WALL = { frame: [420, 300, 600, 780], mat: [452, 332, 536, 718], pic: [528, 408, 382, 562] };
 
 /* ---------------------------------------------------------------- math --- */
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -172,6 +169,7 @@ const RT = (x, y, w, h, r) => ({ x: T(x), y: T(y), w: T(w), h: T(h), r: T(r) });
 function rto(rt, t, [x, y, w, h, r], resp) { rt.x.to(t, x, resp); rt.y.to(t, y, resp); rt.w.to(t, w, resp); rt.h.to(t, h, resp); rt.r.to(t, r, resp); }
 const rat = (rt, t) => ({ x: rt.x.at(t), y: rt.y.at(t), w: rt.w.at(t), h: rt.h.at(t), r: rt.r.at(t) });
 const pop = (t, t0, vd = .36, b = .42) => R.sp(vd, b)(t - t0);
+const slideIn = (t, t0, d = 1, vd = .45, b = .12) => (1 - R.sp(vd, b)(t - t0)) * d;   // offset → 0
 
 /* ----------------------------------------------------------------- DOM --- */
 const $ = s => document.querySelector(s);
@@ -195,20 +193,25 @@ const show = (e, v) => { e.style.visibility = v ? 'inherit' : 'hidden'; };
 const tf = (e, v) => { e.style.transform = v; };
 // Text snapping: keep scroll offsets on whole device pixels at the current on-screen scale.
 const snap = (v, scale = 1) => Math.round(v * scale) / scale;
+function img(parent, src, cls = 'cover') { const i = h('img', cls, parent); i.src = src; i.decoding = 'sync'; return i; }
 
 const ICON = {
-  rotate: '<path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/>',
-  adjust: '<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
-  ruler: '<path d="M3 16 16 3l5 5L8 21z"/><path d="M7 12l2 2M10 9l2 2M13 6l2 2"/>',
   share: '<path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M5 12v7h14v-7"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/>',
+  adjust: '<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   arrow: '<path d="M7 17 17 7M8 7h9v9"/>',
-  menu: '<path d="M4 8h16M4 16h10"/>',
-  bag: '<path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+  prev: '<path d="M11 7 5 12l6 5zM19 7l-6 5 6 5z" fill="currentColor"/>',
+  next: '<path d="M13 7l6 5-6 5zM5 7l6 5-6 5z" fill="currentColor"/>',
   check: '<path d="M5 12.5 10 17.5 19.5 7" pathLength="1"/>',
+  printer: '<path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="1.5"/><path d="M7 14h10v6H7z"/>',
+  truck: '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  sidebar: '<rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M9.5 5v14"/>',
+  star: '<path d="m12 4 2.3 5 5.2.5-3.9 3.5 1.1 5.2L12 15.6 7.3 18.2l1.1-5.2L4.5 9.5 9.7 9z"/>',
 };
 const icon = (name, size, color, sw = 2) =>
-  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICON[name]}</svg>`;
-const TRI = (size, color) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24"><path d="M12 3 22.4 21H1.6z" fill="${color}"/></svg>`;
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" color="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICON[name]}</svg>`;
 
 // a line of text that moves inside its own mask
 function maskLine(parent, x, y, w, hh, html, style = {}) {
@@ -232,13 +235,14 @@ function svgEl(tag, attrs, parent) {
 function makeGlass(parent, backdrop, opts = {}) {
   const el = h('div', 'glass', parent);
   const src = h('div', 'g-src', el);
-  h('div', 'g-tint', el);
+  const tint = h('div', 'g-tint', el);
   const content = h('div', 'g-content', el);
   const rim = h('div', 'g-rim', el);
-  if (opts.tint) S(el.querySelector('.g-tint'), { background: opts.tint });
+  if (opts.tint) S(tint, { background: opts.tint });
+  if (opts.shadow === false) el.style.boxShadow = 'none';
   const id = `gf${glasses.length}`;
   const f = svgEl('filter', { id, filterUnits: 'userSpaceOnUse', primitiveUnits: 'userSpaceOnUse', 'color-interpolation-filters': 'sRGB' }, $('#defs'));
-  const img = svgEl('feImage', { result: 'map', x: 0, y: 0, preserveAspectRatio: 'none' }, f);
+  const im = svgEl('feImage', { result: 'map', x: 0, y: 0, preserveAspectRatio: 'none' }, f);
   const disp = [];
   ['R', 'G', 'B'].forEach((ch, i) => {
     disp.push(svgEl('feDisplacementMap', { in: 'SourceGraphic', in2: 'map', xChannelSelector: 'R', yChannelSelector: 'G', result: `d${i}` }, f));
@@ -249,30 +253,34 @@ function makeGlass(parent, backdrop, opts = {}) {
   svgEl('feComposite', { in: 'c01', in2: 'c2', operator: 'arithmetic', k1: 0, k2: 1, k3: 1, k4: 0, result: 'rgb' }, f);
   svgEl('feColorMatrix', { in: 'rgb', type: 'saturate', values: 1.18 }, f);
   src.style.filter = `url(#${id})`;
-  const G = { el, src, content, rim, f, img, disp, backdrop, mag: 1, w: 0, h: 0, r: 0, key: '', on: false, strength: opts.strength || 1 };
+  const G = { el, src, tint, content, rim, f, img: im, disp, backdrop, mag: 1, w: 0, h: 0, r: 0, key: '', on: false, strength: opts.strength || 1 };
   glasses.push(G);
   return G;
 }
 function glassBox(G, x, y, w, hh, r) { G.w = w; G.h = hh; G.r = Math.min(r, w / 2, hh / 2); box(G.el, x, y, w, hh, G.r); }
 
 const mapCache = new Map();
+// Rounded-rect distance field encoded as a displacement map (R = x, G = y).
+// Computed at ≤ 512 px and stretched by feImage: the field is smooth, so this is lossless enough.
 function distanceMap(w, hh, r, band) {
-  const key = `${w}x${hh}x${r}x${band}`;
+  const k = Math.min(1, 512 / Math.max(w, hh));
+  const mw = Math.max(2, Math.round(w * k)), mh = Math.max(2, Math.round(hh * k)), mr = r * k, mb = Math.max(2, band * k);
+  const key = `${mw}x${mh}x${mr.toFixed(1)}x${mb.toFixed(1)}`;
   if (mapCache.has(key)) return mapCache.get(key);
-  const cv = document.createElement('canvas'); cv.width = w; cv.height = hh;
-  const ctx = cv.getContext('2d'); const id = ctx.createImageData(w, hh); const d = id.data;
-  const hw = w / 2, hh2 = hh / 2;
-  for (let y = 0; y < hh; y++) for (let x = 0; x < w; x++) {
+  const cv = document.createElement('canvas'); cv.width = mw; cv.height = mh;
+  const ctx = cv.getContext('2d'); const id = ctx.createImageData(mw, mh); const d = id.data;
+  const hw = mw / 2, hh2 = mh / 2;
+  for (let y = 0; y < mh; y++) for (let x = 0; x < mw; x++) {
     const px_ = x + .5 - hw, py = y + .5 - hh2;
-    const qx = Math.abs(px_) - (hw - r), qy = Math.abs(py) - (hh2 - r);
+    const qx = Math.abs(px_) - (hw - mr), qy = Math.abs(py) - (hh2 - mr);
     const out = Math.hypot(Math.max(qx, 0), Math.max(qy, 0));
-    const sd = out + Math.min(Math.max(qx, qy), 0) - r;         // signed distance, <0 inside
+    const sd = out + Math.min(Math.max(qx, qy), 0) - mr;         // signed distance, <0 inside
     let nx, ny;
     if (qx > 0 && qy > 0) { const l = Math.hypot(qx, qy) || 1; nx = qx / l; ny = qy / l; }
     else if (qx > qy) { nx = 1; ny = 0; } else { nx = 0; ny = 1; }
     nx *= px_ < 0 ? -1 : 1; ny *= py < 0 ? -1 : 1;
-    const m = Math.pow(1 - clamp(-sd / band), 2.4);              // strongest at the rim, 0 inside the band
-    const i = (y * w + x) * 4;
+    const m = Math.pow(1 - clamp(-sd / mb), 2.4);                // strongest at the rim, 0 inside the band
+    const i = (y * mw + x) * 4;
     d[i] = 128 + 127 * nx * m; d[i + 1] = 128 + 127 * ny * m; d[i + 2] = 128; d[i + 3] = 255;
   }
   ctx.putImageData(id, 0, 0);
@@ -283,16 +291,15 @@ function distanceMap(w, hh, r, band) {
 const raf = () => new Promise(r => requestAnimationFrame(() => r()));
 
 async function paintGlass(G) {
-  const w = Math.max(2, Math.round(G.w / 4) * 4), hh = Math.max(2, Math.round(G.h / 4) * 4);
+  const w = Math.max(2, Math.round(G.w / 8) * 8), hh = Math.max(2, Math.round(G.h / 8) * 8);
   const r = Math.round(Math.min(G.r, w / 2, hh / 2));
-  const band = Math.max(6, Math.min(40, Math.min(w, hh) * .24));
+  const band = Math.max(6, Math.min(44, Math.min(w, hh) * .24));
   const scale = band * 1.1 * G.strength, pad = Math.ceil(scale) + 4;
   let waited = false;
   const key = `${w}x${hh}x${r}`;
   if (key !== G.key) {
-    const url = distanceMap(w, hh, r, Math.round(band));
+    const url = distanceMap(w, hh, r, band);
     G.img.setAttribute('href', url); G.img.setAttributeNS(XLINK, 'xlink:href', url);
-    G.img.setAttribute('width', G.w); G.img.setAttribute('height', G.h);
     G.key = key; waited = true;
   }
   for (const [k, v] of Object.entries({ x: -pad, y: -pad, width: G.w + 2 * pad, height: G.h + 2 * pad })) G.f.setAttribute(k, v);
@@ -307,7 +314,7 @@ async function paintGlass(G) {
   const m = G.mag, cx = G.w / 2, cy = G.h / 2;
   const clone = Bk.cloneNode(true);
   clone.removeAttribute('id'); clone.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
-  S(clone, { visibility: 'inherit', transform: `translate(${cx - m * cx + m * dx}px,${cy - m * cy + m * dy}px) scale(${m * sc})` });
+  S(clone, { visibility: 'inherit', transform: `translate(${cx - m * cx + m * dx}px,${cy - m * cy + m * dy}px) scale(${m * sc})`, borderRadius: '0', boxShadow: 'none' });
   G.src.replaceChildren(clone);
   const imgs = [...clone.querySelectorAll('img')];
   await Promise.all(imgs.map(i => i.decode().catch(() => {})));
@@ -317,26 +324,24 @@ async function paintGlass(G) {
 /* ---------------------------------------------------------------- iris --- */
 // 6 blades around a hexagonal aperture. Each blade = its two hexagon vertices,
 // both edge extensions out to the housing circle, and the SHORT arc between them.
-const IRIS_R = 1060;
-const irisPaths = [];
-function buildIris() {
-  const svg = $('#iris');
-  for (let k = 0; k < 6; k++) irisPaths.push(svgEl('path', { fill: k % 2 ? '#0E0E0E' : '#121212', stroke: '#2A2A2A', 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, svg));
+function makeIris(svg, fills = ['#121212', '#0E0E0E'], stroke = '#2A2A2A') {
+  return Array.from({ length: 6 }, (_, k) => svgEl('path', { fill: fills[k % 2], stroke, 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, svg));
 }
-function drawIris(A, cx = C, cy = C, rot0 = 0) {      // A: 1 open … 0 shut
-  const rMax = IRIS_R / Math.cos(Math.PI / 6) + 8;
-  const r = clamp(A) * rMax;
-  const th = rot0 + (1 - clamp(A)) * (40 * Math.PI / 180);
+function drawIris(paths, Ap, cx, cy, Rh, rot0 = 0) {      // Ap: 1 open … 0 shut; Rh: housing radius
+  const rMax = Rh / Math.cos(Math.PI / 6) + 8;
+  const r = clamp(Ap) * rMax;
+  const th = rot0 + (1 - clamp(Ap)) * (40 * Math.PI / 180);
+  const f = v => v.toFixed(2);
   for (let k = 0; k < 6; k++) {
-    const p = irisPaths[k];
+    const p = paths[k];
     const a0 = th + k * Math.PI / 3, a1 = a0 + Math.PI / 3;
     const V0 = [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], V1 = [cx + r * Math.cos(a1), cy + r * Math.sin(a1)];
     const ea = a0 + 2 * Math.PI / 3;                   // edge direction V0 → V1, valid even at r = 0
     const d = [Math.cos(ea), Math.sin(ea)];
     const ox = V0[0] - cx, oy = V0[1] - cy;
-    const b = d[0] * ox + d[1] * oy, c = ox * ox + oy * oy - IRIS_R * IRIS_R;
+    const b = d[0] * ox + d[1] * oy, c = ox * ox + oy * oy - Rh * Rh;
     const disc = b * b - c;
-    if (A >= 1 || disc <= 0) { p.setAttribute('d', ''); continue; }
+    if (Ap >= 1 || disc <= 0) { p.setAttribute('d', ''); continue; }
     const sPlus = -b + Math.sqrt(disc), sMinus = -b - Math.sqrt(disc);
     const P = [V0[0] + d[0] * sPlus, V0[1] + d[1] * sPlus], Q = [V0[0] + d[0] * sMinus, V0[1] + d[1] * sMinus];
     // short arc P → Q on the outer side of the edge
@@ -344,11 +349,10 @@ function drawIris(A, cx = C, cy = C, rot0 = 0) {      // A: 1 open … 0 shut
     let dA = aQ - aP; while (dA <= -Math.PI) dA += 2 * Math.PI; while (dA > Math.PI) dA -= 2 * Math.PI;
     const nA = a0 + Math.PI / 6;                       // outward normal of this edge
     const mid = aP + dA / 2;
-    let diff = Math.abs(Math.atan2(Math.sin(mid - nA), Math.cos(mid - nA)));
+    const diff = Math.abs(Math.atan2(Math.sin(mid - nA), Math.cos(mid - nA)));
     if (diff > Math.PI / 2) dA = dA > 0 ? dA - 2 * Math.PI : dA + 2 * Math.PI;
     const sweep = dA > 0 ? 1 : 0, large = Math.abs(dA) > Math.PI ? 1 : 0;
-    const f = v => v.toFixed(2);
-    p.setAttribute('d', `M${f(Q[0])},${f(Q[1])} L${f(V0[0])},${f(V0[1])} L${f(V1[0])},${f(V1[1])} L${f(P[0])},${f(P[1])} A${IRIS_R},${IRIS_R} 0 ${large} ${sweep} ${f(Q[0])},${f(Q[1])} Z`);
+    p.setAttribute('d', `M${f(Q[0])},${f(Q[1])} L${f(V0[0])},${f(V0[1])} L${f(V1[0])},${f(V1[1])} L${f(P[0])},${f(P[1])} A${Rh},${Rh} 0 ${large} ${sweep} ${f(Q[0])},${f(Q[1])} Z`);
   }
 }
 
@@ -358,7 +362,7 @@ const L = {};            // layers / elements
 const M = {};            // measurements
 let TL;                  // tracks
 
-/* ---- OPEN: wordmark + dot/pill ------------------------------------------ */
+/* ---- OPEN: wordmark → dot → pill → `> develop` --------------------------- */
 function measureWordmark() {
   const probe = h('div', 'a wm', document.body);
   S(probe, { visibility: 'hidden', fontSize: '100px', lineHeight: '100px' });
@@ -377,7 +381,7 @@ function measureWordmark() {
   // layout: total width (letters + gap + dot) = 1140, x-height centred on 720
   const GAP = 3.6, DOT = 19;
   const F = 1140 / (textW + GAP + DOT);
-  const fs = 100 * F, startX = C - 570, baseY = C + fs * .262;
+  const fs = 100 * F, startX = C - 570, baseY = C + fs * .262 - 24;
   const top = baseY - baseline * F;
   const dd = DOT * F, dotL = startX + (textW + GAP) * F;
   return {
@@ -393,558 +397,453 @@ function natWidth(i, wd) {
   return n[n.length - 1];
 }
 
-const PROMPT = 'claude "ship the site"', CW = 18, PROMPT_T0 = B(6), PROMPT_DT = .019;
+const PROMPT = 'develop', CW = 18, PROMPT_T0 = B(6), PROMPT_DT = .045;
 const promptW = n => 18 + 18 + n * CW + 6 + 16;
-const pillW = n => Math.max(300, promptW(n) + 128);
+const PILL_W = 300;
+
+// grid: layout A = 3×3 of 300 (door in the middle); layout B = 4×3 of 230 with the arch 2×2
+const GA = (i) => ({ x: C + ((i % 3) - 1) * 314, y: C + (Math.floor(i / 3) - 1) * 314, s: 300, r: 22 });
+const GB0 = { x: 242, y: 363, cell: 230, gap: 12 };
+const GBcell = (c, r, span = 1) => {
+  const s = GB0.cell * span + GB0.gap * (span - 1);
+  return { x: GB0.x + c * (GB0.cell + GB0.gap) + s / 2, y: GB0.y + r * (GB0.cell + GB0.gap) + s / 2, s, r: 18 };
+};
+const GB = { 0: GBcell(0, 0), 1: GBcell(1, 0), 2: GBcell(0, 1), 3: GBcell(1, 1), 4: GBcell(0, 2), 5: GBcell(2, 0, 2), 6: GBcell(1, 2), 7: GBcell(2, 2), 8: GBcell(3, 2) };
+const POP_T = { 1: B(9) + .04, 3: B(9) + .08, 5: B(9) + .12, 7: B(9) + .16, 0: B(10), 2: B(10) + .04, 8: B(10) + .08, 6: B(10) + .12 };
 
 function buildOpen() {
+  // grid tiles (behind the door) — index 4 is the door (the blob), 5 is the arch (its own layer)
+  L.tiles = {};
+  for (const i of [0, 1, 2, 3, 6, 7, 8]) { const e = h('div', 'a clip', world); img(e, A.grid[i]); S(e, { boxShadow: '0 10px 28px rgba(0,0,0,.14)' }); L.tiles[i] = e; }
+
   L.wm = h('div', 'a', world);
   L.letters = M.wm.chars.map(c => { const e = h('div', 'a wm', L.wm); e.textContent = c; S(e, { fontSize: px(M.wm.fs), lineHeight: px(M.wm.fs), top: px(M.wm.top), transformOrigin: '0 0', color: INK }); return e; });
-  L.blob = h('div', 'a ink clip', world);
+  L.tag = maskLine(L.wm, C - 300, M.wm.baseY + 46, 600, 34, TAGLINE, { textAlign: 'center', fontSize: '22px', color: MUTED, letterSpacing: '0.01em' });
+
+  // the blob: dot → pill → circle (iris) → door square → grid tile
+  L.blob = h('div', 'a ink clip', world); S(L.blob, { zIndex: 2 });
+  L.door = img(L.blob, A.door);
+  L.blobIrisSvg = svgEl('svg', { class: 'a', width: 10, height: 10 }, L.blob);
+  L.blobIris = makeIris(L.blobIrisSvg, ['#1E1E1E', '#191919'], '#333');
   L.prompt = h('div', 'a mono', L.blob);
   S(L.prompt, { fontSize: '30px', color: PAPER, whiteSpace: 'pre', height: '120px', lineHeight: '120px', display: 'flex', alignItems: 'center' });
   L.gt = h('span', '', L.prompt, '&gt;'); S(L.gt, { display: 'inline-block', width: px(CW * 2), color: MUTED });
   L.typed = h('span', '', L.prompt);
-  L.typedA = h('span', '', L.typed); L.typedB = h('span', '', L.typed); L.typedB.style.color = '#E8C08A';
   L.caret = h('span', '', L.prompt); S(L.caret, { display: 'inline-block', width: '16px', height: '34px', marginLeft: '6px', background: PAPER });
 }
 function updateOpen(t) {
   const wm = M.wm, k = TL.squeeze.at(t);
-  const vis = on(t, 0, B(8)) || t >= 25.7;
-  show(L.wm, vis);
+  show(L.wm, on(t, 0, B(7)) || t >= 25.6);
   // accordion: every letter moves toward the dot by the same factor; drawn width follows
   const f = clamp(1 - k);
   const wd = 125 - 63 * E.out(clamp(f / .72));
   L.letters.forEach((e, i) => {
     const w = wm.ws[i] * k, nat = natWidth(i, wd);
-    const x = wm.dotL - (wm.dotL - wm.xs[i]) * k;
-    e.style.left = px(x);
+    e.style.left = px(wm.dotL - (wm.dotL - wm.xs[i]) * k);
     e.style.fontVariationSettings = `"wdth" ${wd.toFixed(2)}`;
     tf(e, `scaleX(${(w / nat).toFixed(5)})`);
     show(e, w > .25);
   });
-  // dot ⇄ pill
+  tf(L.tag.inner, `translateY(${(R.ez(.3, E.in)(t - B(2)) - R.sp(.5, .1)(t - 26.05)) * 40}px)`);
+
+  // blob
   const b = rat(TL.blob, t);
-  b.r = Math.min(b.w, b.h) / 2;
-  boxC(L.blob, b);
-  show(L.blob, on(t, 0, B(8)) || t >= 25.6);
+  const r = t >= B(7) && t < 25 ? b.r : Math.min(b.w, b.h) / 2;
+  box(L.blob, b.x - b.w / 2, b.y - b.h / 2, b.w, b.h, r);
+  show(L.blob, on(t, 0, B(17)) || t >= 25.6);
+  L.blob.style.zIndex = 2;
+  // iris inside the blob (closes over the prompt, opens onto the door)
+  const ia = TL.blobIris.at(t);
+  S(L.blobIrisSvg, { left: '0px', top: '0px' });
+  L.blobIrisSvg.setAttribute('width', b.w); L.blobIrisSvg.setAttribute('height', b.h);
+  drawIris(L.blobIris, ia, b.w / 2, b.h / 2, Math.hypot(b.w, b.h) / 2 + 4);
+  show(L.blobIrisSvg, on(t, B(7), B(8) + .5));
+  show(L.door, on(t, B(8) - .01, B(17)));
   // prompt
-  const typedN = Math.max(0, Math.min(PROMPT.length, Math.floor((t - PROMPT_T0) / PROMPT_DT) + 1));
-  const n = t < PROMPT_T0 ? 0 : typedN;
-  const txt = PROMPT.slice(0, n);
-  const q = txt.indexOf('"');
-  L.typedA.textContent = q < 0 ? txt : txt.slice(0, q);
-  L.typedB.textContent = q < 0 ? '' : txt.slice(q);
-  show(L.prompt, on(t, B(5), B(8)));
+  const n = t < PROMPT_T0 ? 0 : Math.max(0, Math.min(PROMPT.length, Math.floor((t - PROMPT_T0) / PROMPT_DT) + 1));
+  L.typed.textContent = PROMPT.slice(0, n);
+  show(L.prompt, on(t, B(5), B(7) + .3));
   L.prompt.style.left = px(b.w / 2 - promptW(n) / 2);
-  L.prompt.style.top = px(b.h / 2 - 60);
+  L.prompt.style.top = px(b.h / 2 - 60 - 80 * R.ez(.2, E.in)(t - B(7)));
   tf(L.gt, `scale(${pop(t, B(5), .32, .5)})`);
   const typing = on(t, PROMPT_T0, PROMPT_T0 + PROMPT.length * PROMPT_DT + .1);
   show(L.caret, typing || ((t - B(5)) % SPB) < SPB / 2);
+
+  // grid tiles
+  for (const i of [0, 1, 2, 3, 6, 7, 8]) {
+    const q = rat(TL.tiles[i], t);
+    boxC(L.tiles[i], q);
+    const lift = TL.tileLift[i].at(t);
+    tf(L.tiles[i], `scale(${(pop(t, POP_T[i], .42, .3) * lift).toFixed(4)})`);
+    show(L.tiles[i], on(t, POP_T[i], B(17)));
+  }
 }
 
-/* ---- SITE: Tailwind skeleton → DOM ------------------------------------- */
-const NAV = [100, 64, 1240, 96, 48];
-const HERO_CARD = [100, 184, 652, 560, 32], HERO_TILE = [780, 184, 560, 560, 32];
-const TILES = [[100, 768, 532, 608, 28], [648, 768, 338, 296, 28], [1002, 768, 338, 296, 28], [648, 1080, 692, 296, 28]];
-const CODE = [
-  ['nav', 'flex h-24 items-center justify-between', null],
-  ['a', 'font-black tracking-tight', 'abdullah üçdağ.'],
-  ['h1', 'col-span-7 text-8xl font-semibold', null],
-  ['img', 'col-span-5 aspect-square rounded-[32px]', null],
-  ['article', 'row-span-2 rounded-3xl bg-neutral-950', null],
-  ['article', 'rounded-3xl bg-neutral-950', null],
-  ['article', 'rounded-3xl bg-neutral-950', null],
-  ['article', 'col-span-2 rounded-3xl bg-black', null],
-];
-const CHIP_T = [B(9), B(9) + .03, B(10), B(10) + .04, B(11), B(11) + .03, B(11) + .06, B(11) + .09];
-const toC = ([x, y, w, hh, r]) => [x + w / 2, y + hh / 2, w, hh, r];
-function codeHTML([tag, cls, body]) {
-  const m = s => `<span style="color:#77736C">${s}</span>`;
-  return `${m('&lt;' + tag + ' ')}${m('class=')}<span style="color:${PAPER}">"${cls}"</span>${m(body ? '&gt;' : '&gt;')}${body ? `<span style="color:#E8C08A">${body}</span>${m('&lt;/' + tag + '&gt;')}` : ''}`;
-}
-function buildSite() {
-  L.site = h('div', 'a', world); S(L.site, { width: '1440px', height: '1440px' });
-  L.panel = h('div', 'a ink', L.site);
-  L.chips = CODE.map((line, i) => {
-    const el = h('div', 'a ink clip', L.site);
-    const tx = h('div', 'a mono', el, codeHTML(line)); S(tx, { fontSize: '23px', lineHeight: '60px', left: '24px', whiteSpace: 'pre' });
-    return { el, tx };
-  });
-  // measure chip text widths
-  M.chipW = L.chips.map(c => Math.ceil(c.tx.getBoundingClientRect().width) + 48);
+/* ---- ARCH: zoom, glass toolbar, golden-hour relight, lens → orb ---------- */
+const TB = { x: C, y: 1236 };
+const TRACK = { x0: 380, len: 680, y: 1250 };
+function buildArch() {
+  L.arch = h('div', 'a clip', world); S(L.arch, { boxShadow: '0 10px 28px rgba(0,0,0,.14)' });
+  L.archImg = h('div', 'a', L.arch); S(L.archImg, { width: '1440px', height: '1440px', transformOrigin: '0 0' });
+  img(L.archImg, A.archDay);
+  L.archGold = img(L.archImg, A.archGold);
+  L.archChip = h('div', 'a ink row', L.arch, `<span style="margin-right:8px">relight</span>${icon('arrow', 14, PAPER, 2.2)}`);
+  S(L.archChip, { height: '36px', padding: '0 14px', borderRadius: '18px', color: PAPER, fontSize: '15px', fontWeight: 600, transformOrigin: '0 100%' });
 
-  // hero tile image + bento images (revealed through a growing circle)
-  const tileImg = (chip, src) => { const im = h('img', 'cover', chip.el); im.src = src; im.decoding = 'sync'; S(im, { zIndex: 0 }); return im; };
-  L.heroImg = tileImg(L.chips[3], ASSET.villaDay);
-  L.tileImgs = [tileImg(L.chips[4], ASSET.ui[0]), tileImg(L.chips[5], ASSET.ui[1]), tileImg(L.chips[6], ASSET.ui[2])];
-
-  // navbar content
-  L.navC = h('div', 'a', L.site); box(L.navC, NAV[0], NAV[1], NAV[2], NAV[3]);
-  L.navLogo = h('div', 'a wm', L.navC, 'abdullah üçdağ.'); S(L.navLogo, { fontSize: '27px', lineHeight: '96px', left: '44px', color: PAPER, transformOrigin: '0 50%' });
-  L.navLinks = ['Work', 'Studio', 'Journal'].map((s, i) => { const e = h('div', 'a', L.navC, s); S(e, { left: px(620 + i * 120), lineHeight: '96px', fontSize: '20px', fontWeight: 500, color: '#A9A59D', transformOrigin: '50% 50%' }); return e; });
-  L.navCta = h('div', 'a paper', L.navC, `<span style="margin-right:10px">Start a project</span>${icon('arrow', 18, INK, 2.2)}`);
-  S(L.navCta, { left: '992px', top: '20px', width: '220px', height: '56px', borderRadius: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 600, transformOrigin: '50% 50%' });
-
-  // hero heading content (lines move in their own masks)
-  L.heroC = h('div', 'a', L.site); box(L.heroC, HERO_CARD[0], HERO_CARD[1], HERO_CARD[2], HERO_CARD[3]);
-  L.h1 = ['We ship', 'quiet, fast', 'websites.'].map((s, i) => maskLine(L.heroC, 48, 44 + i * 84, 560, 86, s, { color: PAPER, fontSize: '80px', fontWeight: 600, letterSpacing: '-0.045em' }));
-  L.heroSub = maskLine(L.heroC, 48, 352, 560, 32, 'Next.js · Tailwind · Lenis — built in Denizli.', { color: '#A9A59D', fontSize: '20px' });
-  L.heroBtn = h('div', 'a paper', L.heroC, `<span style="margin-right:10px">See work</span>${icon('arrow', 18, INK, 2.2)}`);
-  S(L.heroBtn, { left: '48px', top: '460px', width: '170px', height: '54px', borderRadius: '27px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', fontWeight: 600 });
-  L.heroBadge = h('div', 'a', L.heroC, icon('arrow', 22, PAPER, 2)); S(L.heroBadge, { left: '574px', top: '36px', width: '44px', height: '44px', borderRadius: '22px', border: '1.5px solid #3A3A3A', display: 'flex', alignItems: 'center', justifyContent: 'center' });
-
-  // tile badges + labels
-  L.tileUI = TILES.slice(0, 3).map(([x, y, w], i) => {
-    const badge = h('div', 'a paper', L.site, icon('arrow', 20, INK, 2.2));
-    S(badge, { left: px(x + w - 64), top: px(y + 20), width: '44px', height: '44px', borderRadius: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center' });
-    const label = h('div', 'a ink', L.site, ['Atelier Lune', 'Villa Serein', 'Studio OS'][i]);
-    S(label, { left: px(x + 20), top: px(y + (i ? 236 : 548)), padding: '0 16px', height: '40px', lineHeight: '40px', borderRadius: '20px', color: PAPER, fontSize: '16px', fontWeight: 500, transformOrigin: '0 50%' });
-    return { badge, label };
-  });
-  const [dx, dy] = TILES[3];
-  L.tileD = h('div', 'a', L.site); box(L.tileD, dx, dy, TILES[3][2], TILES[3][3]);
-  L.dLabel = maskLine(L.tileD, 36, 30, 300, 26, 'Lighthouse · production', { color: '#8F8B84', fontSize: '17px' });
-  L.dBig = maskLine(L.tileD, 36, 70, 360, 150, '100', { color: PAPER, fontSize: '148px', fontWeight: 600, letterSpacing: '-0.05em' });
-  L.dBars = [0, 1, 2, 3].map(i => { const e = h('div', 'a paper', L.tileD); box(e, 400 + i * 66, 96, 44, 150, 10); S(e, { transformOrigin: '50% 100%' }); return e; });
-}
-function updateSite(t) {
-  show(L.site, on(t, B(8), B(17)));
-  const p = rat(TL.panel, t); boxC(L.panel, p);
-  L.chips.forEach((c, i) => {
-    const q = rat(TL.chips[i], t);
-    const lift = i === 3 ? TL.heroLift.at(t) : 1;
-    boxC(c.el, q); tf(c.el, `scale(${lift})`);
-    // the code line slides out of its own mask as the class string expands
-    tf(c.tx, `translateY(${-70 * E.in(prog(t, CHIP_T[i], CHIP_T[i] + .2))}px)`);
-    show(c.tx, t < CHIP_T[i] + .2);
-  });
-  show(L.chips[0].el, t < B(9) + .7);
-  show(L.chips[1].el, t < B(9) + .7);
-  // image reveals: circle from the tile centre (no opacity anywhere)
-  const reveal = (img, t0) => {
-    const u = R.ez(.5, E.out)(t - t0);
-    img.style.clipPath = `circle(${(u * 72).toFixed(3)}% at 50% 50%)`;
-    tf(img, `scale(${1 + .16 * (1 - R.sp(.6, .05)(t - t0))})`);
-    show(img, u > 0);
-  };
-  reveal(L.heroImg, B(13) + .02);
-  L.tileImgs.forEach((im, i) => reveal(im, B(13) + .08 + i * .05));
-  // icons pop from zero on a spring (beat 12)
-  const t12 = B(12);
-  tf(L.navLogo, `scale(${pop(t, t12)})`);
-  L.navLinks.forEach((e, i) => tf(e, `scale(${pop(t, t12 + .03 + i * .03)})`));
-  tf(L.navCta, `scale(${pop(t, t12 + .12)})`);
-  tf(L.heroBtn, `scale(${pop(t, t12 + .06)})`);
-  tf(L.heroBadge, `scale(${pop(t, t12 + .08)})`);
-  L.tileUI.forEach((u, i) => { tf(u.badge, `scale(${pop(t, t12 + .1 + i * .04)})`); tf(u.label, `scale(${pop(t, t12 + .14 + i * .04)})`); });
-  L.h1.forEach((l, i) => tf(l.inner, `translateY(${(1 - R.sp(.5, .12)(t - (B(10) + .16 + i * .05))) * 90}px)`));
-  tf(L.heroSub.inner, `translateY(${(1 - R.sp(.5, .1)(t - (B(10) + .32))) * 36}px)`);
-  tf(L.dLabel.inner, `translateY(${(1 - R.sp(.45, .1)(t - (t12 + .04))) * 30}px)`);
-  tf(L.dBig.inner, `translateY(${(1 - R.sp(.5, .12)(t - (t12 + .08))) * 160}px)`);
-  L.dBars.forEach((e, i) => tf(e, `scaleY(${[.55, .8, .66, 1][i] * pop(t, t12 + .12 + i * .04, .42, .3)})`));
-  const tileOn = on(t, B(9), B(17));
-  show(L.navC, tileOn); show(L.heroC, tileOn);
-  // everything except the hero tile rides along with the zoom; the tile's radius closes to 0
-}
-
-/* ---- VILLA: scroll, glass toolbar, relight, orb, atelier ---------------- */
-const TB_Y = 1084, TRACK_X0 = 420, TRACK_LEN = 600;
-function buildVilla() {
-  L.vFrame = h('div', 'a clip', world);
-  L.vInner = h('div', 'a', L.vFrame); S(L.vInner, { width: '1440px', height: '1440px', transformOrigin: '0 0', background: INK });
-  L.vImg = h('div', 'a', L.vInner); S(L.vImg, { width: '1440px', height: '1440px' });
-  L.vDay = h('img', 'cover', L.vImg); L.vDay.src = ASSET.villaDay; L.vDay.decoding = 'sync';
-  L.vGold = h('img', 'cover', L.vImg); L.vGold.src = ASSET.villaGold; L.vGold.decoding = 'sync';
-  L.band = h('div', 'a ink', L.vInner); S(L.band, { width: '1440px', height: '320px', top: '1440px' });
-  L.bandTitle = h('div', 'a', L.band, 'Villa Serein <span style="color:#77736C">— 3D tour</span>');
-  S(L.bandTitle, { left: '72px', top: '44px', fontSize: '34px', fontWeight: 600, letterSpacing: '-0.02em', color: PAPER, whiteSpace: 'pre' });
-  L.rooms = ['Living', 'Kitchen', 'Terrace', 'Suite'].map((s, i) => {
-    const e = h('div', 'a', L.band, s);
-    S(e, { left: px(72 + i * 150), top: '116px', width: '134px', height: '46px', lineHeight: '44px', textAlign: 'center', borderRadius: '23px', border: `1.5px solid ${i ? '#3A3A3A' : PAPER}`, color: i ? '#A9A59D' : PAPER, fontSize: '17px', fontWeight: 500, transformOrigin: '50% 50%' });
-    return e;
-  });
-  L.bandCount = h('div', 'a mono', L.band, '01 / 04'); S(L.bandCount, { right: '72px', left: 'auto', top: '52px', fontSize: '20px', color: '#77736C' });
-  L.chrome = h('div', 'a ink', L.vFrame); S(L.chrome, { width: '100%' });
-  L.chrome.innerHTML = [0, 1, 2].map(i => `<span style="position:absolute;left:${18 + i * 20}px;top:15px;width:11px;height:11px;border-radius:6px;background:#3A3A3A"></span>`).join('');
-
-  // glass toolbar
-  L.tb = makeGlass(world, () => L.vImg);
-  L.tbIcons = ['rotate', 'adjust', 'ruler', 'share'].map(n => { const e = h('div', 'a', L.tb.content, icon(n, 34, '#FFFFFF', 2)); S(e, { width: '34px', height: '34px' }); return e; });
-  L.track = h('div', 'a', world); S(L.track, { background: 'rgba(255,255,255,.92)', height: '6px', borderRadius: '3px' });
+  // glass toolbar → slider panel
+  L.tb = makeGlass(world, () => L.archImg);
+  L.tbIcons = ['share', 'heart', 'info', 'adjust'].map(n => { const e = h('div', 'a', L.tb.content, icon(n, 32, '#FFFFFF', 2)); S(e, { width: '32px', height: '32px' }); return e; });
+  L.tbLabel = maskLine(L.tb.content, 36, 26, 360, 36, `${icon('sun', 24, '#FFF', 2)}<span style="margin-left:12px;vertical-align:top">Golden hour</span>`, { color: '#FFF', fontSize: '24px', fontWeight: 600, display: 'flex', alignItems: 'center' });
+  L.tbValue = maskLine(L.tb.content, 0, 26, 0, 36, '0', { color: '#FFF', fontSize: '24px', fontWeight: 600, textAlign: 'right' });
+  L.tbValue.inner.classList.add('mono');
+  L.track = h('div', 'a', world); S(L.track, { background: 'rgba(255,255,255,.95)', height: '6px', borderRadius: '3px' });
   L.knob = h('div', 'a', world); S(L.knob, { background: '#FFFFFF', borderRadius: '50%', boxShadow: '0 4px 14px rgba(0,0,0,.25)' });
 
-  // lens → orb → phone (one glass element)
-  L.orb = makeGlass(world, () => L.vImg, { strength: 1.15 });
-  L.oscreen = h('div', 'a clip', L.orb.content); S(L.oscreen, { background: '#EFE9E1' });
-  L.atelier = h('div', 'a', L.oscreen); S(L.atelier, { width: '540px', height: '1160px' });
-  L.atScroll = h('div', 'a', L.atelier); S(L.atScroll, { width: '540px', height: '1700px', background: '#EFE9E1' });
-  const hero = h('img', 'a', L.atScroll); hero.src = ASSET.beauty; hero.decoding = 'sync'; S(hero, { width: '540px', height: '760px', objectFit: 'cover' });
-  L.atHead1 = h('div', 'a', L.atScroll, 'Rituals'); L.atHead2 = h('div', 'a', L.atScroll, 'of light.');
-  [L.atHead1, L.atHead2].forEach(e => S(e, { left: '32px', fontFamily: 'Archivo', fontWeight: 600, fontVariationSettings: '"wdth" 100', letterSpacing: '-0.035em', color: '#141210', whiteSpace: 'pre', transformOrigin: '0 0' }));
-  const rows = [['Signature Gloss', '90 min', '₺2.400'], ['Silk Press Ritual', '120 min', '₺3.100'], ['Scalp Atelier', '60 min', '₺1.650'], ['Colour Study', '150 min', '₺4.200']];
-  L.atRows = rows.map(([a, b, c], i) => {
-    const e = h('div', 'a', L.atScroll, `<span style="font-weight:600">${a}</span><span style="position:absolute;left:250px;color:#8A7F72">${b}</span><span class="mono" style="position:absolute;right:0;color:#141210">${c}</span>`);
-    S(e, { left: '32px', width: '476px', top: px(1010 + i * 84), height: '84px', lineHeight: '84px', fontSize: '19px', borderTop: '1px solid #D8CEC1', color: '#141210' });
-    return e;
-  });
-  L.atHeadGlass = makeGlass(L.atelier, () => L.atScroll, { tint: 'linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.16))', strength: .9 });
-  L.atHeadGlass.content.innerHTML =
-    `<div class="a" style="left:22px;top:24px">${icon('menu', 30, '#141210', 2.2)}</div>` +
-    `<div class="a" style="left:0;width:100%;top:0;line-height:78px;text-align:center;font-size:17px;font-weight:600;letter-spacing:.28em;color:#141210">ATELIER LUNE</div>` +
-    `<div class="a" style="left:auto;right:22px;top:24px">${icon('bag', 30, '#141210', 2.2)}</div>`;
-  L.island = h('div', 'a ink', L.oscreen);
-  L.cta = h('div', 'a ink', L.atelier, `<span style="margin-right:12px">Book a fitting</span>${icon('arrow', 22, PAPER, 2.2)}`);
-  S(L.cta, { left: '24px', width: '492px', height: '88px', borderRadius: '44px', color: PAPER, fontSize: '21px', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', transformOrigin: '50% 50%' });
-
-  // desktop workspace chrome
-  L.menubar = h('div', 'a', world);
-  S(L.menubar, { width: '1440px', height: '40px', lineHeight: '40px', fontSize: '15px', fontWeight: 500, color: INK, whiteSpace: 'pre' });
-  L.menubar.innerHTML = `<span style="position:absolute;left:40px">${TRI(14, INK)}</span><span style="position:absolute;left:68px;font-weight:700">abdullah üçdağ</span><span style="position:absolute;left:210px;color:#5E5A54">File    Edit    View    Deploy</span><span class="mono" style="position:absolute;right:40px;color:#5E5A54">Sun 26 Oct  14:02</span>`;
-  L.dock = h('div', 'a ink', world); box(L.dock, 720 - 230, 1340, 460, 76, 38);
-  L.dockApps = [0, 1, 2, 3, 4].map(i => { const e = h('div', 'a', L.dock); box(e, 22 + i * 86, 12, 52, 52, 14); S(e, { background: ['#F4F2EE', '#2A2A2A', '#D9D3C9', '#3A3A3A', '#F4F2EE'][i] }); return e; });
+  // lens → orb (crescent opens inside it as a circle, then floods the frame)
+  L.orb = makeGlass(world, () => L.archImg, { strength: 1.2 });
+  L.orbIn = h('div', 'a clip', L.orb.content);
+  L.orbImg = h('div', 'a', L.orbIn); S(L.orbImg, { width: '1440px', height: '1440px' });
+  img(L.orbImg, A.crescent);
 }
-function updateVilla(t) {
-  const vis = on(t, B(17), B(45) + .5);
-  show(L.vFrame, vis);
-  const fr = rat(TL.vFrame, t);
-  box(L.vFrame, fr.x - fr.w / 2, fr.y - fr.h / 2, fr.w, fr.h, fr.r);
-  const sc = Math.max(fr.w / W, fr.h / W);
-  const chromeH = 44 * R.sp(.5, .1)(t - B(31));
-  tf(L.vInner, `translate(${(fr.w - W * sc) / 2}px,${chromeH + (fr.h - chromeH - W * sc) / 2}px) scale(${sc})`);
-  box(L.chrome, 0, 0, fr.w, chromeH); show(L.chrome, chromeH > .5);
-  // Lenis scroll: image parallax at half speed, info band at full speed
-  const Y = TL.scrollV.at(t);
-  tf(L.vImg, `translateY(${snap(-Y * .5)}px)`);
-  tf(L.band, `translateY(${snap(-Y)}px)`);
-  L.rooms.forEach((e, i) => tf(e, `translateX(${(1 - R.sp(.4, .2)(t - (B(19) + i * .04))) * 60}px) scale(${pop(t, B(19) + i * .04, .34, .4)})`));
+function updateArch(t) {
+  const vis = on(t, B(9) + .12, B(25));
+  show(L.arch, vis);
+  const a = rat(TL.arch, t);
+  boxC(L.arch, a);
+  L.arch.style.zIndex = t < B(15) ? 1 : 3;
+  tf(L.arch, `scale(${(pop(t, POP_T[5], .42, .3) * TL.archLift.at(t)).toFixed(4)})`);
+  // image inside the tile: cover-fit; identical to the full-frame layer once the tile is the frame
+  const sc = Math.max(a.w, a.h) / W;
+  tf(L.archImg, `translate(${(a.w - W * sc) / 2}px,${(a.h - W * sc) / 2}px) scale(${sc})`);
   // relight: golden hour maps over daylight along a hard edge tied to the knob
   const p = TL.drag.at(t);
-  const edge = p * W;
-  L.vGold.style.clipPath = `inset(0 ${(W - edge).toFixed(2)}px 0 0)`;
-  show(L.vGold, edge > .01);
+  L.archGold.style.clipPath = `inset(0 ${((1 - p) * W).toFixed(2)}px 0 0)`;
+  show(L.archGold, p > .0005);
+  box(L.archChip, 18, a.h - 54, 120, 36, 18);
+  tf(L.archChip, `scale(${pop(t, B(14)) * (1 - R.sp(.25, 0)(t - B(15)))})`);
+  show(L.archChip, on(t, B(14), B(16)));
 
   // toolbar
-  const tbS = TL.tbScale.at(t), tbW = TL.tbW.at(t);
-  glassBox(L.tb, C - tbW / 2, TB_Y - 52, tbW, 104, 52);
+  const tbS = TL.tbScale.at(t), tbW = TL.tbW.at(t), tbH = TL.tbH.at(t);
+  glassBox(L.tb, TB.x - tbW / 2, TB.y + 48 - tbH, tbW, tbH, Math.min(48, tbH / 2));
   tf(L.tb.el, `scale(${Math.max(0, tbS)})`);
-  show(L.tb.el, on(t, B(20), B(26) + .5) && tbS > .002);
-  L.tb.on = L.tb.el.style.visibility !== 'hidden' && vis;
-  const xs = [-195, -65, 65, 195];
+  L.tb.el.style.transformOrigin = '50% 100%';
+  const tbOn = on(t, B(18), B(22) + .4) && tbS > .002;
+  show(L.tb.el, tbOn); L.tb.on = tbOn;
+  const xs = [-180, -60, 60, 180];
   L.tbIcons.forEach((e, i) => {
-    const s = i === 1 ? 1 - R.sp(.25, 0)(t - B(21)) : (1 - R.sp(.3, 0)(t - B(21) - .02 * i)) * pop(t, B(20) + .05 + i * .04);
-    const sIn = i === 1 ? pop(t, B(20) + .09) : 1;
-    box(e, tbW / 2 + xs[i] * (tbW / 560) - 17, 35, 34, 34);
-    tf(e, `scale(${Math.max(0, s * sIn)})`);
+    const s = pop(t, B(18) + .06 + i * .04) * (1 - R.sp(.25, 0)(t - B(19) - .02 * (3 - i)));
+    box(e, tbW / 2 + xs[i] - 16, tbH - 48 - 16, 32, 32);
+    tf(e, `scale(${Math.max(0, s)})`);
   });
-  // adjust icon → slider track
-  const trW = TL.trackW.at(t), trX = TL.trackX.at(t);
-  box(L.track, trX - trW / 2, TB_Y - 3, trW, 6, 3);
+  L.tbLabel.inner.style.top = px(slideIn(t, B(19) + .12, 40));
+  L.tbValue.wrap.style.width = px(tbW - 36);
+  L.tbValue.inner.textContent = Math.round(p * 100);
+  L.tbValue.inner.style.top = px(slideIn(t, B(19) + .16, 40));
+  const trW = TL.trackW.at(t);
+  box(L.track, TB.x - trW / 2, TRACK.y - 3, trW, 6, 3);
   tf(L.track, `scale(${clamp(tbS, 0, 2)})`);
-  show(L.track, on(t, B(21), B(26) + .5) && trW > .5);
-  const kx = TRACK_X0 + TRACK_LEN * p;
-  const ks = pop(t, B(21) + .1, .34, .45) * (1 - R.sp(.25, 0)(t - B(22)));
-  box(L.knob, kx - 20, TB_Y - 20, 40, 40);
+  show(L.track, on(t, B(19), B(22) + .4) && trW > .5);
+  const kx = TRACK.x0 + TRACK.len * p;
+  const ks = pop(t, B(19) + .14, .34, .45) * (1 - R.sp(.25, 0)(t - B(20)));
+  box(L.knob, kx - 20, TRACK.y - 20, 40, 40);
   tf(L.knob, `scale(${Math.max(0, ks)})`);
-  show(L.knob, on(t, B(21), B(23)));
+  show(L.knob, on(t, B(19), B(21)));
 
-  // lens → orb → phone
-  const ow = TL.orbW.at(t), oh = TL.orbH.at(t);
-  const ox = t < B(26) ? kx : TL.orbX.at(t), oy = TL.orbY.at(t);
-  const q = R.sp(.5, .1)(t - B(28));
-  const or = lerp(Math.min(ow, oh) / 2, 76, q);
-  glassBox(L.orb, ox - ow / 2, oy - oh / 2, ow, oh, or);
-  const ps = TL.phoneS.at(t);
-  tf(L.orb.el, `scale(${ps})`);
-  L.orb.mag = lerp(1.4, 1, R.sp(.5, 0)(t - B(26)));
-  const orbOn = on(t, B(22), B(41));
-  show(L.orb.el, orbOn);
-  L.orb.on = orbOn;
-  const rim = Math.min(12, ow * .05);
-  box(L.oscreen, rim, rim, ow - 2 * rim, oh - 2 * rim, or - rim);
+  // lens → orb
+  const os = TL.orbS.at(t);
+  const ox = t < B(22) ? kx : TL.orbX.at(t), oy = TL.orbY.at(t);
+  glassBox(L.orb, ox - os / 2, oy - os / 2, os, os, os / 2);
+  L.orb.mag = lerp(1.35, 1, R.sp(.5, 0)(t - B(22)));
+  const orbOn = on(t, B(20), B(24) + .34);
+  show(L.orb.el, orbOn); L.orb.on = orbOn;
   const rr = TL.orbReveal.at(t);
-  L.oscreen.style.clipPath = rr > 1200 ? 'none' : `circle(${rr.toFixed(2)}px at 50% 50%)`;
-  show(L.oscreen, rr > .1);
-  const sw = ow - 2 * rim, sh = oh - 2 * rim;
-  tf(L.atelier, `translate(${(sw - 540) / 2}px,${(sh - 1160) / 2}px)`);
-  // atelier content
-  const Y2 = TL.scrollA.at(t);
-  tf(L.atScroll, `translateY(${snap(-Y2, ps)}px)`);
-  const fs = TL.fluid.at(t);
-  S(L.atHead1, { top: px(784), fontSize: px(fs), lineHeight: px(fs * .98) });
-  S(L.atHead2, { top: px(784 + fs * .98), fontSize: px(fs), lineHeight: px(fs * .98) });
-  const hy = TL.headY.at(t);
-  glassBox(L.atHeadGlass, 14, hy, 512, 78, 39);
-  L.atHeadGlass.on = orbOn && hy > -90;
-  show(L.atHeadGlass.el, hy > -90);
-  const ctaY = TL.ctaY.at(t);
-  L.cta.style.top = px(1160 - 24 - 88 + ctaY);
-  tf(L.cta, `scale(${1 - .05 * TL.ctaPress.at(t)})`);
-  show(L.cta, ctaY < 150);
-  // dynamic island (real one; the goo copy takes over while it stretches)
-  const is = pop(t, B(28) + .1, .4, .35);
-  box(L.island, (sw - 150) / 2, 18, 150, 44, 22);
-  tf(L.island, `scale(${is})`);
-  show(L.island, !on(t, B(32), B(34)));
-
-  // desktop chrome
-  tf(L.menubar, `translateY(${-50 * (1 - R.sp(.5, .15)(t - B(31) - .05))}px)`);
-  show(L.menubar, on(t, B(31), B(45) + .5));
-  tf(L.dock, `translateY(${120 * (1 - R.sp(.55, .18)(t - B(31) - .1))}px)`);
-  L.dockApps.forEach((e, i) => tf(e, `scale(${pop(t, B(31) + .2 + i * .04)})`));
-  show(L.dock, on(t, B(31), B(45) + .5));
+  box(L.orbIn, 0, 0, os, os);
+  L.orbIn.style.clipPath = `circle(${rr.toFixed(2)}px at 50% 50%)`;
+  show(L.orbIn, rr > .1);
+  tf(L.orbImg, `translate(${-(ox - os / 2)}px,${-(oy - os / 2)}px)`);   // aligned with the full-frame lock screen
 }
 
-/* ---- STAGE: island goo → Vercel dashboard → pipeline → Lighthouse → deploy */
-const DASH = { x: 800, y: 200, w: 560, h: 1040 };
-const PHONE_STAGE = { x: 396, y: 820, s: .58 };
-const ROWS = [['9f3c2ab', 'feat: liquid glass toolbar', 'Production', '2m'], ['4e81d07', 'perf: lenis smooth scroll', 'Preview', '18m'],
-  ['b72a915', 'feat: atelier mobile layout', 'Preview', '1h'], ['0c5d3fe', 'chore: next 16 upgrade', 'Preview', '3h'],
-  ['e19a4b6', 'fix: iris blade arcs', 'Preview', '5h'], ['7aa03c2', 'init: abdullah üçdağ.', 'Preview', '1d']];
-const TABS = [['Overview', 28, 74], ['Deployments', 126, 104], ['Pipeline', 254, 64], ['Analytics', 342, 72]];
-const HASH_W = { x: DASH.x + 52 + 40, y: DASH.y + 220 + 32 };          // centre of the first hash, world
-const PIPE_TAB = { x: DASH.x + 254 + 32, y: DASH.y + 96 };
-const HUB = { x: 1080, y: 760 };
-const CARD = { w: 460, h: 320 };
-const DEPLOY_BTN = { x: HUB.x + CARD.w / 2 - 28 - 64, y: HUB.y - CARD.h / 2 + 18 + 22 };
-const NODES = [['Preview', 120, 360], ['Production', 440, 360], ['Edge · 18 regions', 280, 880]];
-function islandWorld(t) {
-  // island centre in world coordinates once the phone has docked (rim 12 → screen, top 18, h 44)
-  const s = PHONE_STAGE.s;
-  return { x: PHONE_STAGE.x, y: PHONE_STAGE.y - 590 * s + (12 + 18 + 22) * s, w: 150 * s, h: 44 * s };
+/* ---- LOCK SCREEN → PHONE ------------------------------------------------- */
+const PHONE = { x: 400, y: 760, w: 420, h: 880, r: 60 };
+function textMask(text, font, w, hh, stroke) {
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = hh;
+  const ctx = cv.getContext('2d');
+  ctx.font = font; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  if (stroke) { ctx.lineWidth = stroke; ctx.strokeStyle = '#fff'; ctx.strokeText(text, w / 2, hh / 2 + hh * .04); }
+  else { ctx.fillStyle = '#fff'; ctx.fillText(text, w / 2, hh / 2 + hh * .04); }
+  return `url(${cv.toDataURL('image/png')})`;
 }
-function buildStage() {
+function buildLock() {
+  L.desk = h('div', 'a', world); S(L.desk, { width: '1440px', height: '1440px', background: 'linear-gradient(165deg,#F1F1FA 0%,#E2E4F6 55%,#D6DAF3 100%)' });
+  const ws = svgEl('svg', { class: 'a', width: 1440, height: 1440, viewBox: '0 0 1440 1440' }, L.desk);
+  L.waves = [['#C9D2F6', 150, .55], ['#9DB0F0', 90, .6], ['#5F7FE6', 46, .7], ['#3557D6', 18, .85], ['#E9EDFC', 60, .8], ['#7F98EC', 10, .9]]
+    .map(([c, sw, op]) => svgEl('path', { fill: 'none', stroke: c, 'stroke-width': sw, opacity: op, 'stroke-linecap': 'round' }, ws));
+  L.bezel = h('div', 'a ink', world);
+  L.lock = h('div', 'a clip', world);
+  L.lockImg = img(L.lock, A.crescent);
+  L.date = h('div', 'a', L.lock, 'Friday, September 25'); S(L.date, { color: 'rgba(255,255,255,.92)', fontWeight: 600, whiteSpace: 'pre', textAlign: 'center', transformOrigin: '50% 0' });
+  // 9:41 in liquid glass: a glass element masked by the numerals
+  L.clock = makeGlass(L.lock, () => L.lockImg, { tint: 'linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.22))', shadow: false, strength: 1.3 });
+  const font = '700 340px Geist';
+  S(L.clock.el, { webkitMaskImage: textMask('9:41', font, 1000, 380), webkitMaskSize: '100% 100%', transformOrigin: '50% 0' });
+  L.clock.rim.style.boxShadow = 'none';
+  const rimEl = h('div', 'a', L.clock.el); S(rimEl, { inset: '0', width: '100%', height: '100%', background: 'rgba(255,255,255,.9)', webkitMaskImage: textMask('9:41', font, 1000, 380, 4), webkitMaskSize: '100% 100%' });
+  L.music = makeGlass(L.lock, () => L.lockImg, { tint: 'rgba(255,255,255,.12)' });
+  L.music.content.innerHTML =
+    `<div class="a" style="left:6%;top:24%;color:#fff;font-weight:600;white-space:pre" data-k="title">motion study 04</div>` +
+    `<div class="a" style="left:6%;top:50%;color:rgba(255,255,255,.75);white-space:pre" data-k="sub">made in code</div>`;
+  L.mTitle = L.music.content.querySelector('[data-k=title]'); L.mSub = L.music.content.querySelector('[data-k=sub]');
+  L.mCtl = ['prev', 'play', 'next'].map(n => { const e = h('div', 'a row', L.music.content); e.dataset.n = n; return e; });
+  L.mPlay = h('div', 'a', L.mCtl[1]); L.mPause = h('div', 'a', L.mCtl[1]);
+  L.mPlay.innerHTML = `<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M7 5v14l12-7z" fill="#fff"/></svg>`;
+  L.mPause.innerHTML = `<svg viewBox="0 0 24 24" width="100%" height="100%"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="#fff"/></svg>`;
+  L.mCtl[0].innerHTML = icon('prev', 24, '#fff', 0); L.mCtl[2].innerHTML = icon('next', 24, '#fff', 0);
+  L.mBar = h('div', 'a', L.music.content); S(L.mBar, { background: 'rgba(255,255,255,.35)', borderRadius: '3px' });
+  L.mFill = h('div', 'a', L.mBar); S(L.mFill, { background: '#fff', borderRadius: '3px', height: '100%' });
+  L.island = h('div', 'a ink', L.lock);
+}
+function updateLock(t) {
+  const deskOn = on(t, B(28), B(45) + .5);
+  show(L.desk, deskOn);
+  L.waves.forEach((p, i) => {
+    const ph = t * .35 + i * .6;
+    const y0 = 1060 + i * 26 + Math.sin(ph) * 12;
+    p.setAttribute('d', `M-200,${y0 + 260} C 260,${y0 + 40 + Math.sin(ph * .7) * 30} 700,${y0 - 120} 1100,${y0 - 330 + i * 12} S 1640,${y0 - 520} 1760,${y0 - 560}`);
+  });
+  const q = rat(TL.lock, t);
+  const lockOn = on(t, B(24) + .3, B(45) + .5);
+  show(L.lock, lockOn);
+  boxC(L.lock, q);
+  const bz = 10 * R.sp(.5, .1)(t - B(28)) * (q.w / PHONE.w > 2 ? 0 : 1);
+  box(L.bezel, q.x - q.w / 2 - bz, q.y - q.h / 2 - bz, q.w + 2 * bz, q.h + 2 * bz, q.r + bz);
+  show(L.bezel, lockOn && t >= B(28));
+  const u = q.w / W;                         // content scale: full frame → phone
+  // clock + date
+  const cw = 1000 * u, ch = 380 * u;
+  const cIn = R.sp(.5, .2)(t - B(25));
+  glassBox(L.clock, q.w / 2 - cw / 2, q.h * .14 + 70 * u, cw, ch, 0);
+  tf(L.clock.el, `translateY(${(1 - cIn) * 80 * u}px) scale(${.9 + .1 * cIn})`);
+  const clockOn = lockOn && t >= B(25);
+  show(L.clock.el, clockOn); L.clock.on = clockOn;
+  S(L.date, { left: '0px', width: px(q.w), top: px(q.h * .14), fontSize: px(46 * u), lineHeight: px(60 * u) });
+  tf(L.date, `translateY(${slideIn(t, B(25) - .05, 40 * u)}px)`);
+  show(L.date, t >= B(25) - .05);
+  // music widget
+  const mw = 980 * u, mh = 190 * u, mIn = R.sp(.5, .22)(t - B(26));
+  glassBox(L.music, q.w / 2 - mw / 2, q.h - q.h * .07 - mh + (1 - mIn) * (mh + q.h * .1), mw, mh, mh / 2);
+  const mOn = lockOn && t >= B(26);
+  show(L.music.el, mOn); L.music.on = mOn;
+  S(L.mTitle, { fontSize: px(40 * u) }); S(L.mSub, { fontSize: px(28 * u) });
+  L.mCtl.forEach((e, i) => { box(e, mw * (.72 + i * .09) - 22 * u, mh * .26, 44 * u, 44 * u); tf(e, `scale(${(i === 1 ? 1 - .2 * TL.playPress.at(t) : 1) * pop(t, B(26) + .1 + i * .04)})`); });
+  L.mCtl[0].firstChild && S(L.mCtl[0].firstChild, { width: px(40 * u), height: px(40 * u) });
+  L.mCtl[2].firstChild && S(L.mCtl[2].firstChild, { width: px(40 * u), height: px(40 * u) });
+  const pp = R.ez(.16, E.io)(t - B(27));
+  box(L.mPlay, 0, 0, 44 * u, 44 * u); tf(L.mPlay, `scale(${1 - pp})`);
+  box(L.mPause, 0, 0, 44 * u, 44 * u); tf(L.mPause, `scale(${pp})`);
+  box(L.mBar, mw * .06, mh * .78, mw * .88, 6 * u, 3 * u);
+  L.mFill.style.width = `${(22 + Math.max(0, t - B(27)) * 6).toFixed(2)}%`;
+  // dynamic island
+  const isl = islandLocal(q);
+  box(L.island, isl.x - isl.w / 2, isl.y - isl.h / 2, isl.w, isl.h, isl.h / 2);
+  tf(L.island, `scale(${pop(t, B(28) + .2, .4, .35)})`);
+  show(L.island, t >= B(28) && !on(t, B(29), B(31)));
+}
+const islandLocal = q => { const k = q.w / PHONE.w; return { x: q.w / 2, y: 30 * k, w: 118 * k, h: 34 * k }; };
+const islandWorld = () => ({ x: PHONE.x, y: PHONE.y - PHONE.h / 2 + 30, w: 118, h: 34 });
+
+/* ---- BROWSER: droplet → window → start page → drop → site → product → order */
+const BR = { x: 700, y: 470, w: 680, h: 580, chrome: 40 };
+const BRC = { x: BR.x + BR.w / 2, y: BR.y + BR.h / 2 };
+const toW = (x, y) => ({ x: BR.x + x, y: BR.y + BR.chrome + y });          // content → world
+const TILE = { x: 420, y: 64, w: 230, h: 280 };                            // site image tile (content)
+const DROP = { x: BR.w / 2, y: 250 };
+const BTN = { x: 344, y: 376, w: 300, h: 42 };
+const SWATCH = [{ c: '#C79A6B' }, { c: '#0B0B0B' }, { c: '#FFFFFF' }];
+const CHIPS = ['30×40', '50×70', '70×100'];
+function buildBrowser() {
   L.goo = h('div', 'a', world); S(L.goo, { width: '1440px', height: '1440px', filter: 'url(#goo)' });
   L.gI = h('div', 'a ink', L.goo); L.gD = h('div', 'a ink', L.goo);
 
-  L.bs = h('div', 'a ink clip', world);              // the one black shape
-  L.dashC = h('div', 'a', L.bs); S(L.dashC, { width: px(DASH.w), height: px(DASH.h), color: '#EDEDED' });
-  const head = h('div', 'a', L.dashC); S(head, { width: '100%', height: '80px' });
-  head.innerHTML = `<div class="a" style="left:28px;top:26px">${TRI(24, '#EDEDED')}</div>` +
-    `<div class="a" style="left:66px;top:26px;font-size:18px;font-weight:500;white-space:pre;line-height:24px">abdullah-ucdag <span style="color:#555">/</span> web</div>` +
-    `<div class="a" style="left:500px;top:22px;width:32px;height:32px;border-radius:16px;background:${PAPER}"></div>`;
-  L.tabs = TABS.map(([s, x]) => { const e = h('div', 'a', L.dashC, s); S(e, { left: px(x), top: '84px', fontSize: '17px', fontWeight: 500, lineHeight: '24px', color: '#8F8F8F' }); return e; });
-  L.tabLine = h('div', 'a', L.dashC); S(L.tabLine, { top: '120px', height: '2px', background: '#EDEDED' });
-  const div = h('div', 'a', L.dashC); S(div, { top: '122px', width: '100%', height: '1px', background: '#1F1F1F' });
-  L.dPages = h('div', 'a clip', L.dashC); box(L.dPages, 0, 123, DASH.w, DASH.h - 123);
-  L.dBody = h('div', 'a', L.dPages); S(L.dBody, { width: px(DASH.w), height: px(DASH.h) });
-  const title = h('div', 'a', L.dBody, 'Deployments'); S(title, { left: '28px', top: '30px', fontSize: '28px', fontWeight: 600, letterSpacing: '-0.02em' });
-  L.rows = ROWS.map(([hash, msg, env, ago], i) => {
-    const y = 97 + i * 100;
-    const r = h('div', 'a', L.dBody); box(r, 0, y, DASH.w, 100); S(r, { borderTop: '1px solid #1C1C1C' });
-    r.innerHTML = `<div class="a" style="left:30px;top:33px;width:10px;height:10px;border-radius:5px;background:${i ? '#4A4A4A' : PAPER}"></div>` +
-      `<div class="a mono" style="left:150px;top:20px;font-size:19px;line-height:26px;color:transparent">${hash}</div>` +
-      `<div class="a" style="left:152px;top:21px;height:24px;line-height:22px;padding:0 10px;border-radius:12px;border:1px solid #333;font-size:12px;color:#A0A0A0;white-space:pre">${env}</div>` +
-      `<div class="a" style="left:52px;top:56px;font-size:16px;color:#8F8F8F;white-space:pre">${msg}</div>` +
-      `<div class="a" style="left:auto;right:28px;top:22px;font-size:14px;color:#6F6F6F">${ago}</div>`;
-    const hs = h('div', 'a mono', r, hash); S(hs, { left: '52px', top: '20px', fontSize: '19px', lineHeight: '26px', color: '#FFFFFF' });
-    return { r, hs };
-  });
-  L.dPipe = h('div', 'a', L.dPages); S(L.dPipe, { width: px(DASH.w), height: px(DASH.h) });
-  L.pipeScroll = h('div', 'a', L.dPipe); S(L.pipeScroll, { width: px(DASH.w), height: px(DASH.h) });
-  const pt = h('div', 'a', L.pipeScroll, 'Pipeline'); S(pt, { left: '28px', top: '30px', fontSize: '28px', fontWeight: 600, letterSpacing: '-0.02em' });
-  const sv = svgEl('svg', { width: DASH.w, height: DASH.h, class: 'a' }, L.pipeScroll);
-  const hubL = { x: HUB.x - DASH.x, y: HUB.y - DASH.y - 123 };
-  L.edges = NODES.map(([, nx, ny]) => svgEl('path', { d: `M${hubL.x},${hubL.y} L${nx},${ny - 123}`, stroke: '#4A4A4A', 'stroke-width': 2, fill: 'none', pathLength: 1, 'stroke-dasharray': '1 1' }, sv));
-  L.nodes = NODES.map(([s, nx, ny]) => {
-    const e = h('div', 'a', L.pipeScroll, s);
-    S(e, { left: px(nx - 90), top: px(ny - 123 - 22), width: '180px', height: '44px', lineHeight: '42px', textAlign: 'center', borderRadius: '22px', background: '#141414', border: '1px solid #2E2E2E', fontSize: '15px', fontWeight: 500, transformOrigin: '50% 50%' });
+  L.br = h('div', 'a clip paper', world); S(L.br, { boxShadow: '0 30px 70px rgba(30,40,90,.22), 0 2px 8px rgba(0,0,0,.08)' });
+  const chrome = h('div', 'a', L.br); S(chrome, { width: px(BR.w), height: px(BR.chrome), borderBottom: '1px solid #E4E0D8', background: '#FAF8F4' });
+  chrome.innerHTML = ['#FF5F57', '#FEBC2E', '#28C840'].map((c, i) => `<span class="a" style="left:${16 + i * 18}px;top:14px;width:11px;height:11px;border-radius:6px;background:${c}"></span>`).join('') +
+    `<span class="a" style="left:76px;top:9px">${icon('sidebar', 20, '#8A867E', 1.6)}</span>` +
+    `<span class="a" style="left:120px;top:12px;font-size:12px;color:#8A867E;white-space:pre;display:flex;align-items:center;gap:5px">${icon('star', 13, '#8A867E', 1.6)} Start Page</span>` +
+    `<span class="a" style="left:250px;top:8px;width:200px;height:24px;border-radius:7px;background:#FFF;border:1px solid #E7E3DB;font-size:11px;line-height:22px;padding-left:28px;color:#5E5A54">develop</span>` +
+    `<span class="a ink" style="left:262px;top:17px;width:12px;height:6px;border-radius:3px"></span>`;
+  L.brBody = h('div', 'a clip', L.br); box(L.brBody, 0, BR.chrome, BR.w, BR.h - BR.chrome);
+  // start page
+  L.start = h('div', 'a', L.brBody); S(L.start, { width: px(BR.w), height: px(BR.h - BR.chrome) });
+  const fav = h('div', 'a', L.start, 'Favourites'); S(fav, { left: '150px', top: '60px', fontSize: '13px', fontWeight: 600 });
+  L.favs = ['A', 'M', 'N', 'Y', 'P', 'S'].map((ch, i) => {
+    const e = h('div', 'a row', L.start, ch);
+    S(e, { left: px(150 + i * 66), top: '90px', width: '48px', height: '48px', borderRadius: '12px', fontSize: '15px', fontWeight: 600, color: ['#C26A2E', '#2F6BD8', '#1E9E6A', '#C9A227', '#8A57D6', '#D24F7A'][i], background: ['#FBE7D9', '#DDE8FB', '#DAF2E7', '#F8EFCF', '#EADFFA', '#FADDE6'][i] });
     return e;
   });
-  L.dropRing = h('div', 'a', L.dPipe); S(L.dropRing, { border: '2px dashed #3A3A3A', borderRadius: '50%' });
-  box(L.dropRing, hubL.x - 100, hubL.y - 100, 200, 200);
-  L.slats = Array.from({ length: 10 }, (_, i) => { const e = h('div', 'a ink', L.bs); box(e, 0, i * DASH.h / 10, DASH.w, DASH.h / 10 + 1); S(e, { borderTop: '1px solid #1A1A1A', transformOrigin: '50% 50%' }); return e; });
+  const rl = h('div', 'a', L.start, 'Reading List'); S(rl, { left: '150px', top: '172px', fontSize: '13px', fontWeight: 600 });
+  L.reads = [0, 1, 2].map(i => { const e = h('div', 'a', L.start); box(e, 150 + i * 132, 200, 118, 84, 10); S(e, { background: '#ECE8E1' }); return e; });
+  L.dropZone = h('div', 'a', L.brBody); S(L.dropZone, { border: '2px dashed #B9B3A8', borderRadius: '16px' });
+  box(L.dropZone, DROP.x - 90, DROP.y - 90, 180, 180);
+  // site
+  L.site = h('div', 'a', L.brBody); S(L.site, { width: px(BR.w), height: px(BR.h - BR.chrome) });
+  L.sLogo = h('div', 'a wm', L.site, 'abdullah üçdağ.'); S(L.sLogo, { left: '24px', top: '18px', fontSize: '14px', transformOrigin: '0 50%' });
+  L.sNav = h('div', 'a', L.site, 'prints&nbsp;&nbsp;&nbsp;frames&nbsp;&nbsp;&nbsp;journal'); S(L.sNav, { left: '420px', top: '21px', fontSize: '10px', color: '#5E5A54', whiteSpace: 'pre' });
+  L.sOrder = h('div', 'a ink row', L.site, 'Order'); S(L.sOrder, { left: '596px', top: '15px', width: '60px', height: '24px', borderRadius: '12px', color: PAPER, fontSize: '10px', fontWeight: 600 });
+  L.sH = ['from screen', 'to wall.'].map((s, i) => maskLine(L.site, 24, 92 + i * 42, 380, 44, s, { fontFamily: 'Archivo', fontWeight: 800, fontVariationSettings: '"wdth" 112', fontSize: '38px', letterSpacing: '-0.02em' }));
+  L.sSub = ['museum-grade prints of the photos you', 'already love. framed by hand, sent in a week.'].map((s, i) => maskLine(L.site, 24, 196 + i * 15, 380, 15, s, { fontSize: '10.5px', color: '#6F6A63' }));
+  // product page
+  L.prod = h('div', 'a', L.brBody); S(L.prod, { width: px(BR.w), height: px(BR.h - BR.chrome) });
+  const panel = h('div', 'a', L.prod); box(panel, 20, 20, 300, 500, 18); S(panel, { background: '#ECE6DE' });
+  L.pFrame = h('div', 'a', L.prod); S(L.pFrame, { transformOrigin: '50% 50%', boxShadow: '0 14px 30px rgba(0,0,0,.18)' });
+  L.pFrameOak = h('div', 'a', L.pFrame); S(L.pFrameOak, { inset: '0', width: '100%', height: '100%', background: SWATCH[0].c });
+  L.pFrameBlack = h('div', 'a', L.pFrame); S(L.pFrameBlack, { inset: '0', width: '100%', height: '100%', background: SWATCH[1].c });
+  L.pMat = h('div', 'a', L.pFrame); S(L.pMat, { background: '#FBF9F5' });
+  L.pPrint = img(h('div', 'a clip', L.pMat), A.print);
+  L.pTitle = maskLine(L.prod, 344, 70, 320, 44, 'the print', { fontFamily: 'Archivo', fontWeight: 800, fontVariationSettings: '"wdth" 112', fontSize: '34px', letterSpacing: '-0.02em' });
+  L.pDesc = ['archival pigment on cotton rag.', 'framed by hand, ready to hang.'].map((s, i) => maskLine(L.prod, 344, 124 + i * 16, 320, 16, s, { fontSize: '11px', color: '#6F6A63' }));
+  L.pLbl1 = maskLine(L.prod, 344, 176, 100, 16, 'frame', { fontSize: '10px', color: '#6F6A63', fontWeight: 500 });
+  L.sw = SWATCH.map((s, i) => { const e = h('div', 'a', L.prod); box(e, 346 + i * 34, 198, 24, 24, 12); S(e, { background: s.c, border: s.c === '#FFFFFF' ? '1px solid #DDD7CE' : 'none', transformOrigin: '50% 50%' }); return e; });
+  L.swRing = h('div', 'a', L.prod); S(L.swRing, { border: '2px solid #0B0B0B', borderRadius: '50%' });
+  L.pLbl2 = maskLine(L.prod, 344, 240, 100, 16, 'size', { fontSize: '10px', color: '#6F6A63', fontWeight: 500 });
+  L.seg = h('div', 'a', L.prod); box(L.seg, 344, 262, 300, 32, 16); S(L.seg, { background: '#E9E4DC' });
+  L.segPill = h('div', 'a', L.seg); S(L.segPill, { background: '#FFFFFF', borderRadius: '13px', boxShadow: '0 1px 3px rgba(0,0,0,.12)' });
+  L.segTxt = CHIPS.map((s, i) => { const e = h('div', 'a row', L.seg, s); box(e, i * 100, 0, 100, 32); S(e, { fontSize: '11px', fontWeight: 500 }); return e; });
+  L.pPrice = maskLine(L.prod, 344, 318, 120, 30, '$129', { fontSize: '22px', fontWeight: 600 });
+  L.brSlats = Array.from({ length: 8 }, (_, i) => { const e = h('div', 'a ink', L.br); box(e, 0, i * BR.h / 8, BR.w, BR.h / 8 + 1); S(e, { borderTop: '1px solid #1A1A1A', transformOrigin: '50% 50%' }); return e; });
 
-  // deploy labels, each in the shape's mask
-  L.dep = [
-    `<span>Pushing code</span><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="${PAPER}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="margin-left:14px">${ICON.check}</svg>`,
-    `<div style="display:flex;flex-direction:column;align-items:center;gap:22px"><div class="tri">${TRI(92, PAPER)}</div><span style="font-size:26px">Building</span></div>`,
-    `<span>Generating static pages</span><span class="mono cnt" style="margin-left:20px;color:#8F8F8F">0/24</span>`,
-    `<span>Live</span><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="${PAPER}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="margin-left:12px">${ICON.check}</svg>`,
-  ].map(html => { const e = h('div', 'a', L.bs, html); S(e, { display: 'flex', alignItems: 'center', justifyContent: 'center', color: PAPER, fontSize: '34px', fontWeight: 600, letterSpacing: '-0.02em', whiteSpace: 'pre' }); return e; });
-
-  // chip → hub → Lighthouse card
-  L.hub = h('div', 'a paper clip', world); S(L.hub, { boxShadow: '0 22px 50px rgba(0,0,0,.35)', transformOrigin: '50% 50%' });
-  L.hubHash = h('div', 'a mono', L.hub, ROWS[0][0]); S(L.hubHash, { fontSize: '19px', lineHeight: '26px', color: INK, whiteSpace: 'pre' });
-  L.hubSub = h('div', 'a', L.hub, 'main'); S(L.hubSub, { fontSize: '14px', color: '#6F6A63' });
-  L.card = h('div', 'a', L.hub); S(L.card, { width: px(CARD.w), height: px(CARD.h) });
-  L.cardTitle = maskLine(L.card, 28, 22, 300, 28, 'Lighthouse · production', { fontSize: '17px', fontWeight: 500, color: INK });
-  L.deployBtn = h('div', 'a ink', L.card, `<span style="margin-right:8px">Deploy</span>${icon('arrow', 16, PAPER, 2.2)}`);
-  S(L.deployBtn, { left: px(CARD.w - 28 - 128), top: '18px', width: '128px', height: '44px', borderRadius: '22px', color: PAPER, fontSize: '16px', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', transformOrigin: '50% 50%' });
-  L.rings = ['Perf', 'A11y', 'Best', 'SEO'].map((s, i) => {
-    const g = h('div', 'a', L.card); box(g, 28 + i * 104, 120, 96, 170);
-    g.innerHTML = `<svg width="96" height="96" viewBox="-48 -48 96 96"><circle r="38" fill="none" stroke="#E2DDD5" stroke-width="8"/><circle class="arc" r="38" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" transform="rotate(-90)" pathLength="1" stroke-dasharray="0 1"/></svg>` +
-      `<div class="a mono num" style="left:0;top:0;width:96px;line-height:96px;text-align:center;font-size:22px;font-weight:600">0</div>` +
-      `<div class="a" style="left:0;top:108px;width:96px;text-align:center;font-size:14px;color:#6F6A63">${s}</div>`;
-    return { g, arc: g.querySelector('.arc'), num: g.querySelector('.num') };
-  });
+  // the card dragged from the phone into the browser
+  L.card = h('div', 'a clip', world); img(L.card, A.crescent); S(L.card, { transformOrigin: '50% 50%' });
+  // Order print → spinner → Ordered → Printing → On the way → ✓ circle → flood (one black shape)
+  L.btn = h('div', 'a ink clip', world);
+  L.btnLbl = [
+    'Order print',
+    `<svg width="22" height="22" viewBox="0 0 24 24" class="spin"><circle cx="12" cy="12" r="8" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2.6"/><path d="M12 4a8 8 0 0 1 8 8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+    `${icon('check', 16, '#fff', 2.6)}<span style="margin-left:8px">Ordered</span>`,
+    `${icon('printer', 16, '#fff', 2)}<span style="margin-left:8px">Printing</span><span class="mono pct" style="position:absolute;right:18px;color:rgba(255,255,255,.7)">0%</span>`,
+    `${icon('truck', 16, '#fff', 2)}<span style="margin-left:8px">On the way</span><span class="mono" style="position:absolute;right:18px;color:rgba(255,255,255,.7)">today</span>`,
+    `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" pathLength="1" class="ck"/></svg>`,
+  ].map(html => { const e = h('div', 'a row', L.btn, html); S(e, { color: '#fff', fontSize: '13px', fontWeight: 600, whiteSpace: 'pre' }); return e; });
+  L.btnFill = h('div', 'a', L.btn); S(L.btnFill, { background: 'rgba(255,255,255,.16)' });
 }
-function updateStage(t) {
-  // goo stretch + pinch (island copy and droplet)
-  const isl = islandWorld(t);
-  const gooOn = on(t, B(32), B(34));
-  show(L.goo, gooOn);
-  const stretch = R.sp(.35, .1)(t - B(32)) - R.sp(.3, .35)(t - B(33));
-  const iw = isl.w + 40 * stretch;
-  box(L.gI, isl.x - isl.w / 2, isl.y - isl.h / 2, iw, isl.h, isl.h / 2);
-  const out = R.ez(.55, E.io)(t - B(32));
-  const fly = R.ez(.45, E.io)(t - B(33));
-  const d0 = { x: isl.x + 150 * out, y: isl.y };
-  const dx = lerp(d0.x, 1080, fly), dy = lerp(d0.y, 330, fly) - 170 * Math.sin(Math.PI * fly);
+function updateBrowser(t) {
+  // goo: island stretches, pinches off, flies to the browser spot
+  const isl = islandWorld();
+  show(L.goo, on(t, B(29), B(31)));
+  const stretch = R.sp(.35, .1)(t - B(29)) - R.sp(.3, .35)(t - B(30));
+  box(L.gI, isl.x - isl.w / 2, isl.y - isl.h / 2, isl.w + 46 * stretch, isl.h, isl.h / 2);
+  const out = R.ez(.55, E.io)(t - B(29));
+  const fly = R.ez(.42, E.io)(t - B(30));
+  const d0 = { x: isl.x + 170 * out, y: isl.y };
+  const dx = lerp(d0.x, BRC.x, fly), dy = lerp(d0.y, BRC.y, fly) - 200 * Math.sin(Math.PI * fly);
   const dr = 15 * Math.min(1, .55 + out);
   box(L.gD, dx - dr, dy - dr, dr * 2, dr * 2, dr);
 
-  // black shape: droplet → dashboard → capsule/square/capsule/circle → flood
-  const b = rat(TL.bs, t);
-  boxC(L.bs, b);
-  show(L.bs, on(t, B(34), B(46)));
-  show(L.dashC, t < B(41) + .05);
-  // venetian blind: slats roll open top → bottom, roll shut before the collapse
-  L.slats.forEach((e, i) => {
-    const open = R.ez(.34, E.io)(t - (B(35) + i * .025)) - R.ez(.16, E.io)(t - (B(40) + .3 + i * .012));
+  // window grows from the droplet; blind slats open onto the start page
+  const b = rat(TL.br, t);
+  boxC(L.br, b);
+  show(L.br, on(t, B(30) + .42, B(45)));
+  L.brSlats.forEach((e, i) => {
+    box(e, 0, i * b.h / 8, b.w, b.h / 8 + 1);
+    const open = R.ez(.34, E.io)(t - (B(31) + i * .03));
     tf(e, `scaleY(${(1 - open).toFixed(4)})`);
-    show(e, open < .999 && t < B(41) + .05);
+    show(e, open < .999);
   });
-  // push: deployments page out, pipeline page in
-  const push = R.ez(.4, E.io)(t - (B(37) + .25));
-  tf(L.dBody, `translateX(${-DASH.w * push}px)`);
-  tf(L.dPipe, `translateX(${DASH.w * (1 - push)}px)`);
-  const tabP = R.sp(.4, .2)(t - (B(37) + .25));
-  const [, ax, aw] = TABS[1], [, bx, bw] = TABS[2];
-  box(L.tabLine, lerp(ax, bx, tabP), 120, lerp(aw, bw, tabP), 2);
-  L.tabs.forEach((e, i) => { e.style.color = i === (tabP > .5 ? 2 : 1) ? '#EDEDED' : '#8F8F8F'; });
-  // the lifted hash leaves its slot
-  show(L.rows[0].hs, t < B(37) - .05);
-  // pipeline: edges draw, nodes pop, then the page scrolls away
-  L.edges.forEach((e, i) => e.setAttribute('stroke-dasharray', `${R.ez(.32, E.out)(t - (B(38) + .1 + i * .05)).toFixed(4)} 1`));
-  L.nodes.forEach((e, i) => tf(e, `scale(${pop(t, B(38) + .25 + i * .05)})`));
-  tf(L.dropRing, `scale(${pop(t, B(37) + .3, .3, .4) * (1 - R.sp(.25, 0)(t - B(38)))})`);
-  tf(L.pipeScroll, `translateY(${snap(-TL.scrollP.at(t), TL_CAM_S(t))}px)`);
+  // start page items
+  L.favs.forEach((e, i) => tf(e, `scale(${pop(t, B(31) + .2 + i * .03) * (1 - R.sp(.25, 0)(t - B(33) - .1 - i * .02))})`));
+  L.reads.forEach((e, i) => tf(e, `scale(${pop(t, B(31) + .3 + i * .04) * (1 - R.sp(.25, 0)(t - B(33) - .1 - i * .02))})`));
+  show(L.start, t < B(34));
+  tf(L.dropZone, `scale(${pop(t, B(32) + .2, .35, .4) * (1 - R.sp(.22, 0)(t - B(33)))})`);
+  show(L.dropZone, on(t, B(32) + .2, B(34)));
+  // site
+  const push = R.ez(.42, E.io)(t - B(35) - .05);
+  tf(L.site, `translateX(${-BR.w * push}px)`);
+  show(L.site, on(t, B(33) + .2, B(36)));
+  tf(L.sLogo, `scale(${pop(t, B(34))})`);
+  tf(L.sNav, `translateY(${slideIn(t, B(34) + .05, -30)}px)`);
+  tf(L.sOrder, `scale(${pop(t, B(34) + .08)})`);
+  L.sH.forEach((l, i) => tf(l.inner, `translateY(${slideIn(t, B(34) + .04 + i * .06, 48)}px)`));
+  L.sSub.forEach((l, i) => tf(l.inner, `translateY(${slideIn(t, B(34) + .18 + i * .04, 16)}px)`));
+  // product page
+  tf(L.prod, `translateX(${BR.w * (1 - push)}px)`);
+  show(L.prod, t >= B(35));
+  const sz = 1 + .14 * R.sp(.45, .3)(t - B(38));
+  box(L.pFrame, 170 - 80, 270 - 108, 160, 216);
+  tf(L.pFrame, `scale(${sz})`);
+  L.pFrameBlack.style.clipPath = `inset(0 0 ${(100 * (1 - R.ez(.28, E.io)(t - B(37) - .04))).toFixed(2)}% 0)`;
+  box(L.pMat, 10, 10, 140, 196);
+  const pin = L.pPrint.parentElement; box(pin, 18, 18, 104, 160);
+  L.pTitle.inner.style.top = px(slideIn(t, B(36), 48));
+  L.pDesc.forEach((l, i) => tf(l.inner, `translateY(${slideIn(t, B(36) + .06 + i * .04, 18)}px)`));
+  [L.pLbl1, L.pLbl2].forEach((l, i) => tf(l.inner, `translateY(${slideIn(t, B(36) + .12 + i * .06, 18)}px)`));
+  L.sw.forEach((e, i) => tf(e, `scale(${pop(t, B(36) + .14 + i * .04)})`));
+  const swP = R.sp(.4, .25)(t - B(37));
+  box(L.swRing, lerp(342, 376, swP), 194, 32, 32);
+  tf(L.swRing, `scale(${pop(t, B(36) + .22)})`);
+  tf(L.seg, `scale(${pop(t, B(36) + .2, .4, .3)})`);
+  const segP = 1 + R.sp(.4, .22)(t - B(38));
+  box(L.segPill, 3 + (segP) * 100, 3, 94, 26, 13);
+  L.segTxt.forEach((e, i) => { e.style.color = i === Math.round(segP) ? INK : '#8A867E'; });
+  tf(L.pPrice.inner, `translateY(${slideIn(t, B(36) + .24, 30)}px)`);
 
-  // chip → hub → card
+  // card: lifts from the phone, follows the cursor, drops, becomes the site tile
   const cw = curWorld(t);
-  const held = t < B(38);
-  const hb = rat(TL.hub, t);
-  const lift = R.sp(.3, .4)(t - (B(37) - .05));
-  const hx = held ? cw.x + 4 : hb.x, hy = held ? cw.y + 16 : hb.y;
-  box(L.hub, hx - hb.w / 2, hy - hb.h / 2, hb.w, hb.h, hb.r);
-  const cs = TL.cardS.at(t);
-  const ox = DEPLOY_BTN.x - (hx - hb.w / 2), oy = DEPLOY_BTN.y - (hy - hb.h / 2);
-  L.hub.style.transformOrigin = `${ox}px ${oy}px`;
-  tf(L.hub, `scale(${(held ? 1 + .1 * lift : 1) * cs})`);
-  L.hub.style.boxShadow = `0 ${8 + 18 * lift}px ${20 + 30 * lift}px rgba(0,0,0,${.18 + .2 * lift})`;
-  show(L.hub, on(t, B(37) - .05, B(41) + .4) && cs > .002);
-  // hash + sub label slide out in their own masks as the hub becomes the card
-  const outH = R.ez(.2, E.in)(t - B(39));
-  S(L.hubHash, { left: px(hb.w / 2 - 41), top: px(hb.h / 2 - 13 - 10 * R.sp(.4, .2)(t - B(38)) - (hb.h / 2 + 40) * outH) });
-  S(L.hubSub, { left: px(hb.w / 2 - 16), top: px(hb.h / 2 + 14 - (hb.h / 2 + 60) * outH) });
-  show(L.hubHash, outH < 1);
-  show(L.hubSub, t > B(38) + .1); tf(L.hubSub, `scale(${pop(t, B(38) + .15)})`);
-  show(L.card, t >= B(39));
-  tf(L.cardTitle.inner, `translateY(${(1 - R.sp(.45, .1)(t - (B(39) + .1))) * 30}px)`);
-  tf(L.deployBtn, `scale(${pop(t, B(39) + .2) * (1 - .08 * TL.btnPress.at(t))})`);
-  L.rings.forEach((r, i) => {
-    const rise = R.sp(.45, .3)(t - (B(40) + i * .05));
-    tf(r.g, `translateY(${(1 - rise) * 210}px)`);
-    const a = R.ez(.45, E.out)(t - (B(40) + .1 + i * .05));
-    r.arc.setAttribute('stroke-dasharray', `${a.toFixed(4)} 1`);
-    show(r.arc, a > .002);
-    r.num.textContent = Math.round(100 * a);
-  });
+  const held = t < B(33);
+  const cq = rat(TL.card, t);
+  const lift = R.sp(.3, .4)(t - B(32));
+  const cx = held ? cw.x : cq.x, cy = held ? cw.y : cq.y;
+  box(L.card, cx - cq.w / 2, cy - cq.h / 2, cq.w, cq.h, cq.r);
+  tf(L.card, `scale(${(held ? 1 + .08 * lift : 1) * pop(t, B(32) - .05, .3, .3)})`);
+  L.card.style.boxShadow = `0 ${6 + 20 * lift}px ${16 + 30 * lift}px rgba(20,30,80,${.12 + .2 * lift})`;
+  show(L.card, on(t, B(32), B(35) + .5));
+  // the tile rides the page push out of view
+  if (t >= B(35)) {
+    const left = cx - cq.w / 2 - BR.w * push;
+    L.card.style.left = px(left);
+    L.card.style.clipPath = `inset(0 0 0 ${Math.max(0, BR.x - left).toFixed(2)}px)`;   // stays inside the window
+  } else L.card.style.clipPath = 'none';
 
-  // deploy labels: enter from below, leave upward, all inside the shape's mask
-  const T0 = [B(41), B(42), B(43), B(44)];
-  L.dep.forEach((e, i) => {
-    box(e, 0, 0, b.w, b.h);
-    const inn = 1 - R.sp(.38, .2)(t - (T0[i] + .06));
-    const leave = i < 3 ? R.ez(.16, E.in)(t - T0[i + 1]) : 0;
-    tf(e, `translateY(${(inn * 110 - leave * 110).toFixed(2)}px)`);
+  // order button → one black shape
+  const q = rat(TL.btn, t);
+  boxC(L.btn, q);
+  show(L.btn, on(t, B(36) + .2, B(46)));
+  tf(L.btn, `scale(${pop(t, B(36) + .28, .4, .3) * (1 - .05 * TL.btnPress.at(t))})`);
+  const T0 = [B(36), B(40), B(41), B(42), B(43), B(44)];
+  L.btnLbl.forEach((e, i) => {
+    box(e, 0, 0, q.w, q.h);
+    const inn = i === 0 ? 0 : 1 - R.sp(.34, .2)(t - (T0[i] + .06));
+    const leave = i < 5 ? R.ez(.16, E.in)(t - T0[i + 1]) : 0;
+    tf(e, `translateY(${(inn * 60 - leave * 60).toFixed(2)}px)`);
     show(e, t > T0[i] && leave < 1);
   });
-  const tri = L.dep[1].querySelector('.tri');
-  tri.style.transform = `rotate(${Math.max(0, t - B(42)) * 400}deg)`;
-  L.dep[2].querySelector('.cnt').textContent = `${Math.min(24, Math.max(1, Math.floor((t - B(43) - .05) / .3 * 24) + 1))}/24`;
-  [0, 3].forEach(i => { const ck = L.dep[i].querySelector('path'); ck.setAttribute('stroke-dasharray', `${R.ez(.25, E.out)(t - (T0[i] + .22)).toFixed(4)} 1`); });
+  L.btnLbl[1].querySelector('.spin').style.transform = `rotate(${Math.max(0, t - B(40)) * 720}deg)`;
+  const pr = R.ez(.42, E.io)(t - B(42) - .04);
+  L.btnLbl[3].querySelector('.pct').textContent = `${Math.round(pr * 100)}%`;
+  box(L.btnFill, 0, 0, q.w * pr, q.h);
+  show(L.btnFill, on(t, B(42), B(43)));
+  L.btnLbl[5].querySelector('.ck').setAttribute('stroke-dasharray', `${R.ez(.25, E.out)(t - B(44) - .12).toFixed(4)} 1`);
 }
 
-/* ---- WALL: footage, live site on the monitor ---------------------------- */
-const LIVE = { w: 2340, h: 1000 };
-const LIVE_NAV = [60, 40, 2220, 110, 55];
-function homography(src, dst) {
-  // solve for H mapping src[i] → dst[i] (4 points)
-  const A = [], bb = [];
-  for (let i = 0; i < 4; i++) {
-    const [x, y] = src[i], [u, v] = dst[i];
-    A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); bb.push(u);
-    A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); bb.push(v);
-  }
-  for (let c = 0; c < 8; c++) {
-    let p = c; for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
-    [A[c], A[p]] = [A[p], A[c]]; [bb[c], bb[p]] = [bb[p], bb[c]];
-    for (let r = 0; r < 8; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; bb[r] -= f * bb[c]; }
-  }
-  const hh = bb.map((v, i) => v / A[i][i]);
-  return [hh[0], hh[1], hh[2], hh[3], hh[4], hh[5], hh[6], hh[7], 1];
-}
-const hApply = (H, [x, y]) => { const w = H[6] * x + H[7] * y + 1; return [(H[0] * x + H[1] * y + H[2]) / w, (H[3] * x + H[4] * y + H[5]) / w]; };
-function invert3(m) {
-  const [a, b, c, d, e, f, g, hh, i] = m;
-  const A = e * i - f * hh, Bv = -(d * i - f * g), Cv = d * hh - e * g;
-  const det = a * A + b * Bv + c * Cv;
-  const r = [A, -(b * i - c * hh), b * f - c * e, Bv, a * i - c * g, -(a * f - c * d), Cv, -(a * hh - b * g), a * e - b * d].map(v => v / det);
-  return r.map(v => v / r[8]);
-}
+/* ---- WALL: black contracts into the frame, iris opens on the print -------- */
 function buildWall() {
-  L.wall = h('div', 'a', world); S(L.wall, { width: '1440px', height: '1440px', background: INK });
-  L.foot = h('canvas', 'a', L.wall); L.foot.width = W; L.foot.height = W;
-  L.live = h('div', 'a', L.wall); S(L.live, { width: px(LIVE.w), height: px(LIVE.h), transformOrigin: '0 0', background: PAPER });
-  L.liveScroll = h('div', 'a', L.live); S(L.liveScroll, { width: px(LIVE.w), height: '1400px' });
-  const card = h('div', 'a ink', L.liveScroll); box(card, 60, 180, 1100, 560, 40);
-  card.innerHTML = `<div class="a" style="left:64px;top:64px;color:${PAPER};font-size:112px;font-weight:600;letter-spacing:-0.05em;line-height:1.0;white-space:pre">We ship quiet,\nfast websites.</div>` +
-    `<div class="a" style="left:64px;top:430px;color:#A9A59D;font-size:28px">Next.js · Tailwind · Lenis — built in Denizli.</div>`;
-  const tile = (src, x, y, w, hh) => { const e = h('div', 'a clip', L.liveScroll); box(e, x, y, w, hh, 40); const im = h('img', 'cover', e); im.src = src; im.decoding = 'sync'; return e; };
-  tile(ASSET.villaGold, 1190, 180, 560, 560); tile(ASSET.ui[3], 1780, 180, 500, 560);
-  tile(ASSET.ui[4], 60, 770, 700, 480); tile(ASSET.ui[5], 790, 770, 700, 480); tile(ASSET.dashboard, 1520, 770, 760, 480);
-  L.liveBlack = h('div', 'a ink', L.live);
-  L.liveNavC = h('div', 'a', L.live); box(L.liveNavC, ...LIVE_NAV.slice(0, 4));
-  L.liveLogo = h('div', 'a wm', L.liveNavC, 'abdullah üçdağ.'); S(L.liveLogo, { left: '56px', fontSize: '40px', lineHeight: '110px', color: PAPER, transformOrigin: '0 50%' });
-  L.liveLinks = ['Work', 'Studio', 'Journal', 'Contact'].map((s, i) => { const e = h('div', 'a', L.liveNavC, s); S(e, { left: px(1000 + i * 170), lineHeight: '110px', fontSize: '28px', fontWeight: 500, color: '#A9A59D', transformOrigin: '50% 50%' }); return e; });
-  L.liveCta = h('div', 'a paper clip', L.liveNavC); S(L.liveCta, { left: px(2220 - 300), top: '18px', width: '270px', height: '74px', borderRadius: '37px', transformOrigin: '50% 50%' });
-  L.liveCtaA = maskLine(L.liveCta, 0, 0, 270, 74, 'Start a project', { textAlign: 'center', fontSize: '25px', fontWeight: 600 });
-  L.liveCtaB = maskLine(L.liveCta, 0, 0, 270, 74, 'Let’s talk ↗', { textAlign: 'center', fontSize: '25px', fontWeight: 600 });
-}
-function footageGeometry(vw, vh) {
-  const sc = Math.max(W / vw, W / vh) * FOOT.zoom;
-  const ox = C - vw * sc / 2 + FOOT.panX, oy = C - vh * sc / 2 + FOOT.panY;
-  const quad = SCREEN_SRC.map(([x, y]) => [x * sc + ox, y * sc + oy]);
-  return { sc, ox, oy, vw, vh, quad };
+  L.wall = h('div', 'a', world); S(L.wall, { width: '1440px', height: '1440px' });
+  img(L.wall, A.wall);
+  const [px0, py0, pw, ph] = WALL.pic;
+  L.wallPrint = h('div', 'a clip', L.wall); box(L.wallPrint, px0, py0, pw, ph); img(L.wallPrint, A.print);
+  const [mx, my, mw, mh] = WALL.mat;
+  L.wallIrisBox = h('div', 'a clip', L.wall); box(L.wallIrisBox, mx, my, mw, mh);
+  L.wallIrisSvg = svgEl('svg', { class: 'a', width: mw, height: mh }, L.wallIrisBox);
+  L.wallIris = makeIris(L.wallIrisSvg, ['#141414', '#101010'], '#262626');
+  L.wallBlack = h('div', 'a ink', world);
 }
 function updateWall(t) {
-  const vis = on(t, B(46), 25.21);
-  show(L.wall, vis);
-  const H = M.H;
-  L.live.style.transform = `matrix3d(${H[0]},${H[3]},0,${H[6]},${H[1]},${H[4]},0,${H[7]},0,0,1,0,${H[2]},${H[5]},0,1)`;
-  const Y3 = TL.scrollL.at(t);
-  tf(L.liveScroll, `translateY(${snap(-Y3, M.liveScale)}px)`);
-  const lb = rat(TL.liveBlack, t);
-  box(L.liveBlack, lb.x, lb.y, lb.w, lb.h, lb.r);
-  tf(L.liveLogo, `scale(${pop(t, B(47) + .5)})`);
-  L.liveLinks.forEach((e, i) => tf(e, `scale(${pop(t, B(47) + .54 + i * .03)})`));
-  tf(L.liveCta, `scale(${pop(t, B(47) + .66) * (1 - .06 * TL.liveCtaPress.at(t))})`);
-  const sw = R.ez(.22, E.io)(t - (B(49) + .04));
-  tf(L.liveCtaA.inner, `translateY(${-74 * sw}px)`); tf(L.liveCtaB.inner, `translateY(${74 * (1 - sw)}px)`);
-  return vis;
-}
-async function drawFootage(t) {
-  const v = M.video; if (!v) return;
-  const target = clamp(t - B(46), 0, Math.max(0, v.duration - .05));
-  if (Math.abs(v.currentTime - target) > 1e-4 || !M.footDrawn) {
-    await new Promise(res => { v.addEventListener('seeked', res, { once: true }); v.currentTime = target; });
-  }
-  const g = M.foot, ctx = L.foot.getContext('2d');
-  ctx.fillStyle = INK; ctx.fillRect(0, 0, W, W);
-  ctx.drawImage(v, g.ox, g.oy, g.vw * g.sc, g.vh * g.sc);
-  M.footDrawn = true;
+  show(L.wall, on(t, B(46), 25.21));
+  const q = rat(TL.wallBlack, t);
+  box(L.wallBlack, q.x, q.y, q.w, q.h, q.r);
+  show(L.wallBlack, on(t, B(46), B(47) + .05));
+  const [, , mw, mh] = WALL.mat;
+  drawIris(L.wallIris, TL.wallIris.at(t), mw / 2, mh / 2, Math.hypot(mw, mh) / 2 + 4);
+  show(L.wallIrisBox, on(t, B(47) + .05, B(48)));
 }
 
 /* ---- flood (back to the pill) ------------------------------------------- */
@@ -959,14 +858,12 @@ function updateFlood(t) {
 const CAM = { s: T(1), x: T(C), y: T(C), k: T(1) };
 const CUR = { x: T(0), y: T(0), p: T(0) };
 const camAt = t => ({ s: CAM.s.at(t), x: CAM.x.at(t), y: CAM.y.at(t) });
-const TL_CAM_S = t => CAM.s.at(t);
 function camTo(t, s, x, y, r, k = Math.min(s, 1.6)) { CAM.s.to(t, s, r); CAM.x.to(t, x, r); CAM.y.to(t, y, r); CAM.k.to(t, k, r); }
 function rebase(t, s, x, y) {
   // re-anchor the camera under a full-black frame (the cursor is re-anchored in buildTimeline)
   const st = R.step();
   CAM.s.to(t, s, st); CAM.x.to(t, x, st); CAM.y.to(t, y, st);
 }
-const move = (t, x, y, d = .35, e = E.io) => { CUR.x.to(t, x, R.ez(d, e)); CUR.y.to(t, y, R.ez(d, e)); };
 const press = t => CUR.p.to(t, 1, R.ez(.05));
 const release = t => CUR.p.to(t, 0, R.sp(.25, .45));
 const click = t => { press(t - .04); release(t + .06); };
@@ -978,79 +875,71 @@ function buildTimeline() {
   const tl = {};
   // ---- OPEN
   tl.squeeze = T(1).to(B(2) + .05, 0, R.ez(.48, E.snap)).to(25.78, 1, R.sp(.5, .32));
-  tl.blob = RT(wm.dotCx, wm.dotCy, wm.dd, wm.dd, wm.dd / 2);
-  rto(tl.blob, B(3), [wm.dotCx, wm.dotCy, wm.dd * 1.32, wm.dd * 1.32, 0], R.sp(.2, .5));
-  rto(tl.blob, B(3) + .1, [wm.dotCx, wm.dotCy, wm.dd, wm.dd, 0], R.sp(.28, .3));
-  rto(tl.blob, B(4), [C, C, pillW(0), 120, 0], R.sp(.5, .22));
-  for (let i = 0; i < PROMPT.length; i++) tl.blob.w.to(PROMPT_T0 + i * PROMPT_DT, pillW(i + 1), R.sp(.16, .25));
-  tl.blob.w.to(25.0, pillW(0), R.step());                              // hidden reset, frame is black
+  tl.blob = RT(wm.dotCx, wm.dotCy, wm.dd, wm.dd, 130);
+  rto(tl.blob, B(3), [wm.dotCx, wm.dotCy, wm.dd * 1.32, wm.dd * 1.32, 130], R.sp(.2, .5));
+  rto(tl.blob, B(3) + .1, [wm.dotCx, wm.dotCy, wm.dd, wm.dd, 130], R.sp(.28, .3));
+  rto(tl.blob, B(4), [C, C, PILL_W, 120, 130], R.sp(.5, .22));
+  rto(tl.blob, B(7), [C, C, 260, 260, 130], R.sp(.42, .25));                // pill → circle; blades close
+  rto(tl.blob, B(8) + .02, [C, C, 1000, 1000, 64], R.sp(.55, .14));          // opens onto the door, grows
+  rto(tl.blob, B(9), [C, C, 300, 300, 22], R.sp(.5, .16));                   // becomes the grid's centre tile
+  rto(tl.blob, B(13), [GB[4].x, GB[4].y, GB[4].s, GB[4].s, GB[4].r], R.sp(.5, .18));
+  rto(tl.blob, 25.0, [C, C, PILL_W, 120, 60], R.step());                      // hidden reset; frame is black
   rto(tl.blob, 25.6, [wm.dotCx, wm.dotCy, wm.dd, wm.dd, 0], R.sp(.24, .12));
-
-  // ---- SITE
-  tl.panel = RT(C, C, 1120, 840, 36);
-  rto(tl.panel, B(9), toC(NAV), R.sp(.55, .16));
-  const chipStart = i => [200 + M.chipW[i] / 2, 352 + i * 94 + 31, M.chipW[i], 62, 31];
-  const chipEnd = [toC(NAV), toC([140, 88, 300, 48, 24]), toC(HERO_CARD), toC(HERO_TILE), ...TILES.map(toC)];
-  tl.chips = CODE.map((_, i) => { const s = chipStart(i); const rt = RT(...s); rto(rt, CHIP_T[i], chipEnd[i], R.sp(.55, .14)); return rt; });
-  // hero tile: radius closes to zero during the zoom so the tile IS the frame on the drop
-  tl.chips[3].r.to(B(15), 0, R.ez(1.0, E.drop));
-  tl.heroLift = T(1).to(B(14), 1.025, R.sp(.35, .3)).to(B(15) - .04, 1, R.sp(.25, .2));
-
-  // ---- VILLA
-  tl.vFrame = RT(C, C, W, W, 0);
-  rto(tl.vFrame, B(31), [40 + 250, 230 + 450, 500, 900, 28], R.sp(.6, .12));
-  tl.scrollV = T(0).to(B(18), 220, R.lenis(5.5));
-  tl.tbScale = T(0).to(B(20), 1, R.sp(.45, .32)).to(B(26) + .04, 0, R.sp(.3, 0));
-  tl.tbW = T(560).to(B(21), 760, R.sp(.42, .2));
-  tl.trackW = T(0).to(B(21), TRACK_LEN, R.sp(.45, .18));
-  tl.trackX = T(655).to(B(21), C, R.sp(.45, .18));
-  tl.drag = T(0).to(B(23), .4, R.ez(.42, E.snap)).to(B(24), .75, R.ez(.42, E.snap)).to(B(25), 1, R.ez(.4, E.snap));
-  const kxEnd = TRACK_X0 + TRACK_LEN;
-  tl.orbW = T(40).to(B(22), 110, R.sp(.34, .35)).to(B(26), 260, R.sp(.5, .25)).to(B(28), 560, R.sp(.55, .14));
-  tl.orbH = T(40).to(B(22), 110, R.sp(.34, .35)).to(B(26), 260, R.sp(.5, .25)).to(B(28), 1180, R.sp(.55, .14));
-  tl.orbX = T(kxEnd).to(B(26), C, R.sp(.55, .15)).to(B(31), PHONE_STAGE.x, R.sp(.6, .12));
-  tl.orbY = T(TB_Y).to(B(26), 600, R.sp(.55, .15)).to(B(28), C, R.sp(.5, .12)).to(B(31), PHONE_STAGE.y, R.sp(.6, .12));
-  tl.phoneS = T(1).to(B(31), PHONE_STAGE.s, R.sp(.6, .12));
-  tl.orbReveal = T(0).to(B(27), 130, R.ez(.35, E.out)).to(B(27) + .4, 2000, R.step());
-  tl.scrollA = T(0).to(B(29), 300, R.lenis(5));
-  tl.fluid = T(96).to(B(29), 60, R.sp(.5, .15));
-  tl.headY = T(-110).to(B(29) - .05, 70, R.sp(.5, .25));
-  tl.ctaY = T(160).to(B(30), 0, R.sp(.45, .3));
-  tl.ctaPress = T(0).to(B(30) + .2, 1, R.ez(.05)).to(B(30) + .3, 0, R.sp(.25, .45));
-
-  // ---- STAGE
-  tl.bs = RT(1080, 330, 30, 30, 15);
-  rto(tl.bs, B(34), [DASH.x + DASH.w / 2, DASH.y + DASH.h / 2, DASH.w, DASH.h, 28], R.sp(.5, .15));
-  rto(tl.bs, B(41), [HUB.x, HUB.y + 20, 600, 132, 66], R.sp(.45, .18));
-  rto(tl.bs, B(42), [HUB.x, HUB.y + 20, 280, 280, 64], R.sp(.4, .25));
-  rto(tl.bs, B(43), [HUB.x, HUB.y + 20, 760, 132, 66], R.sp(.4, .2));
-  rto(tl.bs, B(44), [HUB.x, HUB.y + 20, 260, 260, 130], R.sp(.4, .3));
-  rto(tl.bs, B(45), [HUB.x, HUB.y + 20, 2700, 2700, 1350], R.ez(.3, E.in));   // flood: overscale past the corners
-  tl.hub = RT(PIPE_TAB.x + 4, PIPE_TAB.y + 16, 120, 44, 22);
-  rto(tl.hub, B(38), [HUB.x, HUB.y, 200, 200, 100], R.sp(.5, .2));
-  rto(tl.hub, B(39), [HUB.x, HUB.y, CARD.w, CARD.h, 28], R.sp(.5, .16));
-  tl.cardS = T(1).to(B(41), 0, R.sp(.32, 0));
-  tl.btnPress = T(0).to(B(41) - .04, 1, R.ez(.05)).to(B(41) + .06, 0, R.sp(.25, .45));
-  tl.scrollP = T(0).to(B(39), 180, R.lenis(6));
-
-  // ---- WALL
-  const g = M.foot;
-  const Hm = M.H, Hinv = invert3(Hm);
-  const fc = [[-200, -200], [W + 200, -200], [W + 200, W + 200], [-200, W + 200]].map(p => hApply(Hinv, p));
-  const fx0 = Math.min(...fc.map(p => p[0])), fx1 = Math.max(...fc.map(p => p[0]));
-  const fy0 = Math.min(...fc.map(p => p[1])), fy1 = Math.max(...fc.map(p => p[1]));
-  tl.liveBlack = { x: T(fx0), y: T(fy0), w: T(fx1 - fx0), h: T(fy1 - fy0), r: T(0) };
-  const lbTo = (t0, [x, y, w, hh, r], resp) => { tl.liveBlack.x.to(t0, x, resp); tl.liveBlack.y.to(t0, y, resp); tl.liveBlack.w.to(t0, w, resp); tl.liveBlack.h.to(t0, hh, resp); tl.liveBlack.r.to(t0, r, resp); };
-  lbTo(B(47), [0, 0, LIVE.w, LIVE.h, 0], R.ez(.32, E.snap));
-  lbTo(B(47) + .32, LIVE_NAV, R.ez(.3, E.out));
-  tl.scrollL = T(0).to(B(48), 330, R.lenis(5));
-  tl.liveCtaPress = T(0).to(B(49) - .04, 1, R.ez(.05)).to(B(49) + .06, 0, R.sp(.25, .45));
-  tl.iris = T(1)
-    .to(B(7), 0, R.ez(.32, E.shutter)).to(B(8), 1, R.ez(.38, E.out))
-    .to(B(50), 0, R.ez(.2, E.shutter)).to(B(50) + .24, 1, R.ez(.26, E.out))
-    .to(B(51), 0, R.ez(.2, E.shutter)).to(25.21, 1, R.step());
+  tl.blobIris = T(1).to(B(7) + .04, 0, R.ez(.3, E.shutter)).to(B(8), 1, R.ez(.34, E.out));
+  // grid tiles: pop out from behind the centre, then reflow when the arch claims 2×2
+  tl.tiles = {}; tl.tileLift = {};
+  for (const i of [0, 1, 2, 3, 6, 7, 8]) {
+    const a = GA(i), b = GB[i];
+    const rt = RT(C, C, 300, 300, 22);
+    rto(rt, POP_T[i], [a.x, a.y, a.s, a.s, a.r], R.sp(.5, .2));
+    rto(rt, B(13) + (i % 3) * .03, [b.x, b.y, b.s, b.s, b.r], R.sp(.5, .18));
+    tl.tiles[i] = rt; tl.tileLift[i] = T(1);
+  }
+  tl.tileLift[1].to(B(11), 1.05, R.sp(.3, .3)).to(B(12) - .1, 1, R.sp(.3, .2));
+  // arch tile → full frame, landing exactly on the drop (beat 17)
+  tl.arch = RT(C, C, 300, 300, 22);
+  rto(tl.arch, POP_T[5], [GA(5).x, GA(5).y, 300, 300, 22], R.sp(.5, .2));
+  rto(tl.arch, B(13), [GB[5].x, GB[5].y, GB[5].s, GB[5].s, 22], R.sp(.55, .16));
+  rto(tl.arch, B(15), [C, C, W, W, 0], R.ez(1.0, E.drop));
+  tl.archLift = T(1).to(B(12), 1.04, R.sp(.3, .3)).to(B(13) - .05, 1, R.sp(.3, .2)).to(B(15) - .04, .97, R.ez(.05)).to(B(15) + .06, 1, R.sp(.3, .2));
+  // toolbar → slider, relight, lens → orb
+  tl.tbScale = T(0).to(B(18), 1, R.sp(.45, .32)).to(B(22) + .04, 0, R.sp(.3, 0));
+  tl.tbW = T(520).to(B(19), 820, R.sp(.42, .2));
+  tl.tbH = T(96).to(B(19), 150, R.sp(.42, .2));
+  tl.trackW = T(0).to(B(19) + .06, TRACK.len, R.sp(.45, .18));
+  tl.drag = T(0).to(B(20) + .1, .45, R.ez(.36, E.snap)).to(B(21), 1, R.ez(.4, E.snap));
+  tl.orbS = T(40).to(B(20), 110, R.sp(.34, .35)).to(B(22), 300, R.sp(.5, .25)).to(B(24), 2300, R.ez(.32, E.in));
+  tl.orbX = T(TRACK.x0 + TRACK.len).to(B(22), C, R.sp(.55, .15));
+  tl.orbY = T(TRACK.y).to(B(22), 560, R.sp(.55, .15)).to(B(24), C, R.ez(.32, E.in));
+  tl.orbReveal = T(0).to(B(23), 140, R.ez(.36, E.out)).to(B(24), 2000, R.ez(.32, E.in));
+  // lock screen → phone
+  tl.lock = RT(C, C, W, W, 0);
+  rto(tl.lock, B(28), [PHONE.x, PHONE.y, PHONE.w, PHONE.h, PHONE.r], R.sp(.62, .12));
+  tl.playPress = T(0).to(B(27) - .04, 1, R.ez(.05)).to(B(27) + .06, 0, R.sp(.25, .45));
+  // browser window from the droplet
+  tl.br = RT(BRC.x, BRC.y, 30, 30, 15);
+  rto(tl.br, B(30) + .42, [BRC.x, BRC.y, BR.w, BR.h, 20], R.sp(.5, .15));
+  // card: phone → drop zone → site tile
+  const dz = toW(DROP.x, DROP.y), tileW = toW(TILE.x + TILE.w / 2, TILE.y + TILE.h / 2);
+  tl.card = RT(dz.x, dz.y, 120, 160, 12);
+  rto(tl.card, B(33), [dz.x, dz.y, 150, 150, 14], R.sp(.35, .3));
+  rto(tl.card, B(34), [tileW.x, tileW.y, TILE.w, TILE.h, 14], R.sp(.5, .16));
+  // order button → black shape → flood
+  const bw = toW(BTN.x + BTN.w / 2, BTN.y + BTN.h / 2);
+  tl.btn = RT(bw.x, bw.y, BTN.w, BTN.h, BTN.h / 2);
+  rto(tl.btn, B(40), [bw.x, bw.y, BTN.h, BTN.h, BTN.h / 2], R.sp(.36, .2));
+  rto(tl.btn, B(41), [bw.x, bw.y, BTN.w, BTN.h, BTN.h / 2], R.sp(.42, .2));
+  rto(tl.btn, B(44), [bw.x, bw.y, 64, 64, 32], R.sp(.4, .3));
+  rto(tl.btn, B(45), [bw.x, bw.y, 1700, 1700, 850], R.ez(.3, E.in));          // flood past the corners
+  tl.btnPress = T(0).to(B(40) - .04, 1, R.ez(.05)).to(B(40) + .06, 0, R.sp(.25, .45));
+  // wall: black contracts into the frame, iris opens on the print
+  const [fx, fy, fw, fh] = WALL.frame;
+  tl.wallBlack = { x: T(-200), y: T(-200), w: T(W + 400), h: T(W + 400), r: T(0) };
+  [['x', fx], ['y', fy], ['w', fw], ['h', fh], ['r', 3]].forEach(([k, v]) => tl.wallBlack[k].to(B(46) + .25, v, R.ez(.3, E.snap)));
+  tl.wallIris = T(0).to(B(47) + .05, 1, R.ez(.34, E.out));
+  tl.iris = T(1).to(B(51), 0, R.ez(.2, E.shutter)).to(25.21, 1, R.step());
   tl.flood = RT(C, C, W + 40, W + 40, 0);
-  rto(tl.flood, 25.3, [C, C, pillW(0), 120, 60], R.ez(.3, E.snap));
+  rto(tl.flood, 25.3, [C, C, PILL_W, 120, 60], R.ez(.3, E.snap));
   TL = tl;
 
   // ---- CAMERA (screen-studio zooms; cursor scales with it)
@@ -1058,110 +947,85 @@ function buildTimeline() {
   camTo(B(2), 1.15, lerp(C, dot.x, .5), dot.y, R.ez(.5, E.io));
   camTo(B(3), 1.4, dot.x - 40, dot.y, R.sp(.5, .1));
   camTo(B(4), 1.2, C, C, R.sp(.6, .1));
-  camTo(B(7), 1.6, C, C, R.ez(.35, E.in));
-  camTo(B(8), 1.0, C, C, R.ez(.45, E.out));
-  const tile = { x: HERO_TILE[0] + 280, y: HERO_TILE[1] + 280 };
-  camTo(B(13), 1.06, lerp(C, tile.x, .25), lerp(C, tile.y, .25), R.sp(.7, .05), 1.06);
-  camTo(B(15), W / HERO_TILE[2], tile.x, tile.y, R.ez(1.0, E.drop), 1.5);
-  rebase(B(17), 1, C, C);
-  CAM.k.to(B(17), 1, R.sp(.5, .1));
-  camTo(B(22), 1.3, C, W - C / 1.3, R.sp(.6, .1));
-  camTo(B(26), 1.0, C, C, R.sp(.6, .1));
-  camTo(B(28), 1.04, C, C, R.sp(.6, .1));
-  camTo(B(31), 1.0, C, C, R.sp(.6, .1));
-  camTo(B(36), 1.6, HASH_W.x + 70, HASH_W.y + 40, R.sp(.6, .1));
-  camTo(B(37), 1.45, 1030, 420, R.sp(.7, .1));
-  camTo(B(38), 1.4, HUB.x, HUB.y - 20, R.sp(.6, .1));
-  camTo(B(40), 1.5, HUB.x, HUB.y, R.sp(.6, .1));
-  camTo(B(41), 1.6, HUB.x, HUB.y + 20, R.sp(.5, .1));
+  camTo(B(7), 1.45, C, C, R.ez(.4, E.io));
+  camTo(B(8) + .05, 1.0, C, C, R.sp(.6, .08));
+  camTo(B(16), 1.0, C, C, R.sp(.6, .1));
+  camTo(B(28), 1.0, C, C, R.sp(.6, .1));
+  camTo(B(34), 1.95, BRC.x, BRC.y, R.sp(.75, .06));
+  camTo(B(38) + .2, 2.15, BR.x + 470, BR.y + 330, R.sp(.7, .06));
+  camTo(B(41), 2.3, toW(BTN.x + BTN.w / 2, 0).x, toW(0, BTN.y - 30).y, R.sp(.6, .06));
   rebase(B(46), 1, C, C);
-  CAM.k.to(B(46), .85, R.sp(.5, .1));
-  const q = g.quad, qc = { x: (q[0][0] + q[2][0]) / 2, y: (q[0][1] + q[2][1]) / 2 };
-  const qW = Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1]);
-  rebase(B(50) + .21, W * .94 / qW, qc.x, qc.y);
-  CAM.k.to(B(50) + .21, 1.1, R.sp(.4, .1));
+  CAM.k.to(B(46), 1, R.sp(.5, .1));
+  const pic = { x: WALL.pic[0] + WALL.pic[2] / 2, y: WALL.pic[1] + WALL.pic[3] / 2 };
+  camTo(B(48), 1.12, C, 700, R.sp(.8, .05), 1);
+  camTo(B(49), 2.5, pic.x, pic.y, R.ez(.95, E.snap), 1.2);
   rebase(25.21, 1, C, C);
   CAM.k.to(25.21, 1, R.sp(.5, .1));
 
-  // ---- CURSOR (world coordinates; rebases above keep it still on screen)
+  // ---- CURSOR (world coordinates; re-anchored at each rebase so it never jumps on screen)
   const rest = { x: dot.x + 66, y: dot.y + 74 };
   CUR.x.v0 = rest.x; CUR.y.v0 = rest.y;
-  // assemble cursor keys in time order, interleaving the rebases
   const C0 = [];
-  const mv = (t, x, y, d, e) => C0.push(['m', t, x, y, d, e]);
+  const mv = (t, x, y, d = .35, e = E.io) => C0.push(['m', t, x, y, d, e]);
   const pr = t => C0.push(['p', t]), rl = t => C0.push(['r', t]), ck = t => C0.push(['c', t]);
   mv(.12, dot.x + 4, dot.y + 4, .36);
   pr(B(2) - .02); rl(B(3));                                         // long-press → accordion
-  mv(B(4) + .2, C + pillW(PROMPT.length) / 2 - 40, C + 70, .5);   // drift to the pill
-  mv(B(6) + .44, C + 120, C + 10, .2);
-  ck(B(7));                                                         // Enter
-  mv(B(8) + .25, 420, 386, .2);
-  ck(B(9));                                                         // chip: <nav>
-  mv(B(9) + .2, 480, 572, .25);
-  ck(B(10));                                                        // chip: <h1>
-  mv(B(10) + .2, 520, 760, .25);
-  ck(B(11));                                                        // chip: <article>
-  mv(B(12) + .1, 700, 640, .3);
-  mv(B(13), tile.x + 40, tile.y + 30, .42);                       // travel to the hero tile
-  mv(B(14), tile.x + 8, tile.y + 6, .3);                          // hover
-  ck(B(15));                                                        // click → zoom
-  C0.push(['rb', B(17)]);
-  mv(B(17) + .02, C, 840, .1, E.out);
-  pr(B(18) - .02); mv(B(18), C, 600, .22, E.in); rl(B(18) + .24); // flick-scroll
-  mv(B(19) + .1, 610, 980, .3);
-  mv(B(20) + .1, C - 65 + 2, TB_Y + 4, .32);        // to the adjust icon
-  ck(B(21));
-  mv(B(21) + .2, TRACK_X0 + 2, TB_Y + 3, .26);                    // to the knob
-  pr(B(22));                                                        // long-press: knob → lens
+  mv(B(4) + .2, C + PILL_W / 2 - 40, C + 70, .5);
+  mv(B(6) + .36, C + 60, C + 12, .2);
+  ck(B(7));                                                         // Enter → iris
+  mv(B(9) + .1, C + 120, C + 160, .4);
+  mv(B(11) - .2, GA(1).x + 40, GA(1).y + 30, .3);                  // hover a tile
+  mv(B(12) - .2, GA(5).x + 20, GA(5).y + 20, .3);                  // hover the arch
+  mv(B(13) + .1, GB[5].x + 30, GB[5].y + 40, .4);                  // ride the reflow
+  ck(B(15));                                                        // click → zoom to the drop
+  mv(B(16), C + 60, C + 120, .6);
+  mv(B(18) + .1, TB.x + 180, TB.y + 2, .32);                       // to the adjust icon
+  ck(B(19));
+  mv(B(19) + .2, TRACK.x0 + 2, TRACK.y + 3, .26);                  // to the knob
+  pr(B(20));                                                        // knob → lens
   C0.push(['drag']);
-  rl(B(26) + .1);
-  mv(B(26), C + 6, 606, .55, E.io);                               // ride the orb up
-  mv(B(28) + .1, C + 40, 1000, .35);
-  pr(B(29) - .02); mv(B(29), C + 40, 760, .24, E.in); rl(B(29) + .26);
-  mv(B(30) - .1, C + 20, 1238, .28);
-  ck(B(30) + .22);
-  mv(B(31) + .1, 640, 760, .4);
-  pr(B(32) - .02); mv(B(32), islandWorld().x + 150, islandWorld().y + 4, .5, E.io); rl(B(33));
-  mv(B(34) + .2, 1000, 520, .4);
-  mv(B(35) + .25, HASH_W.x, HASH_W.y, .2);                         // to the commit hash
-  pr(B(36)); C0.push(['ring']);
-  mv(B(37), PIPE_TAB.x, PIPE_TAB.y, .25, E.io);                   // drag onto the Pipeline tab
-  rl(B(38));
-  mv(B(38) + .25, HUB.x + 120, HUB.y + 160, .35);
-  pr(B(39) - .02); mv(B(39), HUB.x + 120, HUB.y + 40, .25, E.in); rl(B(39) + .26);   // scroll
-  mv(B(40) + .2, DEPLOY_BTN.x, DEPLOY_BTN.y, .28);
-  ck(B(41));                                                        // Deploy
-  mv(B(41) + .2, HUB.x + 330, HUB.y + 160, .6);
+  rl(B(22) + .05);
+  mv(B(22), C + 8, 566, .55, E.io);                                // ride the orb up
+  mv(B(24) + .3, C + 300, 1150, .4);
+  mv(B(26) + .2, 1024, 1222, .3);                                  // to play
+  ck(B(27));
+  mv(B(28), 640, 1000, .5);
+  pr(B(29) - .02); mv(B(29), islandWorld().x + 170, islandWorld().y + 4, .5, E.io); rl(B(30));
+  mv(B(30) + .5, 470, 820, .35);
+  mv(B(32) - .25, PHONE.x, PHONE.y + 40, .22);                      // to the wallpaper
+  pr(B(32)); C0.push(['ring']);
+  mv(B(32) + .2, toW(DROP.x, DROP.y).x, toW(DROP.x, DROP.y).y, .3, E.io);   // drag into the browser
+  rl(B(33));
+  mv(B(34) + .1, toW(TILE.x + 100, TILE.y + 150).x, toW(TILE.x + 100, TILE.y + 150).y, .3);
+  ck(B(35));                                                        // tile → product page
+  mv(B(36) + .2, toW(380, 210).x, toW(380, 210).y, .28);
+  ck(B(37));                                                        // black frame
+  mv(B(37) + .2, toW(BTN.x + 250, 278).x, toW(BTN.x + 250, 278).y, .26);
+  ck(B(38));                                                        // 70×100
+  mv(B(39), toW(BTN.x + 190, BTN.y + 24).x, toW(BTN.x + 190, BTN.y + 24).y, .3);
+  ck(B(40));                                                        // Order print
+  mv(B(41) + .3, toW(BTN.x + 230, BTN.y + 70).x, toW(BTN.x + 230, BTN.y + 70).y, .5);
   C0.push(['rb', B(46)]);
-  const live = p => hApply(M.H, p);
-  const hero = live([900, 520]), cta = live([2220 - 165, 40 + 55]);
-  mv(B(47) + .4, hero[0], hero[1] + 40, .3);
-  pr(B(48) - .02); mv(B(48), hero[0], hero[1] - 60, .26, E.in); rl(B(48) + .28);
-  mv(B(48) + .3, cta[0], cta[1], .18);
-  ck(B(49));
-  C0.push(['rb', B(50) + .21]);
+  mv(B(47) + .3, 1120, 1180, .5);
   C0.push(['rb', 25.21]);
   mv(25.3, rest.x, rest.y, 1.0, E.io);
 
-  // replay: movement keys, rebases (computed at their time), drag
-  // camera rebases are already in CAM; here the cursor is re-anchored so it stays still on screen
   for (const step of C0) {
     const [kind, t] = step;
-    if (kind === 'm') CUR.x.to(t, step[2], R.ez(step[4], step[5] || E.io)), CUR.y.to(t, step[3], R.ez(step[4], step[5] || E.io));
+    if (kind === 'm') { CUR.x.to(t, step[2], R.ez(step[4], step[5])); CUR.y.to(t, step[3], R.ez(step[4], step[5])); }
     else if (kind === 'p') press(t);
     else if (kind === 'r') release(t);
     else if (kind === 'c') click(t);
     else if (kind === 'rb') {
-      const before = camAt(t - 1e-6), after = { s: CAM.s.at(t), x: CAM.x.at(t), y: CAM.y.at(t) };
+      const before = camAt(t - 1e-6), after = camAt(t);
       const cx = CUR.x.at(t - 1e-6), cy = CUR.y.at(t - 1e-6);
       const sx = C + (cx - before.x) * before.s, sy = C + (cy - before.y) * before.s;
       const nx = (sx - C) / after.s + after.x, ny = (sy - C) / after.s + after.y;
       CUR.x.to(t, CUR.x.last() + (nx - cx), R.step()); CUR.y.to(t, CUR.y.last() + (ny - cy), R.step());
     } else if (kind === 'drag') {
       // the cursor holds the knob: same keys, same curves
-      CUR.x.to(B(23), TRACK_X0 + TRACK_LEN * .4, R.ez(.42, E.snap));
-      CUR.x.to(B(24), TRACK_X0 + TRACK_LEN * .75, R.ez(.42, E.snap));
-      CUR.x.to(B(25), TRACK_X0 + TRACK_LEN, R.ez(.4, E.snap));
+      CUR.x.to(B(20) + .1, TRACK.x0 + TRACK.len * .45, R.ez(.36, E.snap));
+      CUR.x.to(B(21), TRACK.x0 + TRACK.len, R.ez(.4, E.snap));
     }
   }
 }
@@ -1169,55 +1033,43 @@ function buildTimeline() {
 function updateCamera(t) {
   const c = camAt(t);
   tf(world, `translate(${C - c.x * c.s}px,${C - c.y * c.s}px) scale(${c.s})`);
-  // cursor
   const cw = curWorld(t);
   const sx = C + (cw.x - c.x) * c.s, sy = C + (cw.y - c.y) * c.s;
   const k = CAM.k.at(t) * (1 - .16 * CUR.p.at(t));
   tf($('#cursor'), `translate(${(sx - 3 * k).toFixed(2)}px,${(sy - 2 * k).toFixed(2)}px) scale(${k.toFixed(4)})`);
-  // long-press ring (dashboard hash)
-  const ringP = R.ez(.45, E.lin)(t - B(36));
-  show($('#ring'), on(t, B(36), B(37) - .02));
+  // long-press ring (phone wallpaper → card)
+  const ringP = R.ez(.4, E.lin)(t - B(32) + .4);
+  show($('#ring'), on(t, B(32) - .4, B(32)));
   $('#ringArc').setAttribute('stroke-dasharray', `${ringP.toFixed(4)} 1`);
-  // iris
-  drawIris(TL.iris.at(t));
+  drawIris(M.iris, TL.iris.at(t), C, C, 1060);
 }
 
 /* =============================================================== seek ==== */
 async function seek(tIn) {
   const t = ((tIn % DUR) + DUR) % DUR;
   updateOpen(t);
-  updateSite(t);
-  updateVilla(t);
-  updateStage(t);
-  const wallOn = updateWall(t);
+  updateArch(t);
+  updateLock(t);
+  updateBrowser(t);
+  updateWall(t);
   updateFlood(t);
   updateCamera(t);
-  if (wallOn) await drawFootage(t);
   for (const G of glasses) if (G.on) await paintGlass(G); else G.src.replaceChildren();
   await raf();
   return t;
 }
 
 /* =============================================================== init ==== */
-async function loadVideo(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`footage missing: ${url} — run render.mjs (it makes the all-intra copy)`);
-  const blob = await res.blob();                                    // blob URL: range-seek safe
-  const v = document.createElement('video');
-  v.muted = true; v.preload = 'auto'; v.playsInline = true; v.src = URL.createObjectURL(blob);
-  await new Promise((res2, rej) => { v.onloadeddata = res2; v.onerror = () => rej(new Error('footage decode failed')); });
-  return v;
-}
 async function init() {
-  await document.fonts.load('800 100px Archivo', WORD + '.'); await document.fonts.load('600 40px Archivo', 'abdullah üçdağ.'); await document.fonts.load('500 20px Geist'); await document.fonts.load('400 20px "Geist Mono"');
+  await document.fonts.load('800 100px Archivo', WORD + '.'); await document.fonts.load('800 40px Archivo', 'abdullah üçdağ. the print');
+  await document.fonts.load('700 340px Geist', '9:41'); await document.fonts.load('500 20px Geist'); await document.fonts.load('400 20px "Geist Mono"');
   await document.fonts.ready;
   M.wm = measureWordmark();
-  buildOpen(); buildSite(); buildVilla(); buildStage(); buildWall(); buildFlood(); buildIris();
-  try { M.video = await loadVideo(ASSET.footage); } catch (e) { console.warn(e.message); M.video = null; }
-  const vw = M.video ? M.video.videoWidth : 1920, vh = M.video ? M.video.videoHeight : 1080;
-  M.foot = footageGeometry(vw, vh);
-  M.H = homography([[0, 0], [LIVE.w, 0], [LIVE.w, LIVE.h], [0, LIVE.h]], M.foot.quad);
-  M.liveScale = Math.hypot(M.foot.quad[1][0] - M.foot.quad[0][0], M.foot.quad[1][1] - M.foot.quad[0][1]) / LIVE.w;
+  // DOM order = paint order
+  buildOpen(); buildArch(); buildLock(); buildBrowser(); buildWall(); buildFlood();
+  // everything built after the arch paints above it (the arch itself climbs to z 3 when it zooms)
+  [...world.children].slice([...world.children].indexOf(L.arch) + 1).forEach(e => { e.style.zIndex = 4; });
+  M.iris = makeIris($('#iris'));
   await Promise.all([...document.images].map(i => i.decode().catch(() => console.warn('missing image', i.src))));
   buildTimeline();
   await seek(0);
