@@ -1,6 +1,6 @@
 import {loadFont} from '@remotion/fonts';
 import {AbsoluteFill, Easing, Interactive, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {chapterAt, chapters, DURATION_IN_FRAMES, HUD_TOTAL, numberedChapters} from './timeline';
+import {chapterAt, chapters, DURATION_IN_FRAMES, HUD_TOTAL, hudLabels, labelStart} from './timeline';
 
 // Bundled in public/fonts (SIL OFL) so renders never wait on the network.
 const fontFamily = 'JetBrains Mono';
@@ -75,6 +75,31 @@ const Corner: React.FC<{x: 'left' | 'right'; y: 'top' | 'bottom'}> = ({x, y}) =>
   />
 );
 
+/** Small registration ticks on the frame edges, as in the reference. */
+const EdgeTicks: React.FC = () => {
+  const tick = {position: 'absolute', background: 'rgba(255,255,255,0.35)'} as const;
+  const groups = [0.28, 0.74];
+  return (
+    <>
+      {groups.map((g) =>
+        [0, 1, 2].map((i) => (
+          <div key={`t${g}${i}`} style={{...tick, top: 12, left: `calc(${g * 100}% + ${i * 9}px)`, width: 5, height: 3}} />
+        )),
+      )}
+      {groups.map((g) =>
+        [0, 1, 2].map((i) => (
+          <div key={`l${g}${i}`} style={{...tick, left: 12, top: `calc(${(g - 0.02) * 100}% + ${i * 6}px)`, width: 12, height: 1.5}} />
+        )),
+      )}
+      {groups.map((g) =>
+        [0, 1, 2].map((i) => (
+          <div key={`r${g}${i}`} style={{...tick, right: 12, top: `calc(${(g - 0.02) * 100}% + ${i * 6}px)`, width: 12, height: 1.5}} />
+        )),
+      )}
+    </>
+  );
+};
+
 export const Hud: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -88,9 +113,9 @@ export const Hud: React.FC = () => {
     powerOn(frame, Math.round((iris.start + 0.95) * fps)) *
     interpolate(t, [mercury.start - 0.02, mercury.start + 0.04, mercury.start + 0.22, mercury.start + 0.3], [1, 0, 0, 1], clamp);
 
-  const chapter = chapterAt(t);
-  const index = numberedChapters.findIndex((c) => c.id === chapter.id);
-  const sinceCut = frame - Math.round(chapter.start * fps);
+  const label = chapterAt(t).label || hudLabels[0];
+  const index = hudLabels.indexOf(label);
+  const sinceCut = frame - Math.round(labelStart(label) * fps);
   const resolve = interpolate(sinceCut, [0, 16], [0, 1], clamp);
 
   const taglineVisible = interpolate(
@@ -114,6 +139,7 @@ export const Hud: React.FC = () => {
     >
       <Corner x="left" y="top" />
       <Corner x="right" y="top" />
+      <EdgeTicks />
       <Corner x="left" y="bottom" />
       <Corner x="right" y="bottom" />
 
@@ -130,7 +156,7 @@ export const Hud: React.FC = () => {
           {pad(index + 1)} / {pad(HUD_TOTAL)}
         </div>
         <div style={{fontSize: 17, fontWeight: 700, letterSpacing: '0.26em'}}>
-          {scramble(chapter.id, resolve, index + 1)}
+          {scramble(label, resolve, index + 1)}
         </div>
       </Interactive.Div>
 
@@ -178,12 +204,12 @@ export const Hud: React.FC = () => {
             boxShadow: '0 0 10px rgba(255,255,255,0.7)',
           }}
         />
-        {numberedChapters.map((c) => (
+        {hudLabels.map((l) => (
           <div
-            key={c.id}
+            key={l}
             style={{
               position: 'absolute',
-              left: `${(c.start / (DURATION_IN_FRAMES / fps)) * 100}%`,
+              left: `${(labelStart(l) / (DURATION_IN_FRAMES / fps)) * 100}%`,
               top: 0,
               width: 1,
               height: 12,

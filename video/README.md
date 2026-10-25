@@ -6,17 +6,18 @@ A 10-second, 1920×1080, 60 fps shader reel rendered with
 an eye opens out of a horizontal line, and the camera dives through it into a
 run of psychedelic chapters. It is silent, like the reference.
 
-| Time | Chapter | What happens |
-| --- | --- | --- |
-| 0.00 s | SIGNAL | Two dim dashes on a plum screen |
-| 1.45 s | 01 IRIS | The dashes ignite into a line; neon contours spring out and the lid snaps open on a blown-out iris; the pupil dilates into a mandala |
-| 4.55 s | 02 PUPIL | The camera dives into the mandala, then a pink flash |
-| 5.25 s | 03 ECHO | A log-polar tunnel made of rings of small eyes around a glass orb |
-| 7.40 s | 04 VORTEX | A rainbow log-spiral checkerboard that keeps tearing into rays |
-| 9.15 s | 05 MERCURY | A white-out, then a raymarched iridescent chrome blob |
+| Time | Shot | HUD | What happens |
+| --- | --- | --- | --- |
+| 0.00 s | SIGNAL | — | Two dim dashes on a near-black maroon screen |
+| 1.45 s | IRIS | 01 IRIS | The dashes ignite into a line; fine contours spring out and the lid snaps open on a feathered peach/teal/lavender iris that glances around; the pupil dilates to show chains of tiny eyes |
+| 4.55 s | PUPIL | 01 IRIS | The camera dives in: the iris bands cycle colour and the chains swell into magenta pods |
+| 5.25 s | ECHO | 02 FUNNEL | A funnel of eyes around a glowing ring and a misty sphere |
+| 7.40 s | VORTEX | 02 FUNNEL | The funnel becomes a checkerboard that keeps tearing into rays |
+| 9.15 s | MERCURY | 03 MERCURY | A white-out, then a raymarched iridescent chrome blob |
 
 The HUD counts to "/ 07" because the reel it comes from has seven chapters;
-this cut ends inside the fifth, as the reference does.
+this cut ends inside the third, as the reference does. The eye and the
+funnel are matched by measurement against clean stills of the reference.
 
 ## Commands
 
@@ -46,10 +47,12 @@ the render at an installed Chromium, for example
 - **`src/ShaderPlane.tsx`**: draws the shader on a full-screen quad inside
   `<ThreeCanvas>`. Its uniforms come from `useCurrentFrame()`, so every frame
   is deterministic.
-- **`src/PostFx.tsx`**: the post chain: a soft bloom, chromatic aberration
-  that spikes at every cut, and a light vignette. There is no tonemap pass:
-  the eye's colours are display sRGB values sampled from the reference, and
-  the later chapters apply an ACES curve inside the shader. A faint film grain
+- **`src/PostFx.tsx`**: the post chain: a soft bloom, a radial zoom blur
+  (`src/ZoomBlurEffect.ts`, keyed in `timeline.json`) for the dive and the
+  funnel, chromatic aberration that spikes at every cut, and a light
+  vignette. There is no tonemap pass:
+  the eye's and the funnel's colours are display sRGB values sampled from the
+  reference, and MERCURY applies an ACES curve inside the shader. A faint film grain
   lives in the shader too, because postprocessing's Noise effect runs on
   wall-clock time.
 - **`src/Hud.tsx`**: the HTML overlay: title, chapter counter with a scramble

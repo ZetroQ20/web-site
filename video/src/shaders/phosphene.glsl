@@ -54,11 +54,6 @@ vec3 rainbow(float t) {
     return srgbToLinear(clamp(cosinePalette(t, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0, 0.33, 0.67)), 0.0, 1.0));
 }
 
-// Rose / butter / mint / sky: the VORTEX palette, rich but not neon.
-vec3 reelPalette(float t) {
-    return srgbToLinear(clamp(cosinePalette(t, vec3(0.62, 0.55, 0.62), vec3(0.38, 0.38, 0.34), vec3(1.0), vec3(0.85, 0.15, 0.45)), 0.0, 1.0));
-}
-
 vec3 maroonBackground(vec2 uv) {
     float r = length(uv * vec2(0.62, 1.0));
     return mix(hex(24.0, 10.0, 19.0), hex(13.0, 4.0, 13.0), smoothstep(0.3, 1.5, r));
@@ -166,6 +161,24 @@ vec3 chainCell(vec2 c, float pc, float odd) {
     return col;
 }
 
+// A pod: a glowing magenta bead with a red-orange double rim, holding an
+// upright cream eye striped with red.
+vec3 podCell(vec2 c, float pc, float odd) {
+    float d = length(c) - 0.34;
+    vec3 col = mix(hex(40.0, 16.0, 30.0), hex(30.0, 12.0, 26.0), odd);
+    vec3 bead = mix(hex(210.0, 50.0, 150.0), hex(130.0, 26.0, 96.0), smoothstep(-0.34, 0.0, d));
+    col = mix(col, bead, 1.0 - smoothstep(-pc, pc, d));
+    col += hex(214.0, 84.0, 74.0) * (1.0 - smoothstep(0.008, 0.008 + 1.5 * pc, abs(d)));
+    col += hex(214.0, 120.0, 80.0) * 0.7 * (1.0 - smoothstep(0.006, 0.006 + 1.5 * pc, abs(d - 0.04)));
+    col += hex(220.0, 60.0, 150.0) * 0.35 * exp(-max(d, 0.0) / 0.06);
+    float eye = sdVesica(c, 0.3, 0.22);
+    float stripes = 0.5 + 0.5 * sin(c.y * 70.0);
+    vec3 cream = mix(hex(236.0, 216.0, 178.0), hex(196.0, 70.0, 70.0), smoothstep(0.55, 0.9, stripes) * 0.8);
+    col = mix(col, cream, 1.0 - smoothstep(-pc, pc, eye));
+    col += hex(255.0, 220.0, 200.0) * 0.6 * (1.0 - smoothstep(0.006, 0.006 + 1.5 * pc, abs(eye)));
+    return col;
+}
+
 // q is in pupil units (|q| = 1 at the pupil edge). Rings of chains in
 // log-radius, so the ornament is self-similar and the dive never runs out.
 vec3 pupilOrnament(vec2 q, float t, float pix) {
@@ -182,7 +195,21 @@ vec3 pupilOrnament(vec2 q, float t, float pix) {
     float pc = pix / (r * H);
 
     vec3 col = mix(hex(70.0, 30.0, 38.0), hex(58.0, 24.0, 34.0), odd);
-    col += chainCell(c, pc, odd);
+    // The chains of small eyes swell into magenta pods as the dive starts.
+    float pods = smoothstep(4.3, 4.7, t);
+    if (pods < 1.0) col += chainCell(c, pc, odd) * (1.0 - pods);
+    if (pods > 0.0) {
+        // Pods sit on their own, coarser grid: a ring of 14 big ones, a ring
+        // of smaller ones inside it, and so on in.
+        const float NP = 14.0;
+        const float HP = 0.55;
+        float up = log(r) / HP - max(t - 4.45, 0.0) * 0.9;
+        float pr = floor(up);
+        float podd = mod(pr, 2.0);
+        float sp = a / TAU * NP + 0.5 * podd + t * 0.08;
+        vec2 cp = vec2((sp - floor(sp + 0.5)) * TAU / (NP * HP), fract(up) - 0.5);
+        col = mix(col, podCell(cp, pix / (r * HP), podd), pods);
+    }
 
     // Glossy plum sphere in the middle swallows the rings that would alias.
     float core = 0.3;
@@ -197,7 +224,7 @@ vec3 pupilOrnament(vec2 q, float t, float pix) {
 // Radial colour of the iris, sampled from the reference (sRGB, decoded):
 // dark brown pupil, pale peach, a white-ish seam, pale teal, lavender, a
 // plum limbus. x is the reference's normalised radius.
-vec3 irisRamp(float x) {
+vec3 irisRamp(float x, float dive) {
     const int N = 13;
     const float P[13] = float[13](0.0, 0.3, 0.37, 0.395, 0.47, 0.56, 0.6, 0.65, 0.72, 0.8, 0.86, 0.92, 1.0);
     const vec3 C[13] = vec3[13](
@@ -205,10 +232,18 @@ vec3 irisRamp(float x) {
         vec3(250.0, 206.0, 166.0), vec3(255.0, 212.0, 186.0), vec3(230.0, 226.0, 226.0), vec3(190.0, 230.0, 234.0),
         vec3(172.0, 212.0, 218.0), vec3(170.0, 204.0, 212.0), vec3(186.0, 178.0, 206.0), vec3(188.0, 140.0, 202.0),
         vec3(92.0, 58.0, 104.0));
-    vec3 c = C[N - 1];
+    // Mid-dive the bands cycle: peach to grey-cream, teal to lavender,
+    // lavender to periwinkle and steel blue.
+    const vec3 D[13] = vec3[13](
+        vec3(53.0, 36.0, 40.0), vec3(71.0, 49.0, 51.0), vec3(110.0, 72.0, 70.0), vec3(186.0, 180.0, 180.0),
+        vec3(170.0, 170.0, 154.0), vec3(210.0, 205.0, 178.0), vec3(206.0, 186.0, 214.0), vec3(182.0, 156.0, 208.0),
+        vec3(168.0, 176.0, 228.0), vec3(110.0, 140.0, 198.0), vec3(80.0, 126.0, 172.0), vec3(104.0, 132.0, 172.0),
+        vec3(66.0, 84.0, 98.0));
+    vec3 c = mix(C[N - 1], D[N - 1], dive);
     for (int i = 0; i < N - 1; i++) {
         if (x >= P[i] && x < P[i + 1]) {
-            c = mix(C[i], C[i + 1], smoothstep(P[i], P[i + 1], x));
+            float k = smoothstep(P[i], P[i + 1], x);
+            c = mix(mix(C[i], C[i + 1], k), mix(D[i], D[i + 1], k), dive);
             break;
         }
     }
@@ -225,7 +260,7 @@ vec3 irisColor(vec2 q, float t, float pupilR, float ornament, float pix, out flo
     // the band edges wander so peach, teal and lavender bleed together.
     float x = r < pupilR ? r / pupilR * 0.37 : 0.37 + (r - pupilR) / (1.0 - pupilR) * 0.63;
     x += 0.07 * fbm(vec3(dir * 2.5, r * 1.5 + 7.0), 3, 2.0, 0.5) * smoothstep(pupilR + 0.05, pupilR + 0.14, r);
-    vec3 col = irisRamp(x);
+    vec3 col = irisRamp(x, smoothstep(4.4, 4.85, t));
 
     // Fibres: soft, broad bundles of hair that curl clockwise as they leave
     // the pupil (nearly radial in the peach, about 50 deg in the teal),
@@ -265,7 +300,7 @@ vec3 irisColor(vec2 q, float t, float pupilR, float ornament, float pix, out flo
 
     // Catchlights: a thin ring up-left and a dot down-right, both on the
     // cornea; the camera passes through the cornea early in the dive.
-    float glint = 1.0 - smoothstep(4.55, 4.75, t);
+    float glint = 1.0 - smoothstep(4.95, 5.15, t);
     float ring = abs(length(q - vec2(-0.48, 0.49)) - 0.2) - 0.006;
     col += vec3(1.0) * 0.9 * glint * (1.0 - smoothstep(0.0, 1.5 * pix, ring));
     col += vec3(1.0) * 0.12 * glint * exp(-max(ring, 0.0) / 0.03);
@@ -333,117 +368,171 @@ vec3 eyeScene(vec2 uv, float t) {
     return col;
 }
 
-// ---- ECHO ---------------------------------------------------------------------
+// ---- FUNNEL (ECHO + VORTEX) ---------------------------------------------------
+// One continuous rush down a funnel: a tunnel of eyes, then a checkerboard
+// tunnel that keeps tearing into rays. Display-referred colours sampled from
+// clean stills of the reference; the post chain adds the zoom blur.
 
-// The pearl orb at the heart of ECHO and VORTEX, with a darker crescent.
-vec3 orb(vec2 uv, float radius, float t) {
+// Muted hue wheel around the funnel: two cycles per turn, olive on the right,
+// rose, violet at the top and bottom, then blue, teal, green.
+vec3 funnelHue(float a, float L, float C) {
+    return max(oklchToLinearSrgb(vec3(L, C, 1.8 - 2.0 * a)), 0.0);
+}
+
+// Chroma along the wheel, as measured: soft in the warm and green rays,
+// strongest through magenta, violet and blue.
+float funnelChroma(float a) {
+    float h = 1.8 - 2.0 * a;
+    return 0.085 + 0.08 * smoothstep(0.2, 0.9, 0.5 + 0.5 * cos(h - 5.2));
+}
+
+// The funnel's centre: a glowing ring around a misty plum sphere, with an
+// optional thin inner ring.
+vec3 funnelCore(vec3 col, vec2 uv, float ringR, float ringW, vec3 ringCol, float innerR, vec3 sphereCol, float t) {
     float r = length(uv);
-    float d = r - radius;
-    float z = sqrt(max(1.0 - (r / radius) * (r / radius), 0.0));
-    vec3 film = rainbow(z * 1.2 + atan(uv.y, uv.x + 1e-6) / TAU + t * 0.25);
-    vec3 inner = hex(250.0, 244.0, 255.0) * (1.4 + 1.4 * z) + film * 1.8 * pow(1.0 - z, 2.0);
-    float crescent = sdCircle(uv - vec2(radius * 0.2, radius * 0.14), radius * 0.64);
-    inner *= mix(0.45, 1.0, smoothstep(-0.015, 0.025, crescent));
-    vec3 col = inner * (1.0 - smoothstep(-px, px, d));
-    col += hex(255.0, 250.0, 255.0) * 2.0 * exp(-abs(d) / 0.01);
-    col += hex(220.0, 200.0, 255.0) * 0.9 * exp(-max(d, 0.0) / 0.1);
+    float inside = 1.0 - smoothstep(ringR - ringW, ringR, r);
+    float z = sqrt(max(1.0 - (r / ringR) * (r / ringR), 0.0));
+    float mist = 0.5 + 0.5 * fbm(vec3(uv * 6.0 + t * 0.15, t * 0.4), 3, 2.0, 0.5);
+    vec3 sphere = sphereCol * (0.55 + 0.35 * z + 0.3 * mist);
+    col = mix(col, sphere, inside * 0.92);
+    float dr = abs(r - ringR);
+    col += ringCol * (1.0 - smoothstep(ringW, ringW + 1.5 * px, dr));
+    col += ringCol * 0.45 * exp(-dr / (ringW * 3.0));
+    if (innerR > 0.0) col += vec3(0.85) * (1.0 - smoothstep(0.0016, 0.0016 + 1.5 * px, abs(r - innerR)));
     return col;
 }
 
-// A sparkling halo ring: bright core, beaded with small glints.
-vec3 haloRing(vec2 uv, float radius, float width, vec3 tint, float beads, float t) {
-    float r = length(uv);
-    float a = atan(uv.y, uv.x + 1e-6);
-    float sparkle = 0.65 + 0.35 * sin(a * beads + t * 4.0) * sin(a * beads * 0.37 - t * 2.3);
-    return tint * sparkle * (exp(-abs(r - radius) / width) * 1.8 + exp(-abs(r - radius) / (width * 6.0)) * 0.35);
+// One eye of the tunnel, in cell coordinates c (x tangential, y radial).
+// Returns rgb and coverage.
+vec4 tunnelEye(vec2 c, float pc, float h, float fog) {
+    float eye = sdEyeShape(c, 0.6, 0.23);
+    float inside = 1.0 - smoothstep(-pc, pc, eye);
+    vec3 col = mix(hex(76.0, 30.0, 66.0), hex(44.0, 24.0, 58.0), c.y + 0.5);
+
+    // Magenta irises, a few blue ones, each with a white slash of light.
+    bool blue = h < 0.24;
+    float ir = length(c - vec2(0.0, -0.01));
+    vec3 irisIn = blue ? hex(80.0, 90.0, 170.0) : hex(120.0, 20.0, 84.0);
+    vec3 irisMid = blue ? hex(150.0, 196.0, 240.0) : hex(232.0, 56.0, 168.0);
+    vec3 iris = mix(irisIn, irisMid, smoothstep(0.02, 0.12, ir));
+    col = mix(col, iris, 1.0 - smoothstep(0.15 - pc, 0.15 + pc, ir));
+    col += irisMid * 0.5 * exp(-max(ir - 0.15, 0.0) / 0.06) * inside;
+    float slash = sdSegment(c, vec2(0.025, 0.035), vec2(0.115, 0.06)) - 0.012;
+    col = mix(col, hex(250.0, 236.0, 245.0), 1.0 - smoothstep(-pc, pc, slash));
+
+    // Two or three parallel outlines.
+    vec3 line1 = h > 0.8 ? hex(150.0, 186.0, 180.0) : hex(92.0, 176.0, 216.0);
+    vec3 line2 = hex(126.0, 204.0, 226.0);
+    vec3 line3 = hex(70.0, 118.0, 170.0);
+    float lines = 0.0;
+    vec3 outline = vec3(0.0);
+    for (int k = 0; k < 3; k++) {
+        float fk = float(k);
+        float s = 1.0 - smoothstep(0.009, 0.009 + 1.5 * pc, abs(eye - fk * 0.035));
+        vec3 lc = k == 0 ? line1 : (k == 1 ? line2 : line3);
+        outline = max(outline, lc * s * (1.0 - 0.28 * fk));
+        lines = max(lines, s);
+    }
+    outline += line1 * 0.35 * exp(-abs(eye) / 0.05);
+    // Deep in the funnel everything fogs to lavender-white.
+    col = mix(col, hex(170.0, 168.0, 214.0), fog * 0.7);
+    outline = mix(outline, hex(214.0, 210.0, 240.0) * 0.8, fog);
+    col = mix(col, outline, lines);
+    return vec4(col + outline * (1.0 - lines) * 0.5, max(inside, max(lines, 0.35 * exp(-abs(eye) / 0.05))));
+}
+
+vec3 tunnelOfEyes(vec2 uv, float lt, out float coverage) {
+    const float N = 18.0;
+    const float H = 0.26; // log-radius step between rings
+    float r = max(length(uv), 1e-4);
+    float a = atan(uv.y, uv.x);
+    float u = log(r) / H - lt * 2.4;
+    float ring = floor(u);
+    float odd = mod(ring, 2.0);
+    float sa = a / TAU * N + 0.5 * odd + lt * 0.05 * (odd * 2.0 - 1.0);
+    float cell = floor(sa + 0.5);
+    vec2 c = vec2((sa - cell) * TAU / (N * H), fract(u) - 0.5);
+    float pc = px / (r * H);
+    float h = hash12(vec2(mod(cell, N), ring + 1000.0));
+    float fog = smoothstep(0.62, 0.14, r);
+    vec4 e = tunnelEye(c, pc, h, fog);
+    float fade = smoothstep(0.17, 0.3, r);
+    coverage = e.a * fade;
+    return e.rgb;
 }
 
 vec3 echoScene(vec2 uv, float t) {
-    const float N = 16.0;
-    const float H = TAU / (N * 1.6); // cells 1.6x wider than tall
     float lt = t - T_ECHO;
-    float r = max(length(uv), 1e-4);
-    float a = atan(uv.y, uv.x);
-    float u = log(r) / H - lt * 1.8;
-    float ring = floor(u);
-    float odd = mod(ring, 2.0);
-    float sa = a / TAU * N + 0.5 * odd + lt * 0.12 * (odd * 2.0 - 1.0);
-    float cell = floor(sa + 0.5);
-    vec2 c = vec2((sa - cell) * 1.6, fract(u) - 0.5);
-    float pc = px / (r * H);
-
-    // Outlines are teal/sky; a band of rose eyes spreads as the shot runs.
-    float h = hash12(vec2(mod(cell, N), ring + 1000.0));
-    float redShare = mix(0.12, 0.5, smoothstep(1.2, 1.9, lt));
-    vec3 outline = h < redShare ? hex(214.0, 70.0, 96.0) : mix(hex(70.0, 160.0, 220.0), hex(140.0, 226.0, 220.0), h);
-    float eye = sdEyeShape(c, 0.66, 0.31);
-    float iris = sdCircle(c, 0.17);
-    float corner = sdCircle(vec2(0.8 - abs(c.x), 0.5 - abs(c.y)), 0.07);
-
-    vec3 col = mix(hex(8.0, 10.0, 26.0), hex(20.0, 26.0, 60.0), smoothstep(1.5, 0.0, r));
-    col += hex(220.0, 60.0, 140.0) * 0.8 * (1.0 - smoothstep(-pc, pc, corner));
-    col = mix(col, mix(hex(20.0, 50.0, 100.0), hex(46.0, 100.0, 160.0), 0.5 + 0.5 * c.y), 1.0 - smoothstep(-pc, pc, eye));
-    col = mix(col, mix(hex(220.0, 60.0, 150.0) * 1.2, hex(250.0, 236.0, 250.0) * 1.8, smoothstep(0.17, 0.0, length(c))),
-              1.0 - smoothstep(-pc, pc, iris));
-    col += outline * 1.5 * stroke(eye, 0.026, 0.06, pc);
-
-    col *= smoothstep(0.03, 0.26, r);
-
-    // Rings around the orb; the outer one flushes rose, then iridescent.
-    vec3 ringTint = mix(hex(200.0, 236.0, 240.0), hex(236.0, 90.0, 170.0), window(lt, 0.6, 0.95, 0.12));
-    ringTint = mix(ringTint, rainbow(atan(uv.y, uv.x) / TAU + lt), smoothstep(1.8, 2.1, lt) * 0.6);
-    col += haloRing(uv, 0.33 + 0.02 * sin(lt * 3.0), 0.011, ringTint, 40.0, lt);
-    col += haloRing(uv, 0.21, 0.007, hex(120.0, 210.0, 230.0), 24.0, -lt);
-    col += hex(180.0, 190.0, 240.0) * 0.6 * exp(-r / 0.3);
-    col += orb(uv, 0.12, t);
+    float r = length(uv);
+    vec3 col = mix(hex(30.0, 36.0, 62.0), hex(46.0, 24.0, 44.0), smoothstep(0.7, 1.4, r));
+    col += hex(170.0, 170.0, 222.0) * 0.85 * exp(-r / 0.24);
+    float cov;
+    vec3 eyes = tunnelOfEyes(uv, lt, cov);
+    col = mix(col, eyes, cov);
+    col = funnelCore(col, uv, 0.17, 0.0035, hex(250.0, 206.0, 244.0), 0.0, hex(124.0, 126.0, 170.0), t);
     return col;
 }
 
-// ---- VORTEX -------------------------------------------------------------------
-
-vec3 checkerboard(vec2 uv, float lt) {
+vec3 checkerTunnel(vec2 uv, float lt) {
+    const float N = 32.0;
+    const float H = 0.2;
     float r = max(length(uv), 1e-4);
-    float v = atan(uv.y, uv.x) / TAU;
-    float lr = log(r);
-    // Integer multiples of v keep both families seamless across the atan cut.
-    float s1 = lr * 2.6 + v * 6.0 - lt * 2.2;
-    float s2 = v * 24.0 - lr * 1.2 + lt * 0.4;
-    float g1 = length(vec2(2.6, 6.0 / TAU)) / r;
-    float g2 = length(vec2(1.2, 24.0 / TAU)) / r;
-    float m = sin(PI * s1) * sin(PI * s2);
-    float check = 0.5 + 0.5 * clamp(m / (PI * (g1 + g2) * px * 0.6), -1.0, 1.0);
-    vec3 col = mix(hex(10.0, 8.0, 22.0), reelPalette(v * 2.0 + lr * 0.12 - lt * 0.45) * 1.15, check);
-    return col * (0.8 + 0.3 * smoothstep(1.6, 0.25, r));
+    float a = atan(uv.y, uv.x);
+    float u = log(r) / H - lt * 3.0;
+    float v = a / TAU * N;
+    float gu = 1.0 / (H * r);
+    float gv = N / (TAU * r);
+    float m = sin(PI * u) * sin(PI * v);
+    float check = 0.5 + 0.5 * clamp(m / (PI * (gu + gv) * px * 0.7), -1.0, 1.0);
+    // Near the core the cells stretch into rays.
+    float ray = 0.5 + 0.5 * clamp(sin(PI * v) / (PI * gv * px * 0.7), -1.0, 1.0);
+    float toRays = smoothstep(0.46, 0.3, r);
+    check = mix(check, ray, toRays);
+    vec3 lit = funnelHue(a, 0.64, funnelChroma(a)) * (0.9 + 0.15 * sin(floor(u) * 1.7));
+    lit = mix(lit, funnelHue(a, 0.58, funnelChroma(a)), toRays);
+    return mix(hex(22.0, 14.0, 30.0), lit, check);
 }
 
-vec3 rays(vec2 uv, float lt, float violet) {
-    const float N = 36.0;
+vec3 rayBurst(vec2 uv, float lt, float violet) {
+    const float N = 28.0;
     float r = max(length(uv), 1e-4);
-    float v = atan(uv.y, uv.x) / TAU;
-    float sv = v * N + lt * 1.1;
-    float id = floor(sv);
-    float f = fract(sv);
-    float soft = clamp(px * N / (TAU * r) * 1.5, 0.02, 0.2) + violet * 0.15;
-    float ray = smoothstep(0.12 - soft, 0.12 + soft, f) * (1.0 - smoothstep(0.7 - soft, 0.7 + soft, f));
-    vec3 c = reelPalette(id / N * 3.0 + lt * 0.35);
-    if (mod(id, 6.0) == 0.0) c = hex(240.0, 232.0, 245.0);
-    c = mix(c, mix(hex(200.0, 100.0, 230.0), hex(120.0, 100.0, 220.0), fract(id * 0.5)), violet);
-    return mix(hex(12.0, 9.0, 26.0), c * 1.15 * (0.8 + 0.4 * exp(-r * 0.7)), ray);
+    float a = atan(uv.y, uv.x);
+    float v = a / TAU * N + lt * 0.25;
+    float f = fract(v);
+    float soft = clamp(px * N / (TAU * r) * 1.5, 0.01, 0.2) + violet * 0.12;
+    float ray = smoothstep(0.06 - soft, 0.06 + soft, f) * (1.0 - smoothstep(0.62 - soft, 0.62 + soft, f));
+    float ar = a + lt * 0.25 * TAU / N;
+    vec3 c = funnelHue(ar, 0.52, funnelChroma(ar));
+    c = mix(c, mix(hex(150.0, 70.0, 190.0), hex(90.0, 70.0, 180.0), 0.5 + 0.5 * sin(a * 2.0)), violet * 0.7);
+    // Rays start just outside the core; inside the ring only faint wedges.
+    float reach = smoothstep(0.28, 0.5, r);
+    return mix(hex(12.0, 6.0, 18.0), c, ray * mix(0.18, 1.0, reach));
 }
 
 vec3 vortexScene(vec2 uv, float t) {
     float lt = t - T_VORTEX;
     // The checkerboard keeps tearing into rays and snapping back.
-    float rayMix = smoothstep(7.6, 7.72, t) * (1.0 - smoothstep(8.55, 8.66, t)) + smoothstep(8.85, 8.95, t);
+    float rayMix = smoothstep(7.6, 7.74, t) * (1.0 - smoothstep(8.54, 8.64, t)) + smoothstep(8.86, 8.96, t);
     float violet = smoothstep(8.9, 9.1, t);
-    vec3 col = mix(checkerboard(uv, lt), rays(uv, lt, violet), rayMix);
+    vec3 col = mix(checkerTunnel(uv, lt), rayBurst(uv, lt, violet), rayMix);
 
-    float r = length(uv);
-    float beads = window(t, 8.6, 8.88, 0.04);
-    vec3 ringTint = mix(hex(246.0, 240.0, 250.0), hex(236.0, 100.0, 180.0), beads);
-    col += haloRing(uv, 0.34 + 0.03 * sin(lt * 2.0), 0.014, ringTint, 56.0, lt) * (0.4 + 0.6 * rayMix + beads);
-    col += hex(210.0, 200.0, 240.0) * 0.7 * exp(-r / 0.35);
-    col += orb(uv, 0.15, t);
+    // Eyes from the tunnel linger as ghostly bubbles for a moment.
+    float ghost = 0.26 * (1.0 - smoothstep(7.4, 7.85, t)) * smoothstep(0.45, 0.7, length(uv));
+    if (ghost > 0.0) {
+        float cov;
+        vec3 eyes = tunnelOfEyes(uv, t - T_ECHO, cov);
+        col = mix(col, eyes, cov * ghost);
+    }
+
+    // The core grows from the checker's pink ring to the rays' white one.
+    float ringR = mix(0.23, 0.27, rayMix);
+    vec3 ringCol = mix(hex(255.0, 196.0, 240.0), hex(250.0, 248.0, 255.0), rayMix);
+    vec3 sphere = mix(hex(150.0, 110.0, 160.0), hex(112.0, 82.0, 126.0), rayMix);
+    col += mix(hex(255.0, 190.0, 240.0), hex(240.0, 240.0, 255.0), rayMix) * 0.35 * exp(-max(length(uv) - ringR, 0.0) / 0.08);
+    col = funnelCore(col, uv, ringR, mix(0.009, 0.014, rayMix), ringCol, mix(0.14, 0.17, rayMix), sphere, t);
+    // Faint dark wedges carry the rays on inside the sphere.
+    float wedge = 0.5 + 0.5 * sin(atan(uv.y, uv.x) * 28.0 + lt * 1.6);
+    col *= 1.0 - 0.3 * rayMix * smoothstep(0.4, 0.9, wedge) * (1.0 - smoothstep(ringR * 0.6, ringR, length(uv))) * smoothstep(0.03, 0.08, length(uv));
     return col;
 }
 
@@ -518,10 +607,10 @@ vec3 mercuryScene(vec2 uv, float t) {
 vec3 chapter(int id, vec2 uv, float t) {
     if (id == 0) return signalScene(uv, t);
     if (id <= 2) return eyeScene(uv, t); // IRIS and PUPIL are one continuous shot
-    // Later chapters were graded through a filmic curve; the eye is
-    // display-referred and skips it.
-    if (id == 3) return tonemapACES(echoScene(uv, t) * 1.67);
-    if (id == 4) return tonemapACES(vortexScene(uv, t) * 1.67);
+    // MERCURY is graded through a filmic curve; the eye and the funnel are
+    // display-referred and skip it.
+    if (id == 3) return echoScene(uv, t);
+    if (id == 4) return vortexScene(uv, t);
     return tonemapACES(mercuryScene(uv, t) * 1.67);
 }
 

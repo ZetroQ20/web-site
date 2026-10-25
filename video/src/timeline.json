@@ -3,11 +3,54 @@
   "durationInSeconds": 10,
   "hudTotal": 7,
   "chapters": [
-    { "id": "SIGNAL", "start": 0.0, "hud": false },
-    { "id": "IRIS", "start": 1.45, "hud": true },
-    { "id": "PUPIL", "start": 4.55, "hud": true },
-    { "id": "ECHO", "start": 5.25, "hud": true },
-    { "id": "VORTEX", "start": 7.4, "hud": true },
-    { "id": "MERCURY", "start": 9.15, "hud": true }
+    {
+      "id": "SIGNAL",
+      "start": 0.0,
+      "label": ""
+    },
+    {
+      "id": "IRIS",
+      "start": 1.45,
+      "label": "IRIS"
+    },
+    {
+      "id": "PUPIL",
+      "start": 4.55,
+      "label": "IRIS"
+    },
+    {
+      "id": "ECHO",
+      "start": 5.25,
+      "label": "FUNNEL"
+    },
+    {
+      "id": "VORTEX",
+      "start": 7.4,
+      "label": "FUNNEL"
+    },
+    {
+      "id": "MERCURY",
+      "start": 9.15,
+      "label": "MERCURY"
+    }
+  ],
+  "zoomBlur": [
+    [0.0, 0.0],
+    [4.45, 0.0],
+    [4.85, 0.055],
+    [5.12, 0.05],
+    [5.22, 0.12],
+    [5.4, 0.022],
+    [7.3, 0.022],
+    [7.42, 0.07],
+    [7.62, 0.055],
+    [7.74, 0.02],
+    [8.52, 0.02],
+    [8.62, 0.06],
+    [8.84, 0.05],
+    [8.95, 0.04],
+    [9.12, 0.05],
+    [9.16, 0.0],
+    [10.0, 0.0]
   ]
 }

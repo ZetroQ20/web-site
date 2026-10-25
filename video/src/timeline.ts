@@ -6,14 +6,20 @@ export type Chapter = (typeof timeline.chapters)[number];
 export const FPS = timeline.fps;
 export const DURATION_IN_FRAMES = Math.round(timeline.durationInSeconds * timeline.fps);
 export const chapters = timeline.chapters;
-/** The reel has seven chapters; this cut ends inside the fifth. */
+/** The reel has seven chapters; this cut ends inside the third. */
 export const HUD_TOTAL = timeline.hudTotal;
 
-/** Chapters that carry the HUD counter (the SIGNAL intro does not). */
-export const numberedChapters = chapters.filter((c) => c.hud);
+/**
+ * HUD chapters, in order. Several shader chapters share one HUD label
+ * (PUPIL is still IRIS; ECHO and VORTEX are both FUNNEL).
+ */
+export const hudLabels = [...new Set(chapters.map((c) => c.label).filter(Boolean))];
 
 export const chapterAt = (t: number): Chapter =>
   [...chapters].reverse().find((c) => t >= c.start) ?? chapters[0];
+
+/** When the HUD label currently shown first appeared. */
+export const labelStart = (label: string) => chapters.find((c) => c.label === label)?.start ?? 0;
 
 /** Seconds to the nearest chapter boundary (cuts are where the glass smears). */
 const distanceToCut = (t: number) =>
@@ -23,4 +29,18 @@ const distanceToCut = (t: number) =>
 export const aberrationAt = (t: number) => {
   const spike = Math.exp(-((distanceToCut(t) / 0.12) ** 2));
   return 0.0009 + 0.0065 * spike;
+};
+
+/** Radial zoom-blur strength: the dive, the funnel and its tears. */
+export const zoomBlurAt = (t: number) => {
+  const keys = timeline.zoomBlur;
+  for (let i = 1; i < keys.length; i++) {
+    const [t1, v1] = keys[i];
+    const [t0, v0] = keys[i - 1];
+    if (t <= t1) {
+      const x = Math.min(Math.max((t - t0) / (t1 - t0), 0), 1);
+      return v0 + (v1 - v0) * x * x * (3 - 2 * x);
+    }
+  }
+  return 0;
 };

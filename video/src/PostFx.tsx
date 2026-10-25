@@ -10,7 +10,8 @@ import {
 import {useEffect, useMemo} from 'react';
 import {useCurrentFrame, useVideoConfig} from 'remotion';
 import {HalfFloatType} from 'three';
-import {aberrationAt} from './timeline';
+import {aberrationAt, zoomBlurAt} from './timeline';
+import {ZoomBlurEffect} from './ZoomBlurEffect';
 
 // Built imperatively rather than with @react-three/postprocessing: that
 // wrapper assembles its passes in effects, after Remotion's one-shot
@@ -25,7 +26,7 @@ export const PostFx: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
 
-  const {composer, aberration} = useMemo(() => {
+  const {composer, aberration, zoomBlur} = useMemo(() => {
     const composer = new EffectComposer(gl, {frameBufferType: HalfFloatType, multisampling: 0});
     const bloom = new BloomEffect({
       mipmapBlur: true,
@@ -36,11 +37,14 @@ export const PostFx: React.FC = () => {
     });
     const aberration = new ChromaticAberrationEffect({radialModulation: true, modulationOffset: 0.12});
     const vignette = new VignetteEffect({offset: 0.4, darkness: 0.3});
+    const zoomBlur = new ZoomBlurEffect();
     composer.addPass(new RenderPass(scene, camera));
-    // Chromatic aberration samples its input, so it needs its own pass.
+    // Zoom blur and chromatic aberration sample their input, so each needs
+    // its own pass.
     composer.addPass(new EffectPass(camera, bloom));
+    composer.addPass(new EffectPass(camera, zoomBlur));
     composer.addPass(new EffectPass(camera, aberration, vignette));
-    return {composer, aberration};
+    return {composer, aberration, zoomBlur};
   }, [gl, scene, camera]);
 
   useEffect(() => () => composer.dispose(), [composer]);
@@ -48,6 +52,7 @@ export const PostFx: React.FC = () => {
 
   const amount = aberrationAt(frame / fps);
   aberration.offset.set(amount, amount * 0.35);
+  zoomBlur.strength = zoomBlurAt(frame / fps);
 
   // Priority 1 replaces R3F's default render with the composer. This only
   // draws; nothing here animates, so timing stays on useCurrentFrame().
