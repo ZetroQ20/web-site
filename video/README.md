@@ -13,11 +13,11 @@ run of psychedelic chapters. It is silent, like the reference.
 | 4.55 s | PUPIL | 01 IRIS | The camera dives in: the iris bands cycle colour and the chains swell into magenta pods |
 | 5.25 s | ECHO | 02 FUNNEL | A funnel of eyes around a glowing ring and a misty sphere |
 | 7.40 s | VORTEX | 02 FUNNEL | The funnel becomes a checkerboard that keeps tearing into rays |
-| 9.15 s | MERCURY | 03 MERCURY | A white-out, then a raymarched iridescent chrome blob |
+| 9.15 s | RETURN | 01 IRIS | A white-out, and the eye from the start opens again and glances around |
 
 The HUD counts to "/ 07" because the reel it comes from has seven chapters;
-this cut ends inside the third, as the reference does. The eye and the
-funnel are matched by measurement against clean stills of the reference.
+this cut loops back to the first. The eye and the funnel are matched by
+measurement against clean stills of the reference.
 
 ## Commands
 
@@ -38,7 +38,7 @@ the render at an installed Chromium, for example
 - **`src/shaders/phosphene.glsl`**: every picture in the reel. It is one
   Shadertoy-style fragment shader (`mainImage`, `iTime`, `iResolution`,
   `iFrame`) that writes linear HDR colour. It calls functions from the
-  `shader-art-coding` skill's GLSL library (`sdVesica`, `fbm`, `raymarch`,
+  `shader-art-coding` skill's GLSL library (`sdVesica`, `fbm`, `oklchToLinearSrgb`,
   `smin`, …) by name.
 - **`scripts/build-shader.mjs`**: prepends the chapter start times from
   `src/timeline.json`, bundles the library functions the shader uses, and
@@ -51,8 +51,7 @@ the render at an installed Chromium, for example
   (`src/ZoomBlurEffect.ts`, keyed in `timeline.json`) for the dive and the
   funnel, chromatic aberration that spikes at every cut, and a light
   vignette. There is no tonemap pass:
-  the eye's and the funnel's colours are display sRGB values sampled from the
-  reference, and MERCURY applies an ACES curve inside the shader. A faint film grain
+  the colours are display sRGB values sampled from the reference. A faint film grain
   lives in the shader too, because postprocessing's Noise effect runs on
   wall-clock time.
 - **`src/Hud.tsx`**: the HTML overlay: title, chapter counter with a scramble

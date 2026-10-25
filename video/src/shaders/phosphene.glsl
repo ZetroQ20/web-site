@@ -1,7 +1,7 @@
 // PHOSPHENE — motion reel (10 s cut).
 // One full-screen fragment shader, Shadertoy style (iTime in seconds).
-// It writes linear colour. The eye chapters are display-referred (colours
-// sampled from the reference); later chapters go through an ACES curve here.
+// It writes linear colour, display-referred: the colours are sampled from
+// clean stills of the reference, so there is no tonemap.
 // Bloom, chromatic aberration and vignette happen in src/PostFx.tsx.
 //
 // Chapter start times T_* are prepended by scripts/build-shader.mjs from
@@ -14,7 +14,7 @@
 //   PUPIL    the camera dives into that pupil
 //   ECHO     a log-polar tunnel built from rings of small eyes around an orb
 //   VORTEX   a log-spiral checkerboard that keeps tearing into rays
-//   MERCURY  a white-out, then a raymarched iridescent chrome blob
+//   RETURN   a white-out, and the eye from the start opens again
 
 #define DEBUG_MODE 0 // 0 final, 1 chapter id colours
 
@@ -536,82 +536,16 @@ vec3 vortexScene(vec2 uv, float t) {
     return col;
 }
 
-// ---- MERCURY ------------------------------------------------------------------
-
-float gMercuryTime;
-
-vec2 map(vec3 p) {
-    float t = gMercuryTime;
-    p.xz = rot2(t * 0.55) * p.xz;
-    p.xy = rot2(0.25 + 0.18 * sin(t * 0.8)) * p.xy;
-    // Squash x so the figure reads wider and heavier, as in the reference.
-    p.x *= 0.8;
-    vec3 tp = domTwist(p, 0.55);
-
-    float d = sdSphere(tp - vec3(0.08 + 0.07 * sin(t * 1.3), 0.78, 0.0), 0.3);
-    d = smin(d, sdTorus((tp - vec3(-0.1, 0.26 + 0.05 * sin(t * 1.1), 0.0)).xzy, vec2(0.34, 0.17)), 0.26);
-    d = smin(d, sdSphere(tp - vec3(0.13, -0.28 + 0.06 * sin(t * 0.9 + 1.0), 0.08), 0.4), 0.3);
-    d = smin(d, sdSphere(tp - vec3(-0.05, -0.84, 0.0), 0.29 + 0.025 * sin(t * 1.7)), 0.26);
-    d += 0.012 * sin(9.0 * p.y + t * 3.0) * sin(7.0 * p.x - t * 2.0);
-    // Twist and ripples push the gradient above 1; the march uses stepScale < 1.
-    return vec2(d * 0.8, 1.0);
-}
-
-vec3 studio(vec3 rd) {
-    vec3 col = hex(30.0, 26.0, 60.0);
-    col += hex(255.0, 255.0, 255.0) * 2.6 * smoothstep(0.5, 0.85, rd.y);
-    col += hex(230.0, 140.0, 200.0) * 1.2 * exp(-abs(rd.y) * 6.0);
-    col += hex(140.0, 210.0, 240.0) * 1.6 * exp(-length(rd.xy - vec2(-0.75, 0.2)) * 5.0);
-    col += hex(255.0, 255.0, 255.0) * 2.0 * exp(-length(rd.xy - vec2(0.7, -0.1)) * 7.0);
-    return col;
-}
-
-vec3 mercuryScene(vec2 uv, float t) {
-    gMercuryTime = t - T_MERCURY + 2.0;
-
-    float r = length(uv);
-    vec3 col = mix(hex(26.0, 24.0, 60.0), hex(8.0, 7.0, 20.0), smoothstep(0.0, 1.8, r));
-    col += hex(90.0, 80.0, 170.0) * 0.3 * (0.5 + 0.5 * cos(r * 20.0 - gMercuryTime * 3.0)) * exp(-r * 0.6);
-
-    vec3 ro = vec3(0.0, 0.0, 3.4);
-    vec3 rd = normalize(vec3(uv, -2.55));
-    vec3 hit = raymarch(ro, rd, 1.0, 6.0, 0.7);
-
-    // Closest approach of the ray to the blob, for the rose halo.
-    float md = 1e3;
-    float tt = 1.0;
-    for (int i = 0; i < 40; i++) {
-        float d = map(ro + rd * tt).x;
-        md = min(md, d);
-        tt += max(d, 0.04);
-        if (tt > 6.0) break;
-    }
-    col += hex(230.0, 70.0, 140.0) * 0.9 * exp(-md * 18.0);
-
-    if (hit.x > 0.0) {
-        vec3 p = ro + rd * hit.x;
-        vec3 n = calcNormal(p, 0.0005 * hit.x);
-        float ndv = clamp(dot(n, -rd), 0.0, 1.0);
-        vec3 film = rainbow(ndv * 1.8 + n.y * 0.4 + gMercuryTime * 0.15);
-        vec3 refl = reflect(rd, n);
-        vec3 surf = film * (0.7 + 0.7 * studio(refl)) + studio(refl) * 0.3;
-        surf += vec3(6.0) * pow(max(dot(refl, normalize(vec3(0.5, 0.8, 0.6))), 0.0), 40.0);
-        surf += hex(230.0, 60.0, 120.0) * 1.6 * pow(1.0 - ndv, 3.0);
-        col = surf;
-    }
-    return col;
-}
-
 // ---- Timeline -------------------------------------------------------------------
 
 vec3 chapter(int id, vec2 uv, float t) {
     if (id == 0) return signalScene(uv, t);
     if (id <= 2) return eyeScene(uv, t); // IRIS and PUPIL are one continuous shot
-    // MERCURY is graded through a filmic curve; the eye and the funnel are
-    // display-referred and skip it.
     if (id == 3) return echoScene(uv, t);
     if (id == 4) return vortexScene(uv, t);
-    return tonemapACES(mercuryScene(uv, t) * 1.67);
+    // Back where we started: the eye replays from just before its lid
+    // snaps open, so it opens again and glances around.
+    return eyeScene(uv, T_IRIS + 0.4 + (t - T_RETURN));
 }
 
 float chapterStart(int id) {
@@ -620,7 +554,7 @@ float chapterStart(int id) {
     if (id == 2) return T_PUPIL;
     if (id == 3) return T_ECHO;
     if (id == 4) return T_VORTEX;
-    return T_MERCURY;
+    return T_RETURN;
 }
 
 // Crossfade into chapter id, in seconds (0 = hard cut or continuous shot).
@@ -632,12 +566,12 @@ float chapterFade(int id) {
 }
 
 // Flashes: the line igniting, the blur out of the pupil, the cut into the
-// vortex, and the long white-out that opens MERCURY.
+// vortex, and the long white-out that takes us back to the eye.
 float flash(float t, vec2 uv) {
     float f = 0.5 * exp(-pow((t - T_IRIS) / 0.04, 2.0));
     f += 0.9 * exp(-pow((t - (T_ECHO - 0.05)) / 0.09, 2.0));
     f += 0.5 * exp(-pow((t - T_VORTEX) / 0.04, 2.0));
-    float whiteout = smoothstep(T_MERCURY - 0.06, T_MERCURY, t) * (1.0 - smoothstep(T_MERCURY + 0.12, T_MERCURY + 0.26, t));
+    float whiteout = smoothstep(T_RETURN - 0.06, T_RETURN, t) * (1.0 - smoothstep(T_RETURN + 0.12, T_RETURN + 0.26, t));
     return f * (0.4 + 0.6 * exp(-length(uv) * 1.2)) + 2.2 * whiteout;
 }
 

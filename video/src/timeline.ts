@@ -6,20 +6,24 @@ export type Chapter = (typeof timeline.chapters)[number];
 export const FPS = timeline.fps;
 export const DURATION_IN_FRAMES = Math.round(timeline.durationInSeconds * timeline.fps);
 export const chapters = timeline.chapters;
-/** The reel has seven chapters; this cut ends inside the third. */
+/** The reel has seven chapters; this cut loops back to the first. */
 export const HUD_TOTAL = timeline.hudTotal;
 
 /**
  * HUD chapters, in order. Several shader chapters share one HUD label
- * (PUPIL is still IRIS; ECHO and VORTEX are both FUNNEL).
+ * (PUPIL is still IRIS; ECHO and VORTEX are both FUNNEL; RETURN is IRIS
+ * again, so the counter loops back to 01).
  */
 export const hudLabels = [...new Set(chapters.map((c) => c.label).filter(Boolean))];
 
 export const chapterAt = (t: number): Chapter =>
   [...chapters].reverse().find((c) => t >= c.start) ?? chapters[0];
 
-/** When the HUD label currently shown first appeared. */
-export const labelStart = (label: string) => chapters.find((c) => c.label === label)?.start ?? 0;
+/** When the HUD label shown at time t last appeared (re-scrambles on RETURN). */
+export const labelStart = (label: string, t = Infinity) =>
+  [...chapters].reverse().find((c, i, rev) => c.label === label && c.start <= t && rev[i + 1]?.label !== label)?.start ??
+  chapters.find((c) => c.label === label)?.start ??
+  0;
 
 /** Seconds to the nearest chapter boundary (cuts are where the glass smears). */
 const distanceToCut = (t: number) =>
