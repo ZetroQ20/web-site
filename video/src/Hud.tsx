@@ -102,7 +102,7 @@ export const Hud: React.FC = () => {
 
       <Interactive.Div name="Title block" style={{position: 'absolute', left: 84, top: 72, lineHeight: 1.35}}>
         <div style={{fontSize: 26, fontWeight: 700, letterSpacing: '0.2em'}}>Phosphene</div>
-        <div style={{fontSize: 15, letterSpacing: '0.24em', opacity: 0.6}}>Motion reel — vol. 01</div>
+        <div style={{fontSize: 15, letterSpacing: '0.24em', opacity: 0.6}}>Motion reel — MMXXVI</div>
       </Interactive.Div>
 
       <Interactive.Div
