@@ -575,8 +575,9 @@ function textMask(text, font, w, hh, stroke) {
   return `url(${cv.toDataURL('image/png')})`;
 }
 function buildLock() {
-  L.desk = h('div', 'a', world); S(L.desk, { width: '1440px', height: '1440px', background: 'linear-gradient(165deg,#F1F1FA 0%,#E2E4F6 55%,#D6DAF3 100%)' });
-  const ws = svgEl('svg', { class: 'a', width: 1440, height: 1440, viewBox: '0 0 1440 1440' }, L.desk);
+  // the desktop extends past the frame so close-ups never reach its edge
+  L.desk = h('div', 'a', world); S(L.desk, { left: '-600px', top: '-600px', width: '2640px', height: '2640px', background: 'linear-gradient(165deg,#F1F1FA 0%,#E2E4F6 55%,#D6DAF3 100%)' });
+  const ws = svgEl('svg', { class: 'a', width: 1440, height: 1440, viewBox: '0 0 1440 1440', style: 'left:600px;top:600px' }, L.desk);
   L.waves = [['#C9D2F6', 150, .55], ['#9DB0F0', 90, .6], ['#5F7FE6', 46, .7], ['#3557D6', 18, .85], ['#E9EDFC', 60, .8], ['#7F98EC', 10, .9]]
     .map(([c, sw, op]) => svgEl('path', { fill: 'none', stroke: c, 'stroke-width': sw, opacity: op, 'stroke-linecap': 'round' }, ws));
   L.bezel = h('div', 'a ink', world);
@@ -609,7 +610,7 @@ function updateLock(t) {
   L.waves.forEach((p, i) => {
     const ph = t * .35 + i * .6;
     const y0 = 1060 + i * 26 + Math.sin(ph) * 12;
-    p.setAttribute('d', `M-200,${y0 + 260} C 260,${y0 + 40 + Math.sin(ph * .7) * 30} 700,${y0 - 120} 1100,${y0 - 330 + i * 12} S 1640,${y0 - 520} 1760,${y0 - 560}`);
+    p.setAttribute('d', `M-600,${y0 + 420} C 260,${y0 + 40 + Math.sin(ph * .7) * 30} 700,${y0 - 120} 1100,${y0 - 330 + i * 12} S 1640,${y0 - 520} 2100,${y0 - 700}`);
   });
   const q = rat(TL.lock, t);
   const lockOn = on(t, B(24) + .3, B(45) + .5);
@@ -742,7 +743,7 @@ function updateBrowser(t) {
   // window grows from the droplet; blind slats open onto the start page
   const b = rat(TL.br, t);
   boxC(L.br, b);
-  show(L.br, on(t, B(30) + .42, B(45)));
+  show(L.br, on(t, B(30) + .42, B(46)));
   L.brSlats.forEach((e, i) => {
     box(e, 0, i * b.h / 8, b.w, b.h / 8 + 1);
     const open = R.ez(.34, E.io)(t - (B(31) + i * .03));
