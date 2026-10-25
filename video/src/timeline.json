@@ -1,14 +1,13 @@
 {
   "fps": 60,
-  "durationInSeconds": 16,
+  "durationInSeconds": 10,
+  "hudTotal": 7,
   "chapters": [
-    { "id": "SIGNAL", "start": 0.0, "end": 1.6, "hud": false },
-    { "id": "IRIS", "start": 1.6, "end": 4.4, "hud": true },
-    { "id": "PUPIL", "start": 4.4, "end": 6.0, "hud": true },
-    { "id": "ECHO", "start": 6.0, "end": 7.8, "hud": true },
-    { "id": "VORTEX", "start": 7.8, "end": 9.4, "hud": true },
-    { "id": "FLARE", "start": 9.4, "end": 11.0, "hud": true },
-    { "id": "MERCURY", "start": 11.0, "end": 13.8, "hud": true },
-    { "id": "AFTERIMAGE", "start": 13.8, "end": 16.0, "hud": true }
+    { "id": "SIGNAL", "start": 0.0, "hud": false },
+    { "id": "IRIS", "start": 1.45, "hud": true },
+    { "id": "PUPIL", "start": 4.55, "hud": true },
+    { "id": "ECHO", "start": 5.25, "hud": true },
+    { "id": "VORTEX", "start": 7.4, "hud": true },
+    { "id": "MERCURY", "start": 9.15, "hud": true }
   ]
 }

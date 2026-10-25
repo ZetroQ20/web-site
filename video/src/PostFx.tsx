@@ -31,14 +31,14 @@ export const PostFx: React.FC = () => {
     const composer = new EffectComposer(gl, {frameBufferType: HalfFloatType, multisampling: 0});
     const bloom = new BloomEffect({
       mipmapBlur: true,
-      intensity: 1.15,
-      luminanceThreshold: 0.55,
-      luminanceSmoothing: 0.35,
-      radius: 0.78,
+      intensity: 0.95,
+      luminanceThreshold: 0.75,
+      luminanceSmoothing: 0.3,
+      radius: 0.72,
     });
     const aberration = new ChromaticAberrationEffect({radialModulation: true, modulationOffset: 0.12});
-    const vignette = new VignetteEffect({offset: 0.28, darkness: 0.62});
-    const toneMapping = new ToneMappingEffect({mode: ToneMappingMode.AGX});
+    const vignette = new VignetteEffect({offset: 0.32, darkness: 0.42});
+    const toneMapping = new ToneMappingEffect({mode: ToneMappingMode.ACES_FILMIC});
     composer.addPass(new RenderPass(scene, camera));
     // Chromatic aberration samples its input, so it needs its own pass.
     composer.addPass(new EffectPass(camera, bloom));

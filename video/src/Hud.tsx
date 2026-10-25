@@ -1,6 +1,6 @@
 import {loadFont} from '@remotion/fonts';
 import {AbsoluteFill, Easing, Interactive, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {chapterAt, chapters, DURATION_IN_FRAMES, numberedChapters} from './timeline';
+import {chapterAt, chapters, DURATION_IN_FRAMES, HUD_TOTAL, numberedChapters} from './timeline';
 
 // Bundled in public/fonts (SIL OFL) so renders never wait on the network.
 const fontFamily = 'JetBrains Mono';
@@ -63,11 +63,12 @@ export const Hud: React.FC = () => {
   const t = frame / fps;
 
   const iris = chapters.find((c) => c.id === 'IRIS')!;
-  const after = chapters.find((c) => c.id === 'AFTERIMAGE')!;
-  // The HUD boots once the eye has opened and powers down with the last line.
+  const mercury = chapters.find((c) => c.id === 'MERCURY')!;
+  // The HUD boots once the eye has opened, and blinks out under the
+  // white-out that opens MERCURY.
   const visible =
-    powerOn(frame, Math.round((iris.start + 0.75) * fps)) *
-    interpolate(t, [after.start + 1.4, after.start + 1.9], [1, 0], clamp);
+    powerOn(frame, Math.round((iris.start + 0.95) * fps)) *
+    interpolate(t, [mercury.start - 0.02, mercury.start + 0.04, mercury.start + 0.22, mercury.start + 0.3], [1, 0, 0, 1], clamp);
 
   const chapter = chapterAt(t);
   const index = numberedChapters.findIndex((c) => c.id === chapter.id);
@@ -75,10 +76,12 @@ export const Hud: React.FC = () => {
   const sinceCut = frame - Math.round(chapter.start * fps);
   const resolve = interpolate(sinceCut, [0, 16], [0, 1], clamp);
 
-  const tagline = chapter.id === 'AFTERIMAGE' ? 'YOU MAY CLOSE THEM NOW' : 'PLEASE KEEP YOUR EYES OPEN';
-  const taglineVisible =
-    interpolate(t, [iris.start + 1.1, iris.start + 1.6, iris.start + 2.4, iris.start + 2.7], [0, 1, 1, 0], clamp) +
-    interpolate(t, [after.start + 0.5, after.start + 0.9, after.start + 1.4, after.start + 1.8], [0, 1, 1, 0], clamp);
+  const taglineVisible = interpolate(
+    t,
+    [iris.start + 1.15, iris.start + 1.4, iris.start + 2.6, iris.start + 2.85],
+    [0, 1, 1, 0],
+    clamp,
+  );
 
   return (
     <AbsoluteFill
@@ -107,7 +110,7 @@ export const Hud: React.FC = () => {
         style={{position: 'absolute', right: 84, top: 72, lineHeight: 1.35, textAlign: 'right'}}
       >
         <div style={{fontSize: 15, letterSpacing: '0.24em', opacity: 0.6}}>
-          {pad(index + 1)} / {pad(numberedChapters.length)}
+          {pad(index + 1)} / {pad(HUD_TOTAL)}
         </div>
         <div style={{fontSize: 26, fontWeight: 700, letterSpacing: '0.2em'}}>
           {scramble(chapter.id, resolve, index + 1)}
@@ -127,7 +130,7 @@ export const Hud: React.FC = () => {
           opacity: Math.min(taglineVisible, 1),
         }}
       >
-        {tagline}
+        Please keep your eyes open
       </Interactive.Div>
 
       <Interactive.Div name="Timecode" style={{position: 'absolute', left: 84, bottom: 76, lineHeight: 1.5}}>
@@ -142,7 +145,7 @@ export const Hud: React.FC = () => {
         name="Next chapter"
         style={{position: 'absolute', right: 84, bottom: 76, lineHeight: 1.5, textAlign: 'right'}}
       >
-        <div style={{fontSize: 13, letterSpacing: '0.22em', opacity: 0.55}}>{next ? 'Next' : 'End of reel'}</div>
+        <div style={{fontSize: 13, letterSpacing: '0.22em', opacity: 0.55}}>Next</div>
         <div style={{fontSize: 17, fontWeight: 700, letterSpacing: '0.2em'}}>{next ? next.id : '— —'}</div>
       </Interactive.Div>
 

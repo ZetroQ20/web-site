@@ -1,20 +1,22 @@
 # PHOSPHENE — motion reel
 
-A 16-second, 1920×1080, 60 fps shader reel rendered with
-[Remotion](https://www.remotion.dev) and Three.js. It is a recreation of the
-"PHOSPHENE · MOTION REEL" reference: an eye opens out of a horizontal line,
-and the camera dives through it into a run of psychedelic chapters.
+A 10-second, 1920×1080, 60 fps shader reel rendered with
+[Remotion](https://www.remotion.dev) and Three.js. It recreates the
+"PHOSPHENE · MOTION REEL" reference shot for shot, as a clean digital render:
+an eye opens out of a horizontal line, and the camera dives through it into a
+run of psychedelic chapters. It is silent, like the reference.
 
 | Time | Chapter | What happens |
 | --- | --- | --- |
-| 0.0 s | SIGNAL | Two dim dashes fuse into a hot line with anamorphic streaks |
-| 1.6 s | 01 IRIS | The line opens into an almond eye wrapped in neon contours |
-| 4.4 s | 02 PUPIL | The camera dives into the pupil, which becomes a flowing mandala |
-| 6.0 s | 03 ECHO | A log-polar tunnel made of rings of small eyes |
-| 7.8 s | 04 VORTEX | A rainbow log-spiral checkerboard around a glass orb |
-| 9.4 s | 05 FLARE | The checkerboard tears into rotating rainbow rays |
-| 11.0 s | 06 MERCURY | A raymarched, iridescent chrome blob |
-| 13.8 s | 07 AFTERIMAGE | The blob collapses to a point, then back into the line |
+| 0.00 s | SIGNAL | Two dim dashes on a plum screen |
+| 1.45 s | 01 IRIS | The dashes ignite into a line; neon contours spring out and the lid snaps open on a blown-out iris; the pupil dilates into a mandala |
+| 4.55 s | 02 PUPIL | The camera dives into the mandala, then a pink flash |
+| 5.25 s | 03 ECHO | A log-polar tunnel made of rings of small eyes around a glass orb |
+| 7.40 s | 04 VORTEX | A rainbow log-spiral checkerboard that keeps tearing into rays |
+| 9.15 s | 05 MERCURY | A white-out, then a raymarched iridescent chrome blob |
+
+The HUD counts to "/ 07" because the reel it comes from has seven chapters;
+this cut ends inside the fifth, as the reference does.
 
 ## Commands
 
@@ -45,8 +47,8 @@ the render at an installed Chromium, for example
   `<ThreeCanvas>`. Its uniforms come from `useCurrentFrame()`, so every frame
   is deterministic.
 - **`src/PostFx.tsx`**: the post chain: bloom, chromatic aberration that
-  spikes at every cut, vignette, and an AgX tonemap. Film grain and scanlines
-  live in the shader, because postprocessing's Noise effect runs on wall-clock
+  spikes at every cut, vignette, and an ACES tonemap. A faint film grain lives
+  in the shader, because postprocessing's Noise effect runs on wall-clock
   time.
 - **`src/Hud.tsx`**: the HTML overlay: title, chapter counter with a scramble
   on each cut, tagline, running timecode, next-chapter label and progress bar.
@@ -58,7 +60,7 @@ the render at an installed Chromium, for example
 
 The art controls are constants at the top of `phosphene.glsl`:
 `EYE_HALF_WIDTH` / `EYE_HALF_HEIGHT` (eye shape), `IRIS_RADIUS`,
-`PUPIL_RATIO`, `CONTOURS` (number of neon lines), `GRAIN`, `SCANLINES` and
+`PUPIL_RATIO`, `CONTOURS` (number of neon lines), `EXPOSURE`, `GRAIN` and
 `FLASH`. To check the chapter boundaries, set `#define DEBUG_MODE 1`, which
 paints each chapter a flat colour. Bloom strength and threshold are set in
 `PostFx.tsx`.

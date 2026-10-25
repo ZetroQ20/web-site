@@ -6,6 +6,8 @@ export type Chapter = (typeof timeline.chapters)[number];
 export const FPS = timeline.fps;
 export const DURATION_IN_FRAMES = Math.round(timeline.durationInSeconds * timeline.fps);
 export const chapters = timeline.chapters;
+/** The reel has seven chapters; this cut ends inside the fifth. */
+export const HUD_TOTAL = timeline.hudTotal;
 
 /** Chapters that carry the HUD counter (the SIGNAL intro does not). */
 export const numberedChapters = chapters.filter((c) => c.hud);
