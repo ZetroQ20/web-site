@@ -17,4 +17,18 @@ before starting the work; the user should not have to name it.
   guidance, and add the `motion` package (import from `motion/react`) only
   when a change genuinely needs it.
 
-When a task touches both design and animation, use both skills.
+- **shader-art-coding** — any GLSL fragment shader work: SDF raymarching,
+  kaleidoscope/polar repetition, noise, procedural or generative visuals. Use
+  its tested library instead of re-deriving functions; from its directory run
+  `python3 scripts/glsl_tools.py search <words>`, then `bundle` and `check`
+  (`glslangValidator` compiles the result when installed).
+- **threejs-*** (`threejs-fundamentals`, `threejs-shaders`,
+  `threejs-postprocessing`, `threejs-react-three-fiber`, `threejs-animation`,
+  `threejs-performance`) — any Three.js / React Three Fiber scene, custom
+  `ShaderMaterial`, or bloom / chromatic aberration / grain passes. When the
+  scene renders inside Remotion (`@remotion/three`), drive every animation from
+  `useCurrentFrame()`, never R3F's `useFrame`.
+
+When a task touches both design and animation, use both skills. Shader-based
+video or WebGL scenes combine `shader-art-coding`, the `threejs-*` skills and
+`motion-framer` (plus the Remotion plugin skills when rendering to video).
